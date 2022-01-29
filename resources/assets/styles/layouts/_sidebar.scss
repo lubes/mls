@@ -1,0 +1,57 @@
+.main-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+
+  .sb-logo {
+    img {
+      display: block;
+      width: 100%;
+      padding: 20px;
+    }
+  }
+
+  .sub-menu {
+    li {
+      a {
+        padding: 0.15rem 0 0.15rem 40px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: block;
+      }
+    }
+  }
+
+  .link-light {
+    font-size: 1.2rem;
+    position: relative;
+    color: #fff;
+
+    i {
+      position: relative;
+    }
+  }
+
+  .loan-search {
+    margin: 20px auto;
+    width: 100%;
+  }
+
+  .search-form {
+    margin: 0 auto 20px;
+    width: 100%;
+
+    label {
+      width: 100%;
+    }
+
+    .search-field {
+      @extend .form-control;
+    }
+
+    .search-submit {
+      display: none;
+    }
+  }
+}
