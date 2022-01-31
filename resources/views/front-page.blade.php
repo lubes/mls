@@ -2,7 +2,6 @@
 
 @section('content')
 
-  <h1>Hello!</h1>
 
   <div class="db-content-inner p-5">
   <nav class="user-nav mb-3">
