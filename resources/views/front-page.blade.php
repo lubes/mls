@@ -71,7 +71,7 @@
       </div>
       <div class="col-md-3">
         <div class="mb-3 mb-lg-0">
-          <!--<input type="text"  id="taskSearch" class="form-control" id="floatingInput" placeholder="Task # Search">-->
+          <input type="text"  id="loanSearch" class="form-control loanSearch" id="floatingInput" placeholder="Loan Number">
         </div>
       </div>
     </div>
@@ -177,7 +177,7 @@
          <tbody>
 
            <?php foreach($_SESSION["data"] as $entry) {
-             echo "<tr style='border: 1px solid #cecece; padding:15px; margin:15px;' class='all " . preg_replace('/[[:space:]]+/', '-', $entry["Loan Purpose"]) . "'>";
+             echo "<tr style='border: 1px solid #cecece; padding:15px; margin:15px;' class='loan-details all " . preg_replace('/[[:space:]]+/', '-', $entry["Loan Purpose"]) . " ln" . preg_replace('/[[:space:]]+/', '-', $entry["Loan Number"]) . "'>";
              foreach($entry as $key => $value){
                if($key == "Loan Number"){
                  echo "<td><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/$value/loan-action?section=0' target='_blank'>" . $value . "</a></td>";
@@ -200,33 +200,6 @@
        </div>
     </div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   </div>
 
 @endsection
