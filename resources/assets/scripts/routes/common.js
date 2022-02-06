@@ -14,6 +14,17 @@ export default {
       console.log("filter");
     });
 
+    $(".loanSearch").keyup(function(e) {
+
+
+      if($(".loanSearch").val() != ""){
+        $(".all").hide();
+        $(".ln" + $(".loanSearch").val()).show();
+      } else {
+        $(".all").show();
+      }
+    });
+
     $(".data-refresh").on("click",function(){
       $(this).val('Loading...');
     })
