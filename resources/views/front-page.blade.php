@@ -2,72 +2,71 @@
 
 @section('content')
 
-
   <div class="db-content-inner p-5">
+
+    <div class="alert alert-info" role="alert"><p style="margin:0;"><?php if(empty($_SESSION["data"])) {  echo "No Results Found"; } else { echo count($_SESSION["data"]) . " records found."; } ?></p></div>
+
   <nav class="user-nav mb-3">
     <div class="row">
-      <div class="col-12 alert alert-info" role="alert"><p style="margin:0;"><?php if(empty($_SESSION["data"])) {  echo "No Results Found"; } else { echo count($_SESSION["data"]) . " records found."; } ?></p></div>
-      <div class="col-md-9">
-        <div class="nav nav-pills" id="nav-tab" role="tablist">
-          <form method="post" class="row row-cols-lg-auto g-3 align-items-center">
-            <?php //if(is_admin()){ ?>
-            <div class="col-12 col-sm-3">
-            <select name="role" class="form-select">
-              <option>Role</option>
-              <option value="AE" <?php if($_SESSION["role"] == "AE"){ echo "selected"; } ?>>AE</option>
-          		<option value="AM" <?php if($_SESSION["role"] == "AM"){ echo "selected"; } ?>>AM</option>
-          		<option value="UND" <?php if($_SESSION["role"] == "UND"){ echo "selected"; } ?>>UND</option>
-          		<option value="SETUP" <?php if($_SESSION["role"] == "SETUP"){ echo "selected"; } ?>>SETUP</option>
-          	   <option value="FUND" <?php if($_SESSION["role"] == "FUND"){ echo "selected"; } ?>>FUND</option>
-            </select>
-          </div>
-        <?php //} ?>
-          <div class="col-12 col-sm-3">
-            <?php if(($_SESSION["role"] == "AE") || ($_SESSION["role"] == "AM")) { ?>
-            <select name="rr"  class="form-select">
-              <option>Record Request</option>
-              <option value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "selected"; } ?>>Approved/Suspended</option>
-              <option value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "selected"; } ?>>ctc Docs Out Back</option>
-              <option value="fundedLastMonth" <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "selected"; } ?>>Funded Last Month</option>
-              <option value="fundedMonthly" <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "selected"; } ?>>Funded Monthly</option>
-              <option value="locked" <?php if($_SESSION["rr"] == "locked"){ echo "selected"; } ?>>Locked</option>
-              <option value="open/registered" <?php if($_SESSION["rr"] == "open/registered"){ echo "selected"; } ?>>Open/Registered</option>
-              <option value="resubmissionQuery" <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "selected"; } ?>>Resubmission Query</option>
-              <option value="setup/processing" <?php if($_SESSION["rr"] == "setup/processing"){ echo "selected"; } ?>>Setup/Processing</option>
-              <option value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "selected"; } ?>>Submitted</option>
-            </select>
-          <?php } ?>
-          <?php if(($_SESSION["role"] == "SETUP")) { ?>
-            <select name="rr"  class="form-select">
-              <option>Record Request</option>
-              <option value="open" <?php if($_SESSION["rr"] == "open"){ echo "selected"; } ?>>Open</option>
-              <option value="registered" <?php if($_SESSION["rr"] == "registered"){ echo "selected"; } ?>>Registered</option>
-              <option value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "selected"; } ?>>Submitted</option>
-              <option value="underwritersSubmitted" <?php if($_SESSION["rr"] == "underwritersSubmitted"){ echo "selected"; } ?>>Underwriters Submitted</option>
-            </select>
-          <?php } ?>
-          <?php if(($_SESSION["role"] == "UND")) { ?>
-            <select name="rr"  class="form-select">
-              <option>Record Request</option>
-              <option value="approved" <?php if($_SESSION["rr"] == "approved"){ echo "selected"; } ?>>Approved</option>
-              <option value="finalUnderwriting" <?php if($_SESSION["rr"] == "finalUnderwriting"){ echo "selected"; } ?>>Final Underwriting</option>
-              <option value="underwritersSubmitted" <?php if($_SESSION["rr"] == "underwritersSubmitted"){ echo "selected"; } ?>>Underwriters Submitted</option>
-            </select>
-          <?php } ?>
-          <?php if(($_SESSION["role"] == "FUND")) { ?>
-            <select name="rr"  class="form-select">
-              <option>Record Request</option>
-              <option value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "selected"; } ?>>ctc Docs Out Back</option>
-            </select>
-          <?php } ?>
-          </div>
-          <div class="col-12 col-sm-3">
 
-            <input type="hidden" name="refresh" value="true">
-            <input type="submit" class="nav-link active data-refresh" id="nav-contact-tab" value="Refresh Data">
-          </div></form>
-          <!--<a class="btn btn-danger disabled btn-circle" href="#"><i class="fal fa-plus"></i></a>-->
-        </div>
+      <div class="col-md-9">
+            <form method="post" class="row align-items-center">
+              <?php //if(is_admin()){ ?>
+              <div class="col-12 col-sm-3 col-lg-2">
+              <select name="role" class="form-select">
+                <option>Role</option>
+                <option value="AE" <?php if($_SESSION["role"] == "AE"){ echo "selected"; } ?>>AE</option>
+            		<option value="AM" <?php if($_SESSION["role"] == "AM"){ echo "selected"; } ?>>AM</option>
+            		<option value="UND" <?php if($_SESSION["role"] == "UND"){ echo "selected"; } ?>>UND</option>
+            		<option value="SETUP" <?php if($_SESSION["role"] == "SETUP"){ echo "selected"; } ?>>SETUP</option>
+            	   <option value="FUND" <?php if($_SESSION["role"] == "FUND"){ echo "selected"; } ?>>FUND</option>
+              </select>
+            </div>
+            <?php //} ?>
+            <div class="col-12 col-sm-5 col-lg-4">
+              <?php if(($_SESSION["role"] == "AE") || ($_SESSION["role"] == "AM")) { ?>
+              <select name="rr"  class="form-select">
+                <option>Record Request</option>
+                <option value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "selected"; } ?>>Approved/Suspended</option>
+                <option value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "selected"; } ?>>ctc Docs Out Back</option>
+                <option value="fundedLastMonth" <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "selected"; } ?>>Funded Last Month</option>
+                <option value="fundedMonthly" <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "selected"; } ?>>Funded Monthly</option>
+                <option value="locked" <?php if($_SESSION["rr"] == "locked"){ echo "selected"; } ?>>Locked</option>
+                <option value="open/registered" <?php if($_SESSION["rr"] == "open/registered"){ echo "selected"; } ?>>Open/Registered</option>
+                <option value="resubmissionQuery" <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "selected"; } ?>>Resubmission Query</option>
+                <option value="setup/processing" <?php if($_SESSION["rr"] == "setup/processing"){ echo "selected"; } ?>>Setup/Processing</option>
+                <option value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "selected"; } ?>>Submitted</option>
+              </select>
+            <?php } ?>
+            <?php if(($_SESSION["role"] == "SETUP")) { ?>
+              <select name="rr"  class="form-select">
+                <option>Record Request</option>
+                <option value="open" <?php if($_SESSION["rr"] == "open"){ echo "selected"; } ?>>Open</option>
+                <option value="registered" <?php if($_SESSION["rr"] == "registered"){ echo "selected"; } ?>>Registered</option>
+                <option value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "selected"; } ?>>Submitted</option>
+                <option value="underwritersSubmitted" <?php if($_SESSION["rr"] == "underwritersSubmitted"){ echo "selected"; } ?>>Underwriters Submitted</option>
+              </select>
+            <?php } ?>
+            <?php if(($_SESSION["role"] == "UND")) { ?>
+              <select name="rr"  class="form-select">
+                <option>Record Request</option>
+                <option value="approved" <?php if($_SESSION["rr"] == "approved"){ echo "selected"; } ?>>Approved</option>
+                <option value="finalUnderwriting" <?php if($_SESSION["rr"] == "finalUnderwriting"){ echo "selected"; } ?>>Final Underwriting</option>
+                <option value="underwritersSubmitted" <?php if($_SESSION["rr"] == "underwritersSubmitted"){ echo "selected"; } ?>>Underwriters Submitted</option>
+              </select>
+            <?php } ?>
+            <?php if(($_SESSION["role"] == "FUND")) { ?>
+              <select name="rr"  class="form-select">
+                <option>Record Request</option>
+                <option value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "selected"; } ?>>ctc Docs Out Back</option>
+              </select>
+            <?php } ?>
+            </div>
+            <div class="col-12 col-sm-3">
+              <input type="hidden" name="refresh" value="true">
+              <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Refresh Data">
+            </div>
+          </form>
       </div>
       <div class="col-md-3">
         <div class="mb-3 mb-lg-0">
@@ -77,7 +76,6 @@
     </div>
 
 
-
   </nav>
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -85,6 +83,7 @@
     </div>
     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
       <div class="table-responsive">
+        <!--
       <table class="report-table table table-striped" id="tasks">
           <thead>
         <tr>
@@ -127,6 +126,7 @@
       </tbody>
 
       </table>
+      -->
     </div>
 
     </div>
@@ -145,8 +145,7 @@
       }
        ?>
 
-
-       <hr>
+     <div class="card p-3 bg-light">
        <div class="row">
          <div class="col-md-4">
            <select name="loan_type" class="form-control loan_filter">
@@ -157,14 +156,22 @@
            </select>
          </div>
          <div class="col-md-8">
-           <a class="btn btn-primary ms-auto me-0" id="newWindow">New Window <i class="fal fa-external-link"></i></a>
+           <div class="row">
+             <div class="col-md-6">
+               <input type="text"  id="taskSearch" class="form-control" id="floatingInput" placeholder="Search by Loan #">
+             </div>
+             <div class="col-md-6">
+               <a class="btn btn-outline-primary ms-auto me-0" id="newWindow">New Window <i class="fal fa-window"></i></a>
+               <button class="btn btn-outline-primary" id="csv">Download CSV <i class="fas fa-file-download"></i></button>
+             </div>
+           </div>
          </div>
-
        </div>
+     </div>
 
       <div class="table-responsive">
         <div id="report_1">
-      <table class="report-table table table-striped">
+          <table class="report-table table table-striped" id="data-table">
          <thead>
            <tr>
              <?php foreach($_SESSION["data"][0] as $key => $value){
@@ -184,9 +191,6 @@
                } else {
                  echo "<td>" . $value . "</td>";
                }
-
-
-
 
                  // echo "<li>" . $key . ": " . $value . "</li>";
                  }
