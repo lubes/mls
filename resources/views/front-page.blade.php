@@ -190,9 +190,6 @@
                  echo "<td>" . $value . "</td>";
                }
 
-
-
-
                  // echo "<li>" . $key . ": " . $value . "</li>";
                  }
              echo "</tr>";
