@@ -3,6 +3,43 @@
   top: 0;
   left: 0;
   bottom: 0;
+  width: $closed_width;
+
+  @include easing();
+
+  .sidebar-toggle {
+    position: absolute;
+    bottom: 20px;
+    right: -25px;
+    z-index: 2;
+    transform: rotate(0);
+
+    @include easing();
+  }
+
+  &-inner {
+    opacity: 0;
+    // width: 100%;
+    position: relative;
+    width: 0;
+    overflow: hidden;
+
+    // @include fast_easing();
+  }
+
+  &.active {
+    width: $open_width;
+
+    .sidebar-toggle {
+      transform: rotate(180deg);
+    }
+
+    .main-sidebar-inner {
+      width: $open_width;
+      opacity: 1;
+      transition-delay: 0.25s;
+    }
+  }
 
   .sb-logo {
     img {

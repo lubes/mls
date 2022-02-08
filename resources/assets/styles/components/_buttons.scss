@@ -1,9 +1,21 @@
 .btn {
   // border-radius: 50px !important;
-  padding: 0.75rem 1.25rem;
+  // padding: 0.75rem 1.25rem;
 
   &-circle {
-    padding: 0.375rem 0.75rem;
+    padding: 0;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 50px !important;
+  }
+
+  &-default {
+    background: $lightest;
+    border: 1px solid #ddd;
+    // background: $primary;
+    // border-color: $primary;
   }
 
   &-danger {
@@ -12,6 +24,10 @@
       opacity: 1;
       border: none;
     }
+  }
+
+  &-outline-primary {
+    background: #fff;
   }
 }
 
@@ -27,13 +43,21 @@
 }
 
 .nav-pills {
+  .btn {
+    font-size: 0.9rem;
+  }
+
   .nav-link {
-    border-radius: 50px;
-    background: $pink;
+    // border-radius: 50px;
+    background: lighten($red, 15);
     color: #fff;
-    margin-right: 10px;
+    // margin-right: 10px;
 
     &.active {
+      // background: $red;
+    }
+
+    &:focus {
       background: $red;
     }
   }

@@ -17,7 +17,9 @@
       <div class="content">
         <main class="main d-flex">
 
-          <div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark main-sidebar" style="width: 280px;">
+          <div class="d-flex bg-dark main-sidebar">
+            <a class="btn btn-circle btn-danger sidebar-toggle" href="#"><i class="far fa-chevron-left"></i></a>
+            <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
               <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
                 <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
               </a>
@@ -87,6 +89,8 @@
               </div>
             </div>
 
+            </div>
+
             <div class="db-content m-4">
 
               <div class="page-header ps-5 mb-4">
@@ -106,5 +110,18 @@
     @php do_action('get_footer') @endphp
     @include('partials.footer')
     @php wp_footer() @endphp
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+
+    <script>
+    jQuery(function($) {
+      var options = {
+        valueNames: [ 'Loan Number', 'Loan Status Date', 'Borr Last Name' ]
+      };
+
+      var userList = new List('report_1', options);
+    });
+    </script>
+
   </body>
 </html>

@@ -4,6 +4,15 @@ export default {
   init() {
     // JavaScript to be fired on all pages
 
+    $(".sidebar-toggle").on("click",function(){
+      $('.main-sidebar').toggleClass('active');
+      $('body').toggleClass('side-open');
+    });
+
+    $(".loan-type-filter").on("change", function(){
+      $(this).closest("form").submit();
+    });
+
     $(".loan_filter").on("change", function(){
       if($(this).val() == "Loan-Type"){
         $(".all").show();
@@ -15,8 +24,6 @@ export default {
     });
 
     $(".loanSearch").keyup(function(e) {
-
-
       if($(".loanSearch").val() != ""){
         $(".all").hide();
         $(".ln" + $(".loanSearch").val()).show();
@@ -37,6 +44,7 @@ export default {
       // <link rel='stylesheet' id='sage/main.css-css'  href='http://52.34.81.19/wp-content/themes/mls/dist/styles/main.css' type='text/css' media='all' />
     });
 
+    /*
     $( "#taskSearch" ).keyup(function() {
       // Declare variables
       var input, filter, table, tr, td, i, txtValue;
@@ -58,6 +66,7 @@ export default {
         }
       }
     });
+    */
 
 
 

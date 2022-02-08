@@ -1,7 +1,20 @@
+$closed_width: 60px;
+$open_width: 280px;
+
 body {
   background: $light;
   color: $primary;
-  padding-left: 280px;
+  padding-left: $closed_width;
+
+  @include easing();
+
+  &.side-open {
+    padding-left: $open_width;
+  }
+}
+
+* {
+  outline: none !important;
 }
 
 h1 {
