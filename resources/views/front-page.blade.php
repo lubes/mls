@@ -27,11 +27,12 @@
       } */
      ?>
 
-     <div class="card p-3 bg-light mb-3">
+     <div class="">
+       <!--<p class="mb-3 mb-md-0">Currently Viewing <?php echo $_SESSION['rr_view'];?></p>-->
        <?php if($_SESSION["role"] == "ADMIN") { ?>
-         <form method="post" class="col-3">
+         <form method="post" class="view-param d-flex mb-3 border-bottom pb-3">
 
-         <select name="admin_role"  class="form-select">
+         <select name="admin_role"  class="form-select ms-3">
            <option>Change Role View</option>
            <option value="AE" <?php if($_SESSION["admin_role"] == "AE"){ echo "selected"; } ?>>AE</option>
            <option value="AM" <?php if($_SESSION["admin_role"] == "AM"){ echo "selected"; } ?>>AM</option>
@@ -44,22 +45,22 @@
          <?php
            if(!empty($_SESSION['rr_view'])){ ?>
 
-                  <select name="rr"  class="form-select">
+                  <select name="rr"  class="form-select ms-3">
                     <option>Record Request</option>
                     <?php foreach($_SESSION['rr_view']['records'] as $key => $value){ ?>
                       <option value="<?php echo $value; ?>" <?php if($_SESSION["rr"] == $value){ echo "selected"; } ?>><?php echo $value; ?></option>
                     <?php } ?>
                   </select> (Will make this dynamic next)
 
-
+                <div class="ms-3">
                   <input type="hidden" name="refresh" value="true">
                   <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Change Role">
-
+                </div>
               <?php } ?>
 
        </form>
-<?php } else if(!empty($_SESSION['rr_view'])){ ?>
-       <form method="post" c class="col-3">
+      <?php } else if(!empty($_SESSION['rr_view'])){ ?>
+       <form method="post" c class="view-param d-flex mb-3 border-bottom pb-3">
 
          <select name="rr"  class="form-select">
            <option>Record Request</option>
@@ -69,8 +70,12 @@
          </select>
 
 
-         <input type="hidden" name="refresh" value="true">
-         <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Refresh Data">
+         <div class="ms-3">
+
+           <input type="hidden" name="refresh" value="true">
+           <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Refresh Data">
+
+         </div>
 
      </form>
      <?php } ?>
