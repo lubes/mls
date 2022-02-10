@@ -248,11 +248,42 @@ function init_query() {
     $_SESSION["data"] = $decoded_json["data"];
 
   }*/
+  // Setup Views Drop Down
 
-  if(($_POST["refresh"] == "true") && ($_POST["rr"] != "")){
+$_SESSION["rr_view"] = record_views($_SESSION["role"]);
 
-    $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//controller';
+$url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller';
 
+
+if((isset($_POST["admin_role"])) && ($_SESSION["role"] == "ADMIN")){
+  $_SESSION["data"] = array();
+
+  // Get Record Request Type by Role
+  $_SESSION["rr_view"] = record_views($_POST["admin_role"]);
+  if($_POST["rr"] != ""){
+    $_SESSION["rr"] = $_POST["rr"];
+} else {
+  $_SESSION["rr"] = $_SESSION['rr_view']['records'][0];
+
+}
+  $_SESSION["admin_role"] = $_POST["admin_role"];
+
+  $data = array("role" => $_SESSION["role"],   "email" => $user_email,  "recordRequest" => $_SESSION["rr"] );
+
+  $result = CallAPI("POST", $url_path, $data);
+  $decoded_json = json_decode($result, true);
+  // Set Session Variables
+  //$_SESSION["data"] = $decoded_json["data"];
+
+  $order = $decoded_json["order"];
+  $temp_data = $decoded_json["data"];
+  foreach($temp_data as $key => $value){
+    $value = array_merge(array_flip($order), $value);
+    $_SESSION["data"][] = $value;
+  }
+
+} else if(($_POST["refresh"] == "true") && ($_POST["rr"] != "")){
+  $_SESSION["data"] = array();
 
     $data = array("role" => $_SESSION["role"],   "email" => $user_email,  "recordRequest" => $_POST["rr"]);
     $result = CallAPI("POST", $url_path, $data);
@@ -260,12 +291,26 @@ function init_query() {
 
     // Set Session Variables
     $_SESSION["rr"] = $_POST["rr"];
-    $_SESSION["data"] = $decoded_json["data"];
 
+    $order = $decoded_json["order"];
+    $temp_data = $decoded_json["data"];
+    foreach($temp_data as $key => $value){
+      $value = array_merge(array_flip($order), $value);
+      $_SESSION["data"][] = $value;
+    }
   }
 
 }
 init_query();
+
+function record_views($role){
+  $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records?role=' . $role;
+  $result = CallAPI("GET", $url_path, $data);
+  $decoded_json = json_decode($result, true);
+  // Set Session Variables
+  return $decoded_json;
+
+}
 
 // Method: POST, PUT, GET etc
 // Data: array("param" => "value") ==> index.php?param=value
@@ -276,8 +321,21 @@ function CallAPI($method, $url, $data = false){
 
   $ch = curl_init($url);
 
-  curl_setopt($ch, CURLOPT_POST, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+  switch ($method)
+   {
+       case "POST":
+       curl_setopt($ch, CURLOPT_POST, 1);
+       curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+       break;
+       case "PUT":
+           curl_setopt($curl, CURLOPT_PUT, 1);
+           break;
+       default:
+           if ($data)
+               $url = sprintf("%s?%s", $url, http_build_query($data));
+   }
+
+
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   $result = curl_exec($ch);
