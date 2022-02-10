@@ -5,31 +5,13 @@ function custom_login() {
   $files = '<link rel="stylesheet" href="'.get_bloginfo('template_directory').'/login.css" />';
   echo $files;
 }
-add_action('login_head', 'custom_login')
-;
-
-function my_login_page_remove_back_to_link() { ?>
-<style type="text/css">
-
-</style>
+add_action('login_head', 'custom_login');
 
 
-
-<?php }
-add_action( 'login_enqueue_scripts', 'my_login_page_remove_back_to_link' );
-
-
-//If you're using this in your functions.php file, remove the opening <?php
-
-//Replace style-login.css with the name of your custom CSS file
-function my_custom_login_stylesheet() {
-    wp_enqueue_style( 'custom-login', get_stylesheet_directory_uri() . '/style-login.css' );
+add_action('login_footer', 'add_text_forgot_pass');
+function add_text_forgot_pass(){
+    echo "<p class='login-text'>The use of this system may be monitored for computer security purposes. Any unauthorized access to this system is prohibited and is subject to criminal and civil penalties under Federal Laws including, but not limited to, the Computer Fraud and Abuse Act and the National Information Infrastructure Protection Act.</p>";
 }
-
-//This loads the function above on the login page
-add_action( 'login_enqueue_scripts', 'my_custom_login_stylesheet' );
-
-
 
 
 

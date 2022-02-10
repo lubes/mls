@@ -2,13 +2,20 @@ html {
   font-size: 18px;
 }
 
+body {
+  width: 100%;
+  overflow: hidden;
+  background: #f6f6f6 url(assets/images/bgpattern.png) no-repeat center;
+  background-size: cover;
+}
+
 body.login div#login p#backtoblog {
   display: none;
 }
 
 #login {
-  max-width: 500px !important;
-  width: 100% !important;
+  max-width: 500px;
+  width: 100%;
   position: relative;
 }
 
@@ -28,9 +35,15 @@ body.login div#login p#backtoblog {
 .login form {
   border-radius: 15px;
   border: none;
-  padding: 60px 60px 200px;
+  padding: 60px;
   box-shadow: none;
   position: relative;
+}
+
+.login-text {
+  max-width: 450px;
+  margin: 20px auto 0;
+  display: block;
 }
 
 .login form input[type="text"],
@@ -66,4 +79,23 @@ body.login div#login p#backtoblog {
   background-size: contain;
   background-repeat: no-repeat;
   margin: 0 auto 10px 0;
+}
+
+#nav a {
+  background: #fff;
+  padding: 5px 15px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+  #login {
+    max-width: 100% !important;
+    margin: 0 20px;
+    width: auto !important;
+  }
+
+  .login form {
+    padding: 40px 40px 120px  ;
+  }
 }
