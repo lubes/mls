@@ -18,21 +18,13 @@
         <main class="main d-flex">
 
           <div class="d-flex bg-dark main-sidebar">
-            <a class="btn btn-circle btn-danger sidebar-toggle" href="#"><i class="far fa-chevron-left"></i></a>
+            <a class="btn btn-circle btn-danger sidebar-toggle" href="#"><i class="far fa-chevron-right"></i></a>
             <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
               <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
                 <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
               </a>
-              <!--<div class="loan-search">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected>Loan #</option>
-                  <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option>
-                </select>
-              </div>
-              <?php echo get_search_form();?>-->
 
+              <!--
               <ul class="list-unstyled ps-0">
                     <li class="mb-1">
                       <button class="btn btn-toggle align-items-center link-light" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
@@ -73,7 +65,7 @@
                       </div>
                     </li>
                   </ul>
-
+                  -->
 
               <ul class="nav nav-pills flex-column mb-auto"></ul>
               <div class="dropdown">
@@ -112,6 +104,8 @@
     @php wp_footer() @endphp
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
 
     <script>
     jQuery(function($) {
@@ -120,7 +114,22 @@
       };
 
       var userList = new List('report_1', options);
+
+      // window.jsPDF = window.jspdf.jsPDF;
+      $('#pdf_export').click(function() {
+        var doc = new jsPDF()
+        doc.autoTable({ html: '#data-table' })
+        doc.save('loan-data.pdf')
+      });
+
+
     });
+
+
+
+
+
+
     </script>
 
   </body>

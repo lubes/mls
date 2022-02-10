@@ -251,7 +251,7 @@ function init_query() {
 
   if(($_POST["refresh"] == "true") && ($_POST["rr"] != "")){
 
-    $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//controller';
+    $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller';
 
 
     $data = array("role" => $_SESSION["role"],   "email" => $user_email,  "recordRequest" => $_POST["rr"]);

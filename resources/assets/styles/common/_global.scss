@@ -13,6 +13,40 @@ body {
   }
 }
 
+/* stylelint-disable */
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+  ::-webkit-scrollbar {
+      width:  $size;
+      height: $size;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background: $foreground-color;
+  }
+
+  ::-webkit-scrollbar-track {
+      background: $background-color;
+  }
+
+  // For Internet Explorer
+  body {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+}
+
+.table-wrapper {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+
+  @include scrollbars(0.5em, $red);
+}
+
+.table-responsive {
+  max-height: 58vh;
+  // overflow: hidden;
+}
+
 * {
   outline: none !important;
 }
@@ -71,4 +105,15 @@ h2 {
 
 .profile {
   background: #fff;
+}
+
+.view-param {
+  p {
+    font-weight: 600;
+    // margin: 0 auto;
+  }
+
+  select {
+    max-width: 300px;
+  }
 }

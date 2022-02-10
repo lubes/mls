@@ -1,4 +1,5 @@
 /* eslint-disable */
+// import jsPDF from '../plugins/jspdf.js';
 
 export default {
   init() {
@@ -7,6 +8,15 @@ export default {
     $(".sidebar-toggle").on("click",function(){
       $('.main-sidebar').toggleClass('active');
       $('body').toggleClass('side-open');
+    });
+
+    $(".filter-toggle").on("click", function(){
+      $(this).toggleClass('active');
+      if($(this).hasClass('active')) {
+        $(this).html('Hide Filters <i class="fal fa-angle-up"></i>');
+      } else {
+        $(this).html('Show Filters <i class="fal fa-angle-down"></i>');
+      }
     });
 
     $(".loan-type-filter").on("change", function(){
@@ -35,14 +45,6 @@ export default {
     $(".data-refresh").on("click",function(){
       $(this).val('Loading...');
     })
-
-    $('#newWindow').click(function() {
-      var w = window.open('', "", "width=900, height=600, scrollbars=yes");
-      var html = $("#report_1").html();
-      var cssLink = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
-      $(w.document.body).html(cssLink+html);
-      // <link rel='stylesheet' id='sage/main.css-css'  href='http://52.34.81.19/wp-content/themes/mls/dist/styles/main.css' type='text/css' media='all' />
-    });
 
     /*
     $( "#taskSearch" ).keyup(function() {
@@ -109,6 +111,21 @@ export default {
     });
 
 
+
+
+
+    /*
+    document.getElementById("pdf_export").addEventListener("click", function () {
+        demoFromHTML();
+    });
+    */
+    $('#newWindow').click(function() {
+      var w = window.open('', "", "width=900, height=600, scrollbars=yes");
+      var html = $("#report_1").html();
+      var cssLink = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
+      var jsLink = '<script type="text/javascript" src="https://views.exceleratecapital.com/wp-content/themes/mls/dist/scripts/main.js"></script>';
+      $(w.document.body).html(cssLink+html);
+    });
 
   },
   finalize() {

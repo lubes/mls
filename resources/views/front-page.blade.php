@@ -4,7 +4,7 @@
 
   <div class="db-content-inner p-5">
 
-  <div class="alert alert-info" role="alert"><p style="margin:0;"><?php if(empty($_SESSION["data"])) {  echo "No Results Found"; } else { echo count($_SESSION["data"]) . " records found."; } ?></p></div>
+  <!--<div class="alert alert-info" role="alert"><p style="margin:0;"><?php if(empty($_SESSION["data"])) {  echo "No Results Found"; } else { echo count($_SESSION["data"]) . " records found."; } ?>-->
 
   <div class="tab-content" id="nav-tabContent">
     <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
@@ -74,7 +74,7 @@
       }
      ?>
 
-     <div class="card p-3 bg-light mb-3">
+     <div class="">
 
        <form method="post" class="">
          <?php if(($_SESSION["role"] == "AE") || ($_SESSION["role"] == "AM")) { ?>
@@ -138,21 +138,26 @@
            </ul>
          -->
 
+         <div class="d-flex view-param align-items-center mb-3 border-bottom pb-3">
+           <p class="me-3 mb-3 mb-md-0">Currentinly Viewing <?php echo $_SESSION["rr"];?></p>
+           <select name="rr"  class="form-select me-3">
+             <option>Record Request</option>
+             <option value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "selected"; } ?>>Approved/Suspended</option>
+             <option value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "selected"; } ?>>ctc Docs Out Back</option>
+             <option value="fundedLastMonth" <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "selected"; } ?>>Funded Last Month</option>
+             <option value="fundedMonthly" <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "selected"; } ?>>Funded Monthly</option>
+             <option value="locked" <?php if($_SESSION["rr"] == "locked"){ echo "selected"; } ?>>Locked</option>
+             <option value="open/registered" <?php if($_SESSION["rr"] == "open/registered"){ echo "selected"; } ?>>Open/Registered</option>
+             <option value="resubmissionQuery" <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "selected"; } ?>>Resubmission Query</option>
+             <option value="setup/processing" <?php if($_SESSION["rr"] == "setup/processing"){ echo "selected"; } ?>>Setup/Processing</option>
+             <option value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "selected"; } ?>>Submitted</option>
+           </select>
+           <div>
+             <input type="hidden" name="refresh" value="true">
+             <input type="submit" class="data-refresh btn btn-danger" id="nav-contact-tab" value="Refresh Data">
+           </div>
+         </div>
 
-
-
-         <select name="rr"  class="form-select">
-           <option>Record Request</option>
-           <option value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "selected"; } ?>>Approved/Suspended</option>
-           <option value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "selected"; } ?>>ctc Docs Out Back</option>
-           <option value="fundedLastMonth" <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "selected"; } ?>>Funded Last Month</option>
-           <option value="fundedMonthly" <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "selected"; } ?>>Funded Monthly</option>
-           <option value="locked" <?php if($_SESSION["rr"] == "locked"){ echo "selected"; } ?>>Locked</option>
-           <option value="open/registered" <?php if($_SESSION["rr"] == "open/registered"){ echo "selected"; } ?>>Open/Registered</option>
-           <option value="resubmissionQuery" <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "selected"; } ?>>Resubmission Query</option>
-           <option value="setup/processing" <?php if($_SESSION["rr"] == "setup/processing"){ echo "selected"; } ?>>Setup/Processing</option>
-           <option value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "selected"; } ?>>Submitted</option>
-         </select>
 
 
        <?php } ?>
@@ -180,9 +185,6 @@
          </select>
        <?php } ?>
 
-         <input type="hidden" name="refresh" value="true">
-         <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Refresh Data">
-      
      </form>
                <!-- Form for ADMIN VIEW
                <form method="post" class="row align-items-center">
@@ -249,19 +251,20 @@
 
 
      <div id="report_1">
-       <div class="d-flex justify-content-between border-bottom">
-         <button class="btn btn-default mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-           Filter Table <i class="fa fa-angle-down"></i>
+       <div class="d-flex justify-content-between border-bottom ">
+         <button class="btn btn-default mb-3 filter-toggle active" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample" aria-expanded="true" aria-controls="collapseExample">
+           Hide Filters <i class="fal fa-angle-up"></i>
          </button>
          <div class="shit">
            <a class="btn btn-outline-primary ms-auto me-0" id="newWindow">New Window <i class="fal fa-window"></i></a>
-           <button class="btn btn-outline-primary ms-3" id="csv">Download CSV <i class="fas fa-file-download"></i></button>
+           <button class="btn btn-outline-primary ms-3" id="csv">CSV <i class="fas fa-file-download"></i></button>
+           <button id="pdf_export" class="btn btn-outline-primary ms-3">PDF  <i class="fas fa-file-download"></i></button>
          </div>
        </div>
 
 
-       <div class="collapse" id="collapseExample">
-         <div class="card card-body bg-light">
+       <div class="collapse show" id="collapseExample">
+         <div class="card card-body bg-light mb-3">
            <ul class="nav nav-pills nav-fill">
              <li class="nav-item">
                <input class="search form-control" placeholder="Search by Loan #" />
@@ -290,9 +293,10 @@
 
 
 
+       <div class="table-wrapper">
 
 
-      <div class="table-responsive">
+      <div class="table-responsive" id="data-table-id">
 
         <table class="report-table table table-striped" id="data-table">
          <thead>
@@ -309,7 +313,7 @@
              echo "<tr style='border: 1px solid #cecece; padding:15px; margin:15px;' class='loan-details all " . preg_replace('/[[:space:]]+/', '-', $entry["Loan Purpose"]) . " ln" . preg_replace('/[[:space:]]+/', '-', $entry["Loan Number"]) . "'>";
              foreach($entry as $key => $value){
                if($key == "Loan Number"){
-                 echo "<td class='".$key."'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/$value/loan-action?section=0' target='_blank'>" . $value . "</a></td>";
+                 echo "<td class='".$key."'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/$value/loan-action?section=0' target='_blank' class='btn btn-default'>" . $value . "</a></td>";
                } else {
                  echo "<td class='".$key."'>" . $value . "</td>";
                }
@@ -324,6 +328,7 @@
          </table>
 
        </div>
+     </div>
        </div>
     </div>
   </div>
