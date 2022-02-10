@@ -139,7 +139,7 @@
          -->
 
          <div class="d-flex view-param align-items-center mb-3 border-bottom pb-3">
-           <p class="me-3 mb-3 mb-md-0">Currentinly Viewing <?php echo $_SESSION["rr"];?></p>
+           <p class="me-3 mb-3 mb-md-0">Currently Viewing <?php echo $_SESSION["rr"];?></p>
            <select name="rr"  class="form-select me-3">
              <option>Record Request</option>
              <option value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "selected"; } ?>>Approved/Suspended</option>
