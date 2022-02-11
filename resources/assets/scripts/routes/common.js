@@ -5,6 +5,19 @@ export default {
   init() {
     // JavaScript to be fired on all pages
 
+    var moment = require('moment-timezone');
+    var tz = moment.tz.guess();
+    $( document ).ready(function() {
+      $(".convertdate").each(function( index ) {
+        var a = moment.tz($(this).text(), tz);
+        console.log($( this ).text() );
+        console.log(a.format());
+        $(this).text(a.format('MM/DD/YYYY'))
+      });
+
+    });
+
+
     $(".sidebar-toggle").on("click",function(){
       $('.main-sidebar').toggleClass('active');
       $('body').toggleClass('side-open');
