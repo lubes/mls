@@ -7,6 +7,13 @@ export default {
 
     $(".sidebar-toggle").on("click",function(){
       $('.main-sidebar').toggleClass('active');
+      if($('.main-sidebar').hasClass('active')) {
+        $(this).addClass('close-sidebar');
+        $(this).removeClass('open-sidebar');
+      } else {
+        $(this).addClass('open-sidebar');
+        $(this).removeClass('close-sidebar');
+      }
       $('body').toggleClass('side-open');
     });
 
@@ -122,7 +129,7 @@ export default {
     $('#newWindow').click(function() {
       var w = window.open('', "", "width=900, height=600, scrollbars=yes");
       var html = $("#report_1").html();
-      var cssLink = '<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
+      var cssLink = '<link rel="stylesheet" id="sage/main.css-css"  href="http://52.34.81.19/wp-content/themes/mls/dist/styles/main.css" type="text/css" media="all" /><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
       var jsLink = '<script type="text/javascript" src="https://views.exceleratecapital.com/wp-content/themes/mls/dist/scripts/main.js"></script>';
       $(w.document.body).html(cssLink+html);
     });

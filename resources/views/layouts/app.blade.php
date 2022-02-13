@@ -18,11 +18,161 @@
         <main class="main d-flex">
 
           <div class="d-flex bg-dark main-sidebar">
-            <a class="btn btn-circle btn-danger sidebar-toggle" href="#"><i class="far fa-chevron-right"></i></a>
+            <a class="btn btn-circle btn-danger sidebar-toggle open-sidebar" href="#"><i class="far fa-chevron-right"></i></a>
             <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
               <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
                 <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
               </a>
+
+
+
+
+
+
+              <?php if($_SESSION["role"] == "ADMIN") { ?>
+                <div class="dropdown-group">
+                  <button class="dropdown-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
+                    <i class="fal fa-users"></i> Change Role
+                  </button>
+                  <div class="collapse show" id="viewDropdown">
+                    <div class="card card-body">
+                      <form method="post" class="view-param d-flex mb-3 border-bottom pb-3">
+                        <ul class="side-nav">
+                          <li class="nav-item">
+                            <div class="radio-btn">
+                              <input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="approved/suspended" <?php if($_SESSION["admin_role"] == "approved/suspended"){ echo "checked"; } ?>>
+                              <label class="btn w-100" for="ae_1"><i class="fal fa-user"></i> Account Executive</label>
+                            </div>
+                          </li>
+                          <li class="nav-item">
+                            <div class="radio-btn">
+                              <input type="radio" class="btn-check loan-type-filter" id="ae_2" autocomplete="off" name="rr" value="ctcDocsOutBack" <?php if($_SESSION["admin_role"] == "ctcDocsOutBack"){ echo "checked"; } ?>>
+                              <label class="btn w-100" for="ae_2"><i class="fal fa-user"></i> Account Manager</label>
+                            </div>
+                          </li>
+                          <li class="nav-item">
+                            <div class="radio-btn">
+                              <input type="radio" class="btn-check loan-type-filter" id="ae_3" autocomplete="off" name="rr" value="fundedLastMonth" <?php if($_SESSION["admin_role"] == "fundedLastMonth"){ echo "checked"; } ?>>
+                              <label class="btn w-100" for="ae_3"><i class="fal fa-user"></i> Funder</label>
+                            </div>
+                          </li>
+                          <li class="nav-item">
+                            <div class="radio-btn">
+                              <input type="radio" class="btn-check loan-type-filter" id="ae_4" autocomplete="off" name="rr" value="fundedMonthly" <?php if($_SESSION["admin_role"] == "fundedMonthly"){ echo "checked"; } ?>>
+                              <label class="btn w-100" for="ae_4"><i class="fal fa-user"></i> Setup Coordinator</label>
+                            </div>
+                          </li>
+                          <li class="nav-item">
+                            <div class="radio-btn">
+                              <input type="radio" class="btn-check loan-type-filter" id="ae_5" autocomplete="off" name="rr" value="locked" <?php if($_SESSION["admin_role"] == "locked"){ echo "checked"; } ?>>
+                              <label class="btn w-100" for="ae_5"><i class="fal fa-user"></i> Underwriter</label>
+                            </div>
+                          </li>
+                        </ul>
+                        <?php if(!empty($_SESSION['rr_view'])){ ?>=
+                           <select name="rr"  class="form-select ms-3">
+                             <option>Record Request</option>
+                             <?php foreach($_SESSION['rr_view']['records'] as $key => $value){ ?>
+                               <option value="<?php echo $value; ?>" <?php if($_SESSION["rr"] == $value){ echo "selected"; } ?>><?php echo $value; ?></option>
+                             <?php } ?>
+                           </select>
+                           <div class="ms-3">
+                             <input type="hidden" name="refresh" value="true">
+                             <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Change Role">
+                           </div>
+                         <?php } ?>
+                         <input type="hidden" name="refresh" value="true">
+                       </form>
+                    </div>
+                  </div>
+                </div>
+
+             <?php } else if(!empty($_SESSION['rr_view'])){ ?>
+               <div class="dropdown-group">
+                 <button class="dropdown-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userDropdown" aria-expanded="true" aria-controls="viewDropdown">
+                   <i class="fal fa-table"></i> Views
+                 </button>
+                 <div class="collapse show" id="userDropdown">
+                   <div class="card card-body">
+
+
+                     <form method="post" class="">
+
+                       <ul class="side-nav">
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "approved/suspended"){ echo "active"; } ?>" for="ae_1"><i class="fal fa-check"></i> Approved/Suspended</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_2" autocomplete="off" name="rr" value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "active"; } ?>" for="ae_2"><i class="fal fa-file-spreadsheet"></i> ctc Docs Out Back</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_3" autocomplete="off" name="rr" value="fundedLastMonth" <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "active"; } ?>" for="ae_3"><i class="fal fa-calendar-alt"></i> Funded Last Month</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_4" autocomplete="off" name="rr" value="fundedMonthly" <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "active"; } ?>" for="ae_4"><i class="fal fa-calendar-week"></i> Funded Monthly</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_5" autocomplete="off" name="rr" value="locked" <?php if($_SESSION["rr"] == "locked"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "locked"){ echo "active"; } ?>" for="ae_5"><i class="fal fa-lock"></i> Locked</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_6" autocomplete="off" name="rr" value="open/registered" <?php if($_SESSION["rr"] == "open/registered"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "open/registered"){ echo "active"; } ?>" for="ae_6"><i class="fal fa-unlock"></i> Open/Registered</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_7" autocomplete="off" name="rr" value="resubmissionQuery" <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "active"; } ?>" for="ae_7"><i class="fal fa-paper-plane"></i> Resubmission Query</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_8" autocomplete="off" name="rr" value="setup/processing" <?php if($_SESSION["rr"] == "setup/processing"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "setup/processing"){ echo "active"; } ?>" for="ae_8"><i class="fal fa-history"></i> Setup/Processing</label>
+                           </div>
+                         </li>
+                         <li class="nav-item">
+                           <div class="radio-btn">
+                             <input type="radio" class="btn-check loan-type-filter" id="ae_9" autocomplete="off" name="rr" value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "checked"; } ?>>
+                             <label class="btn w-100 <?php if($_SESSION["rr"] == "submitted"){ echo "active"; } ?>" for="ae_9"><i class="fal fa-tasks"></i> Submitted</label>
+                           </div>
+                         </li>
+                       </ul>
+
+                       <input type="hidden" name="refresh" value="true">
+                   </form>
+
+                   </div>
+                 </div>
+               </div>
+             <?php } ?>
+
+
+
+
+
+
+
+
+
+
+
 
               <!--
               <ul class="list-unstyled ps-0">
@@ -39,7 +189,7 @@
                       </div>
                     </li>
                     <li class="mb-1">
-                      <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#reporting-collapse" aria-expanded="false">
+                      <button class="btn btn-toggle collapsed text-white" data-bs-toggle="collapse" data-bs-target="#reporting-collapse" aria-expanded="false">
                         <i class="fas fa-pencil"></i> Reporting
                       </button>
                       <div class="collapse" id="reporting-collapse">
@@ -53,7 +203,7 @@
                       </div>
                     </li>
                     <li class="mb-1">
-                      <button class="btn btn-toggle align-items-center rounded collapsed text-white" data-bs-toggle="collapse" data-bs-target="#loans-collapse" aria-expanded="false">
+                      <button class="btn btn-toggle collapsed text-white" data-bs-toggle="collapse" data-bs-target="#loans-collapse" aria-expanded="false">
                         <i class="far fa-check-circle"></i> Test Loans
                       </button>
                       <div class="collapse" id="loans-collapse">
@@ -83,11 +233,11 @@
 
             </div>
 
-            <div class="db-content m-4">
+            <div class="db-content ms-4 mt-4">
 
               <div class="page-header ps-5 mb-4">
                 <?php if(is_front_page()):?>
-                  <h1>Hi <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h1>
+                  <h1>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h1>
                 <?php endif;?>
                 <!-- <h1>{!! App::title() !!}</h1>-->
               </div>
@@ -103,12 +253,46 @@
     @include('partials.footer')
     @php wp_footer() @endphp
 
+    <!--
     <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
+    -->
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+
+<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
     <script>
     jQuery(function($) {
+
+      $('.close-sidebar').click(function () {
+        Cookies.set('sidenav', 'closed', { expires: 30 });
+        console.log(Cookies.get('sidenav'));
+      });
+      $('.open-sidebar').click(function () {
+        Cookies.set('sidenav', 'open', { expires: 30 });
+        console.log(Cookies.get('sidenav'));
+      });
+
+      if(Cookies.get('sidenav') === 'open') {
+        $('body').addClass('side-open');
+        $('.main-sidebar').addClass('active');
+      }
+
+      /*
       var options = {
         valueNames: [ 'Loan Number', 'Loan Status Date', 'Borr Last Name' ]
       };
@@ -121,7 +305,157 @@
         doc.autoTable({ html: '#data-table' })
         doc.save('loan-data.pdf')
       });
+      */
 
+
+
+
+      	//Only needed for the filename of export files.
+      	//Normally set in the title tag of your page.
+      	document.title='Simple DataTable';
+      	// DataTable initialisation
+      	$('#data-table').DataTable(
+      		{
+      			"dom": '<"dt-buttons"Bf><"clear">lirtp',
+      			"paging": false,
+            "colReorder": true,
+      			"autoWidth": false,
+            "scrollY":        "60vh",
+            "scrollX": true,
+            "fixedHeader": true,
+      			"columnDefs": [
+      				{ "orderable": false, "targets": 5 }
+      			],
+      			"buttons": [
+      				'colvis',
+      				// 'copyHtml5',
+              'csvHtml5',
+      				'excelHtml5',
+              'pdfHtml5',
+      				'print',
+              {
+                  extend: 'pdfHtml5',
+                  download: 'open'
+              }
+      			]
+      		}
+      	);
+      	//Add row button
+      	$('.dt-add').each(function () {
+      		$(this).on('click', function(evt){
+      			//Create some data and insert it
+      			var rowData = [];
+      			var table = $('#example').DataTable();
+      			//Store next row number in array
+      			var info = table.page.info();
+      			rowData.push(info.recordsTotal+1);
+      			//Some description
+      			rowData.push('New Order');
+      			//Random date
+      			var date1 = new Date(2016,01,01);
+      			var date2 = new Date(2018,12,31);
+      			var rndDate = new Date(+date1 + Math.random() * (date2 - date1));//.toLocaleDateString();
+      			rowData.push(rndDate.getFullYear()+'/'+(rndDate.getMonth()+1)+'/'+rndDate.getDate());
+      			//Status column
+      			rowData.push('NEW');
+      			//Amount column
+      			rowData.push(Math.floor(Math.random() * 2000) + 1);
+      			//Inserting the buttons ???
+      			rowData.push('<button type="button" class="btn btn-primary btn-xs dt-edit" style="margin-right:16px;"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button><button type="button" class="btn btn-danger btn-xs dt-delete"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></button>');
+      			//Looping over columns is possible
+      			//var colCount = table.columns()[0].length;
+      			//for(var i=0; i < colCount; i++){			}
+
+      			//INSERT THE ROW
+      			table.row.add(rowData).draw( false );
+      			//REMOVE EDIT AND DELETE EVENTS FROM ALL BUTTONS
+      			$('.dt-edit').off('click');
+      			$('.dt-delete').off('click');
+      			//CREATE NEW CLICK EVENTS
+      			$('.dt-edit').each(function () {
+      				$(this).on('click', function(evt){
+      					$this = $(this);
+      					var dtRow = $this.parents('tr');
+      					$('div.modal-body').innerHTML='';
+      					$('div.modal-body').append('Row index: '+dtRow[0].rowIndex+'<br/>');
+      					$('div.modal-body').append('Number of columns: '+dtRow[0].cells.length+'<br/>');
+      					for(var i=0; i < dtRow[0].cells.length; i++){
+      						$('div.modal-body').append('Cell (column, row) '+dtRow[0].cells[i]._DT_CellIndex.column+', '+dtRow[0].cells[i]._DT_CellIndex.row+' => innerHTML : '+dtRow[0].cells[i].innerHTML+'<br/>');
+      					}
+      					$('#myModal').modal('show');
+      				});
+      			});
+      			$('.dt-delete').each(function () {
+      				$(this).on('click', function(evt){
+      					$this = $(this);
+      					var dtRow = $this.parents('tr');
+      					if(confirm("Are you sure to delete this row?")){
+      						var table = $('#example').DataTable();
+      						table.row(dtRow[0].rowIndex-1).remove().draw( false );
+      					}
+      				});
+      			});
+      		});
+      	});
+      	//Edit row buttons
+      	$('.dt-edit').each(function () {
+      		$(this).on('click', function(evt){
+      			$this = $(this);
+      			var dtRow = $this.parents('tr');
+      			$('div.modal-body').innerHTML='';
+      			$('div.modal-body').append('Row index: '+dtRow[0].rowIndex+'<br/>');
+      			$('div.modal-body').append('Number of columns: '+dtRow[0].cells.length+'<br/>');
+      			for(var i=0; i < dtRow[0].cells.length; i++){
+      				$('div.modal-body').append('Cell (column, row) '+dtRow[0].cells[i]._DT_CellIndex.column+', '+dtRow[0].cells[i]._DT_CellIndex.row+' => innerHTML : '+dtRow[0].cells[i].innerHTML+'<br/>');
+      			}
+      			$('#myModal').modal('show');
+      		});
+      	});
+      	//Delete buttons
+      	$('.dt-delete').each(function () {
+      		$(this).on('click', function(evt){
+      			$this = $(this);
+      			var dtRow = $this.parents('tr');
+      			if(confirm("Are you sure to delete this row?")){
+      				var table = $('#example').DataTable();
+      				table.row(dtRow[0].rowIndex-1).remove().draw( false );
+      			}
+      		});
+      	});
+      	$('#myModal').on('hidden.bs.modal', function (evt) {
+      		$('.modal .modal-body').empty();
+      	});
+
+
+
+
+
+
+
+/*
+var table = $('#data-table');
+        $('#data-table').dataTable({
+           dom: 'Bfrtip',
+           buttons: [ 'colvis' ],
+           colReorder: true,
+           buttons: [
+             'copy', 'csv', 'excel', 'pdf', 'print',
+           ],
+         });
+
+         $("#data-table > .dt-buttons").appendTo("div.table-filters");
+
+
+                   $('a.toggle-vis').on( 'click', function (e) {
+                       e.preventDefault();
+
+                       // Get the column API object
+                       var column = table.column( $(this).attr('data-column') );
+
+                       // Toggle the visibility
+                       column.visible( ! column.visible() );
+                   } );
+                   */
 
     });
 

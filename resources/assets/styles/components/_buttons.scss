@@ -1,14 +1,15 @@
+/* stylelint-disable no-duplicate-selectors */
 .btn {
   // border-radius: 50px !important;
   // padding: 0.75rem 1.25rem;
 
   &-circle {
     padding: 0;
-    width: 50px;
-    height: 50px;
-    line-height: 50px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
     text-align: center;
-    border-radius: 50px !important;
+    border-radius: 40px !important;
   }
 
   &-default {
@@ -42,13 +43,23 @@
   }
 }
 
+.dropdown-menu {
+  .btn {
+    text-align: left;
+
+    i {
+      margin-right: 5px;
+    }
+  }
+}
+
 .nav-pills {
   .btn {
     font-size: 0.9rem;
   }
 
-  .nav-link {
-    // border-radius: 50px;
+  .btn {
+    border-radius: 50px;
     background: lighten($red, 15);
     color: #fff;
     // margin-right: 10px;

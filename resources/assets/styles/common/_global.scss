@@ -1,4 +1,4 @@
-$closed_width: 60px;
+$closed_width: 40px;
 $open_width: 280px;
 
 body {
@@ -36,15 +36,35 @@ body {
 }
 
 .table-wrapper {
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  // border: 1px solid #ddd;
+  // border-radius: 5px;
 
   @include scrollbars(0.5em, $red);
 }
 
 .table-responsive {
-  max-height: 58vh;
+  // max-height: 58vh;
   // overflow: hidden;
+
+  table {
+    max-height: 60vh;
+    height: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  th {
+    white-space: nowrap;
+  }
+
+  thead {
+    tr {
+      th {
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+      }
+    }
+  }
 }
 
 * {
@@ -67,6 +87,7 @@ h2 {
 .db-content {
   display: block;
   width: 100%;
+  overflow: hidden;
 
   &-inner {
     background: #fff;
@@ -75,6 +96,10 @@ h2 {
 }
 
 /* TABLES */
+#report_1 {
+  border: 1px solid #ddd;
+}
+
 .report-table {
   font-size: 0.9rem;
   line-height: 1.2;
@@ -83,6 +108,9 @@ h2 {
     min-width: 100px;
     font-size: 0.9rem;
     line-height: 1.2;
+    position: relative;
+    padding-right: 25px;
+    overflow: hidden;
   }
 }
 
@@ -115,5 +143,93 @@ h2 {
 
   select {
     max-width: 300px;
+  }
+}
+
+.dt-buttons {
+  padding: 15px;
+
+  .dt-buttons {
+    padding: 0;
+  }
+
+  .btn-group {
+    float: right;
+    // margin: 20px auto 0;
+
+    .btn {
+      background: #fff;
+      border-color: $primary;
+
+      &:hover {
+        background: $primary;
+        color: #fff;
+      }
+    }
+  }
+
+  .dt-button {
+    @extend .btn;
+    @extend .btn-outline-primary;
+  }
+}
+
+.dataTables_filter {
+  max-width: 300px;
+
+  input[type="search"] {
+    @extend .form-control;
+
+    margin-left: 5px;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dataTables_info {
+  display: none;
+}
+
+.dt-button-collection {
+  height: 50vh;
+  overflow: scroll;
+
+  .dt-button {
+    a {
+      opacity: 0.5;
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+
+      &:hover {
+        background: $light;
+      }
+    }
+
+    &.active {
+      a {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.view-form {
+  p {
+    text-transform: capitalize;
+    margin: 0 20px 0 0;
+    font-size: 1.2rem;
+
+    span {
+      color: $red;
+      font-weight: bold;
+    }
+  }
+
+  .btn {
+    width: 235px;
   }
 }
