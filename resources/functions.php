@@ -254,7 +254,6 @@ $_SESSION["rr_view"] = record_views($_SESSION["role"]);
 
 $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller';
 
-
 if((isset($_POST["admin_role"])) && ($_SESSION["role"] == "ADMIN")){
   $_SESSION["data"] = array();
 

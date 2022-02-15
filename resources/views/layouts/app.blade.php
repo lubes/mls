@@ -15,7 +15,7 @@
 
     <div class="wrap" role="document">
       <div class="content">
-        <main class="main d-flex">
+        <main class="main d-block d-md-flex">
 
           <div class="d-flex bg-dark main-sidebar">
             <a class="btn btn-circle btn-danger sidebar-toggle open-sidebar" href="#"><i class="far fa-chevron-right"></i></a>
@@ -29,138 +29,111 @@
 
 
 
-              <?php if($_SESSION["role"] == "ADMIN") { ?>
-                <div class="dropdown-group">
-                  <button class="dropdown-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
-                    <i class="fal fa-users"></i> Change Role
-                  </button>
-                  <div class="collapse show" id="viewDropdown">
-                    <div class="card card-body">
-                      <form method="post" class="view-param d-flex mb-3 border-bottom pb-3">
-                        <ul class="side-nav">
-                          <li class="nav-item">
-                            <div class="radio-btn">
-                              <input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="approved/suspended" <?php if($_SESSION["admin_role"] == "approved/suspended"){ echo "checked"; } ?>>
-                              <label class="btn w-100" for="ae_1"><i class="fal fa-user"></i> Account Executive</label>
-                            </div>
-                          </li>
-                          <li class="nav-item">
-                            <div class="radio-btn">
-                              <input type="radio" class="btn-check loan-type-filter" id="ae_2" autocomplete="off" name="rr" value="ctcDocsOutBack" <?php if($_SESSION["admin_role"] == "ctcDocsOutBack"){ echo "checked"; } ?>>
-                              <label class="btn w-100" for="ae_2"><i class="fal fa-user"></i> Account Manager</label>
-                            </div>
-                          </li>
-                          <li class="nav-item">
-                            <div class="radio-btn">
-                              <input type="radio" class="btn-check loan-type-filter" id="ae_3" autocomplete="off" name="rr" value="fundedLastMonth" <?php if($_SESSION["admin_role"] == "fundedLastMonth"){ echo "checked"; } ?>>
-                              <label class="btn w-100" for="ae_3"><i class="fal fa-user"></i> Funder</label>
-                            </div>
-                          </li>
-                          <li class="nav-item">
-                            <div class="radio-btn">
-                              <input type="radio" class="btn-check loan-type-filter" id="ae_4" autocomplete="off" name="rr" value="fundedMonthly" <?php if($_SESSION["admin_role"] == "fundedMonthly"){ echo "checked"; } ?>>
-                              <label class="btn w-100" for="ae_4"><i class="fal fa-user"></i> Setup Coordinator</label>
-                            </div>
-                          </li>
-                          <li class="nav-item">
-                            <div class="radio-btn">
-                              <input type="radio" class="btn-check loan-type-filter" id="ae_5" autocomplete="off" name="rr" value="locked" <?php if($_SESSION["admin_role"] == "locked"){ echo "checked"; } ?>>
-                              <label class="btn w-100" for="ae_5"><i class="fal fa-user"></i> Underwriter</label>
-                            </div>
-                          </li>
-                        </ul>
-                        <?php if(!empty($_SESSION['rr_view'])){ ?>=
-                           <select name="rr"  class="form-select ms-3">
-                             <option>Record Request</option>
-                             <?php foreach($_SESSION['rr_view']['records'] as $key => $value){ ?>
-                               <option value="<?php echo $value; ?>" <?php if($_SESSION["rr"] == $value){ echo "selected"; } ?>><?php echo $value; ?></option>
-                             <?php } ?>
-                           </select>
-                           <div class="ms-3">
-                             <input type="hidden" name="refresh" value="true">
-                             <input type="submit" class="data-refresh btn btn-primary" id="nav-contact-tab" value="Change Role">
-                           </div>
-                         <?php } ?>
-                         <input type="hidden" name="refresh" value="true">
-                       </form>
-                    </div>
-                  </div>
-                </div>
 
-             <?php } else if(!empty($_SESSION['rr_view'])){ ?>
-               <div class="dropdown-group">
-                 <button class="dropdown-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#userDropdown" aria-expanded="true" aria-controls="viewDropdown">
-                   <i class="fal fa-table"></i> Views
-                 </button>
-                 <div class="collapse show" id="userDropdown">
-                   <div class="card card-body">
+              <?php /*
+              if($_SESSION["role"] == "ADMIN") { ?>
 
 
-                     <form method="post" class="">
 
-                       <ul class="side-nav">
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "approved/suspended"){ echo "active"; } ?>" for="ae_1"><i class="fal fa-check"></i> Approved/Suspended</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_2" autocomplete="off" name="rr" value="ctcDocsOutBack" <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "ctcDocsOutBack"){ echo "active"; } ?>" for="ae_2"><i class="fal fa-file-spreadsheet"></i> ctc Docs Out Back</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_3" autocomplete="off" name="rr" value="fundedLastMonth" <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "fundedLastMonth"){ echo "active"; } ?>" for="ae_3"><i class="fal fa-calendar-alt"></i> Funded Last Month</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_4" autocomplete="off" name="rr" value="fundedMonthly" <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "fundedMonthly"){ echo "active"; } ?>" for="ae_4"><i class="fal fa-calendar-week"></i> Funded Monthly</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_5" autocomplete="off" name="rr" value="locked" <?php if($_SESSION["rr"] == "locked"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "locked"){ echo "active"; } ?>" for="ae_5"><i class="fal fa-lock"></i> Locked</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_6" autocomplete="off" name="rr" value="open/registered" <?php if($_SESSION["rr"] == "open/registered"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "open/registered"){ echo "active"; } ?>" for="ae_6"><i class="fal fa-unlock"></i> Open/Registered</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_7" autocomplete="off" name="rr" value="resubmissionQuery" <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "resubmissionQuery"){ echo "active"; } ?>" for="ae_7"><i class="fal fa-paper-plane"></i> Resubmission Query</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_8" autocomplete="off" name="rr" value="setup/processing" <?php if($_SESSION["rr"] == "setup/processing"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "setup/processing"){ echo "active"; } ?>" for="ae_8"><i class="fal fa-history"></i> Setup/Processing</label>
-                           </div>
-                         </li>
-                         <li class="nav-item">
-                           <div class="radio-btn">
-                             <input type="radio" class="btn-check loan-type-filter" id="ae_9" autocomplete="off" name="rr" value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "checked"; } ?>>
-                             <label class="btn w-100 <?php if($_SESSION["rr"] == "submitted"){ echo "active"; } ?>" for="ae_9"><i class="fal fa-tasks"></i> Submitted</label>
-                           </div>
-                         </li>
-                       </ul>
+                  <?php if(!empty($_SESSION['rr_view'])){ ?>
+
+
+
+                   <?php } ?>
+
+            <?php } else if(!empty($_SESSION['rr_view'])){ ?>
+
+            <?php } */
+            ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <?php
+             if($_SESSION["role"] == "AE") { ?>
+
+              <div class="dropdown-group">
+                <button class="dropdown-toggler dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
+                  <i class="fal fa-users"></i> Change Role
+                </button>
+                <div class="collapse show" id="viewDropdown">
+                  <div class="card card-body">
+                    <form method="post" class="view-param d-flex">
+                      <ul class="side-nav">
+                        <li class="nav-item">
+                          <div class="radio-btn">
+                            <input type="radio" class="btn-check loan-type-filter" id="role_ae" autocomplete="off" name="admin_role" value="AE" <?php if($_SESSION["role"] == "AE"){ echo "checked"; } ?>>
+                            <label class="btn w-100 <?php if($_SESSION["role"] == "AE"){ echo "active"; } ?>" for="role_ae"><i class="fal fa-user"></i> Account Executive</label>
+                          </div>
+                        </li>
+                        <li class="nav-item">
+                          <div class="radio-btn">
+                            <input type="radio" class="btn-check loan-type-filter" id="am" autocomplete="off" name="admin_role" value="AM" <?php if($_SESSION["role"] == "ctcDocsOutBack"){ echo "checked"; } ?>>
+                            <label class="btn w-100 <?php if($_SESSION["role"] == "AM"){ echo "active"; } ?>" for="ae_2"><i class="fal fa-user"></i> Account Manager</label>
+                          </div>
+                        </li>
+                        <li class="nav-item">
+                          <div class="radio-btn">
+                            <input type="radio" class="btn-check loan-type-filter" id="fund" autocomplete="off" name="admin_role" value="FUND" <?php if($_SESSION["role"] == "fundedLastMonth"){ echo "checked"; } ?>>
+                            <label class="btn w-100 <?php if($_SESSION["role"] == "FUND"){ echo "active"; } ?>" for="ae_3"><i class="fal fa-user"></i> Funder</label>
+                          </div>
+                        </li>
+                        <li class="nav-item">
+                          <div class="radio-btn">
+                            <input type="radio" class="btn-check loan-type-filter" id="setup" autocomplete="off" name="admin_role" value="SETUP" <?php if($_SESSION["role"] == "fundedMonthly"){ echo "checked"; } ?>>
+                            <label class="btn w-100 <?php if($_SESSION["role"] == "SETUP"){ echo "active"; } ?>" for="ae_4"><i class="fal fa-user"></i> Setup Coordinator</label>
+                          </div>
+                        </li>
+                        <li class="nav-item">
+                          <div class="radio-btn">
+                            <input type="radio" class="btn-check loan-type-filter" id="und" autocomplete="off" name="admin_role" value="UND" <?php if($_SESSION["role"] == "locked"){ echo "checked"; } ?>>
+                            <label class="btn w-100 <?php if($_SESSION["role"] == "UND"){ echo "active"; } ?>" for="ae_5"><i class="fal fa-user"></i> Underwriter</label>
+                          </div>
+                        </li>
+                      </ul>
 
                        <input type="hidden" name="refresh" value="true">
-                   </form>
+                     </form>
+                  </div>
+                </div>
+              </div>
 
-                   </div>
-                 </div>
-               </div>
+              <?php if(!empty($_SESSION['rr_view'])){ ?>
+
+                @include('partials.views-dropdown')
+
+               <?php } ?>
+
+
+             <?php } else if(!empty($_SESSION['rr_view'])){ ?>
+               @include('partials.views-dropdown')
              <?php } ?>
 
 
@@ -233,9 +206,9 @@
 
             </div>
 
-            <div class="db-content ms-4 mt-4">
+            <div class="db-content m-0 ms-md-4 mt-md-4">
 
-              <div class="page-header ps-5 mb-4">
+              <div class="page-header pt-5 pt-md-0 ps-5 mb-4">
                 <?php if(is_front_page()):?>
                   <h1>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h1>
                 <?php endif;?>

@@ -5,7 +5,15 @@
   bottom: 0;
   width: $closed_width;
 
-  @include easing();
+  // @include easing();
+
+  @include media-breakpoint-down(md) {
+    position: relative;
+    top: auto;
+    left: auto;
+    right: auto;
+    width: 100%;
+  }
 
   .sidebar-toggle {
     position: absolute;
@@ -14,7 +22,7 @@
     z-index: 2;
     transform: rotate(0);
 
-    @include easing();
+    // @include easing();
   }
 
   &-inner {
@@ -29,6 +37,10 @@
 
   &.active {
     width: $open_width;
+
+    @include media-breakpoint-down(lg) {
+      width: 100%;
+    }
 
     .sidebar-toggle {
       transform: rotate(180deg);
