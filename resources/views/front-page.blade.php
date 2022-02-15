@@ -186,9 +186,23 @@
              echo "<tr style='border: 1px solid #cecece; padding:15px; margin:15px;' class='loan-details all " . preg_replace('/[[:space:]]+/', '-', $entry["Loan Purpose"]) . " ln" . preg_replace('/[[:space:]]+/', '-', $entry["Loan Number"]) . " ln" . preg_replace('/[[:space:]]+/', '-', $entry["Borr Last Name"]). "'>";
              foreach($entry as $key => $value){
                if($key == "Loan Number"){
-                 echo "<td class='".$key."'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/$value/loan-action?section=0' target='_blank' class='btn btn-default'>" . $value . "</a></td>";
+                 echo "<td class='".preg_replace('/[[:space:]]+/', '-', $key)."'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/$value/loan-action?section=0' target='_blank' class='btn btn-default'>" . $value . "</a></td>";
                } else {
-                 echo "<td class='".$key."'>" . $value . "</td>";
+                 echo "<td class='".preg_replace('/[[:space:]]+/', '-', $key)."'>";
+                  if((str_contains($key , 'Date')) && ($value != "")) {
+                    echo "<div class='convertdate'>";
+
+                    $phpdate = strtotime( $value );
+                    $mysqldate = date( 'm/d/Y H:i:s', $phpdate );
+
+
+                    echo $mysqldate;
+                    echo "</div>";
+
+                  } else {
+                    echo $value;
+                  }
+                  echo "</td>";
                }
 
                  // echo "<li>" . $key . ": " . $value . "</li>";
