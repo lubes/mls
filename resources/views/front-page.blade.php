@@ -200,6 +200,14 @@
 
          </table>
 
+         <table class="report-table2 table table-striped" id="data-table">
+          <thead class="header">
+          </thead>
+          <tbody class="table-body list">
+          </tbody>
+
+          </table>
+
 
 
 

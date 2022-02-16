@@ -5,6 +5,77 @@ export default {
   init() {
     // JavaScript to be fired on all pages
 
+
+    function call_endpoint(_role, _userName, _recordRequest){
+      var formData = {role:_role,userName:_userName,recordRequest: _recordRequest}; //Array
+      formData = JSON.stringify(formData);
+      console.log();
+      console.log(theUser.role);
+      $.ajax({
+            url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+            {
+              process_data(data);
+                //data - response from server
+                //console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              console.log(jqXHR);
+
+            }
+        });
+    }
+
+    function reorder_object(obj, order){
+      const data = new Object();
+        $.each(order, function( key, value ) {
+          data[value] = obj[value];
+        });
+      return data;
+
+    }
+
+    function process_data(datas){
+      var data = new Array();
+      var order = new Array();
+      var new_table, new_value;
+
+      data = datas["tables"][0]["data"];
+      order = datas["tables"][0]["order"];
+      new_table = "<tr role='row'>";
+      console.log(order);
+
+      // Display custom column order
+      $.each( order, function( key, value ) {
+        new_table += '<th scope="col" class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" data-column-index="0" aria-sort="ascending" aria-label="' + value + ': activate to sort column descending">'+value+'</th>';
+      });
+      new_table += "</tr>";
+      $(".header").html(new_table);
+
+      // Display Data into Table
+      $.each( data, function( key, value ) {
+        new_value = reorder_object(value, order);
+        new_table = "<tr>";
+        $.each(new_value, function(k, v){
+          if(k == "Loan Number"){
+              new_table += "<td class='" + k + "'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/"+ v + "/loan-action?section=0' target='_blank' class='btn btn-default'>" + v + "</a></td>";
+          } else if(k != "Assigned Username") {
+            new_table += "<td class='"+ k + "'>" + v + "</td>";
+          }
+        })
+        new_table += "</tr>";
+        $(".table-body").append(new_table);
+      })
+
+    }
+    call_endpoint(theUser.role,theUser.username, "open/registered");
+
+
     $(".sidebar-toggle").on("click",function(){
       $('.main-sidebar').toggleClass('active');
       if($('.main-sidebar').hasClass('active')) {
