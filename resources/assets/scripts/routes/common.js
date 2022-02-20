@@ -9,8 +9,9 @@ export default {
     function call_endpoint(_role, _userName, _recordRequest){
       var formData = {role:_role,userName:_userName,recordRequest: _recordRequest}; //Array
       formData = JSON.stringify(formData);
-      console.log();
-      console.log(theUser.role);
+
+      console.log(formData);
+      //console.log(theUser.role);
       $.ajax({
             url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller",
             type: "POST",
@@ -48,7 +49,7 @@ export default {
       data = datas["tables"][0]["data"];
       order = datas["tables"][0]["order"];
       new_table = "<tr role='row'>";
-      console.log(order);
+      //console.log(order);
 
       // Display custom column order
       $.each( order, function( key, value ) {
@@ -73,7 +74,69 @@ export default {
       })
 
     }
-    call_endpoint(theUser.role,theUser.username, "open/registered");
+
+
+    // Show all Record Requests
+    function record_requests(_role, _userName){
+      var formData = {role:_role,userName:_userName}; //Array
+      formData = JSON.stringify(formData);
+      var output, role, view, first_view;
+      $.ajax({
+            url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records",
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+            {
+              //process_data(data);
+                //data - response from server
+                //console.log(data);
+                if(_role == "ADMIN"){
+                  $.each(data, function(key, value){
+                    role = '<option value="' + key + '"';
+                    role += '>' + key + '</option>';
+                    $(".admin_view").append(role);
+                  })
+                }
+                console.log(data[_role][0]["key"]);
+                first_view = data[_role][0]["key"];
+                $.each(data[_role], function(k, v){
+
+                view = '<option value="' + v["key"] + '"';
+                view += '>' + v["value"] + '</option>'
+                /*output = '<li class="dropdown-item"><div class="radio-btn"><input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="' + v["key"] + '"';
+                if(v["key"] == _recordRequest){ output += "checked"; }
+                output += '><label class="btn w-100" for="ae_1"><i class="fal fa-check"></i>' + v["value"] + '</label></div></li>';
+                $(".dropdown-menu").append(output);*/
+                $(".rr_view").append(view);
+              });
+              console.log(first_view);
+              call_endpoint(theUser.role,theUser.username, first_view);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              console.log(jqXHR);
+
+            }
+        });
+
+
+    }
+    record_requests(theUser.role,theUser.username);
+
+    $(".rr_view").on("change", function(){
+      $(".table-body").html("");
+      call_endpoint(theUser.role,theUser.username, $(this).val());
+      console.log($(this).val());
+
+    });
+    $(".admin_view").on("change", function(){
+      $(".rr_view").empty();
+      record_requests($(this).val(), theUser.username);
+      console.log($(this).val());
+
+    });
 
 
     $(".sidebar-toggle").on("click",function(){

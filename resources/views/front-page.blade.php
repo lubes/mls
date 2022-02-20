@@ -30,13 +30,21 @@
      <div class="d-flex justify-content-between align-items-center mb-3">
 
        <form method="post" class="view-form d-flex align-items-center">
+        <?php if($_SESSION["role"] == "ADMIN"){ ?> 
+         <select class="admin_view form-select" name="admin_view">
+           <option>Select Admin Role</option>
+         </select>
+         <?php } ?>
+         <select class="rr_view form-select" name="rr_view">
+           <option>Select Record Request</option>
+         </select>
          <p class="ms-3 mb-3 mb-md-0">Currently Viewing: <span><?php print_r($_SESSION['rr']); ?></span></p>
          <div class="dropdown">
            <button class="btn btn-danger dropdown-toggle btn-lg" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
              Change Loan View
            </button>
            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-             <li class="dropdown-item">
+             <!--<li class="dropdown-item">
                <div class="radio-btn">
                  <input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "checked"; } ?>>
                  <label class="btn w-100" for="ae_1"><i class="fal fa-check"></i> Approved/Suspended</label>
@@ -89,7 +97,7 @@
                  <input type="radio" class="btn-check loan-type-filter" id="ae_9" autocomplete="off" name="rr" value="submitted" <?php if($_SESSION["rr"] == "submitted"){ echo "checked"; } ?>>
                  <label class="btn w-100" for="ae_9"><i class="fal fa-tasks"></i> Submitted</label>
                </div>
-             </li>
+             </li>-->
            </ul>
          </div>
          <input type="hidden" name="refresh" value="true">
@@ -171,7 +179,7 @@
         			</div>
               -->
 
-        <table class="report-table table table-striped" id="data-table">
+        <!--<table class="report-table table table-striped" id="data-table">
          <thead>
            <tr>
              <?php foreach($_SESSION["data"][0] as $key => $value){
@@ -198,32 +206,15 @@
 
          </tbody>
 
-         </table>
+       </table>-->
 
-         <table class="report-table2 table table-striped" id="data-table">
+         <table class="report-table table table-striped" id="data-table">
           <thead class="header">
           </thead>
           <tbody class="table-body list">
           </tbody>
 
           </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
        </div>
      </div>
