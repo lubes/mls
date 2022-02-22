@@ -7,28 +7,63 @@ export default {
     // JavaScript to be fired on all pages
 
     /* DataTables Examples */
-    function datatable() {
-      $('#example').DataTable( {
-        "ajax": "wp-content/themes/mls/resources/sample.txt",
-        /*
-        "columns": [
-          { "data": "Loan Number" },
-          { "data": "Borr Last Name" },
-          { "data": "Loan Status" },
-          { "data": "Note Rate" },
-          { "data": "Estimated Close Date" },
-          { "data": "Total Loan Amount" }
-        ]
-        */
-      });
-    }
-    datatable();
+    function datatable(datas) {
+      var columns = new Array();
+      var col_head;
+      $(".table-header").html("");
+
+      $.each( datas["order"], function( key, value ) {
+        // Create Order Object
+
+        columns.push({data: value});
+
+        // Create New Column Headers
+        col_head = "<th>"+ value +"</th>";
+        $(".table-header").append(col_head);
+
+        });
+        console.log(datas);
+
+     $('#example').DataTable( {
+       //"ajax": "wp-content/themes/mls/resources/sample.txt",
+       data: datas["data"],
+       columns: columns
+       /*"columns": [
+         { "data": "Loan Number" },
+         {  "data":    "Borr Last Name"},
+          { "data":     "Broker Company Name"},
+          { "data":     "DTI"},
+          {  "data":    "Estimated Close Date"},
+          {  "data":    "Le Issued Date"},
+          {  "data":    "Loan Program Name"},
+          {  "data":    "Loan Purpose"},
+          { "data":     "Loan Status"},
+          { "data":     "Loan Status Date"},
+          { "data":     "Loan Type"},
+          {  "data":    "Lock Expiration Date"},
+          { "data":     "LTV"},
+          {  "data":    "Note Rate"},
+          {  "data":    "Rate Lock Status"},
+          {  "data":    "Rate Locked Date"},
+          {  "data":    "Total Loan Amount"},
+          {  "data":    "Assigned Account Executive Name"},
+          {  "data":    "Processor Name"},
+          {  "data":    "Junior Processor Name"},
+          {  "data":    "Assigned Loan Officer Name"},
+          {  "data":    "Underwriter Name"},
+          {  "data":    "Subj Prop Occ"},
+          {  "data":    "Assigned Username"},
+          { "data":     "LE Signed Date"}
+       ]*/
+     });
+   }
+    //datatable();
 
     function call_endpoint(_role, _userName, _recordRequest){
       var formData = {role:_role,userName:_userName,recordRequest: _recordRequest}; //Array
       formData = JSON.stringify(formData);
 
-      console.log(formData);
+      //console.log(formData);
       //console.log(theUser.role);
       $.ajax({
             url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller",
@@ -38,6 +73,7 @@ export default {
             data : formData,
             success: function(data, textStatus, jqXHR)
             {
+                //datatable();
               process_data(data);
                 //data - response from server
                 //console.log(data);
@@ -64,20 +100,22 @@ export default {
       var order = new Array();
       var new_table, new_value;
 
+      //console.log(datas["tables"][0]);
+
       data = datas["tables"][0]["data"];
       order = datas["tables"][0]["order"];
       new_table = "<tr role='row'>";
       //console.log(order);
 
       // Display custom column order
-      $.each( order, function( key, value ) {
+    /*  $.each( order, function( key, value ) {
         new_table += '<th scope="col" class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" data-column-index="0" aria-sort="ascending" aria-label="' + value + ': activate to sort column descending">'+value+'</th>';
       });
       new_table += "</tr>";
-      $(".header").html(new_table);
-
+      $(".header").html(new_table);*/
+datatable(datas["tables"][0]);
       // Display Data into Table
-      $.each( data, function( key, value ) {
+      /*$.each( data, function( key, value ) {
         new_value = reorder_object(value, order);
         new_table = "<tr>";
         $.each(new_value, function(k, v){
@@ -89,11 +127,11 @@ export default {
         })
         new_table += "</tr>";
         $(".table-body").append(new_table);
-      })
+      })*/
 
       /* DataTables Examples */
       $("#example").dataTable().fnDestroy();
-      datatable();
+      //datatable();
 
 
 
