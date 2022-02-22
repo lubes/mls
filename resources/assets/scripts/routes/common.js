@@ -10,6 +10,7 @@ export default {
     function datatable() {
       $('#example').DataTable( {
         "ajax": "wp-content/themes/mls/resources/sample.txt",
+        /*
         "columns": [
           { "data": "Loan Number" },
           { "data": "Borr Last Name" },
@@ -18,6 +19,7 @@ export default {
           { "data": "Estimated Close Date" },
           { "data": "Total Loan Amount" }
         ]
+        */
       });
     }
     datatable();
@@ -88,7 +90,6 @@ export default {
         new_table += "</tr>";
         $(".table-body").append(new_table);
       })
-
 
       /* DataTables Examples */
       $("#example").dataTable().fnDestroy();
