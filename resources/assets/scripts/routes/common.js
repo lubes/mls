@@ -1,10 +1,26 @@
 /* eslint-disable */
 // import jsPDF from '../plugins/jspdf.js';
+import '../plugins/dataTables.js';
 
 export default {
   init() {
     // JavaScript to be fired on all pages
 
+    /* DataTables Examples */
+    function datatable() {
+      $('#example').DataTable( {
+        "ajax": "wp-content/themes/mls/resources/sample.txt",
+        "columns": [
+          { "data": "Loan Number" },
+          { "data": "Borr Last Name" },
+          { "data": "Loan Status" },
+          { "data": "Note Rate" },
+          { "data": "Estimated Close Date" },
+          { "data": "Total Loan Amount" }
+        ]
+      });
+    }
+    datatable();
 
     function call_endpoint(_role, _userName, _recordRequest){
       var formData = {role:_role,userName:_userName,recordRequest: _recordRequest}; //Array
@@ -72,6 +88,13 @@ export default {
         new_table += "</tr>";
         $(".table-body").append(new_table);
       })
+
+
+      /* DataTables Examples */
+      $("#example").dataTable().fnDestroy();
+      datatable();
+
+
 
     }
 

@@ -30,7 +30,7 @@
      <div class="d-flex justify-content-between align-items-center mb-3">
 
        <form method="post" class="view-form d-flex align-items-center">
-        <?php if($_SESSION["role"] == "ADMIN"){ ?> 
+        <?php if($_SESSION["role"] == "ADMIN"){ ?>
          <select class="admin_view form-select" name="admin_view">
            <option>Select Admin Role</option>
          </select>
@@ -207,6 +207,21 @@
          </tbody>
 
        </table>-->
+
+
+         <table id="example" class="display" style="width:100%">
+          <thead>
+           <tr>
+             <th>Loan Number</th>
+             <th>Borr Last Name</th>
+             <th>Loan Status</th>
+             <th>Note Rate</th>
+             <th>Estimated Close Date</th>
+             <th>Total Loan Amount</th>
+           </tr>
+          </thead>
+         </table>
+
 
          <table class="report-table table table-striped" id="data-table">
           <thead class="header">
