@@ -107,7 +107,7 @@ export default {
          'colvis',
          'copyHtml5',
          'csvHtml5',
-         // 'excelHtml5',
+         'excelHtml5',
          'pdfHtml5',
          'print',
          {
