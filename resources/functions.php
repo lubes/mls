@@ -355,12 +355,15 @@ add_action('wp_logout', 'destroy_sessions');
 function ajax_scripts() {
    global $current_user;
    $current_user = wp_get_current_user();
+   $username = get_field('ec_user_name', 'user_' . $current_user->ID);
 
    wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '', true );
    wp_localize_script( 'ajax-script', 'theUser', array (
-      'username' => 'Alvin Nguyen',
+      'username' => $username,
       'role' => $_SESSION["role"],
       'email' => $current_user->user_email,
    ) );
+
+
 }
 add_action( 'wp_enqueue_scripts', 'ajax_scripts' );

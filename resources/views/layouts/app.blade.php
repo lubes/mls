@@ -197,6 +197,9 @@
                   <strong><?php echo $current_user->display_name;?></strong>
                 </a>
                 <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" style="">
+                  <?php if( current_user_can('editor') ||  current_user_can('management') || current_user_can('administrator') ) {  ?>
+                    <li><a class="dropdown-item" href="<?php echo site_url();?>/wp-admin">Admin Dashboard</a></li>
+                  <?php } ?>
                   <li><a class="dropdown-item" href="<?php echo site_url();?>/profile">Profile</a></li>
                   <li><a class="dropdown-item" href="<?php echo site_url();?>/wp-login.php?action=logout">Log Out</a></li>
 
