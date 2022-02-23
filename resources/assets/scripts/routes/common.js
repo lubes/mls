@@ -1,20 +1,310 @@
 /* eslint-disable */
 // import jsPDF from '../plugins/jspdf.js';
+// import '../plugins/dataTables.js';
+import 'datatables.net';
+import 'datatables.net-buttons';
+import 'datatables.net-colreorder';
+import '../plugins/pdfmake.js';
+import '../plugins/vfs_fonts';
+import 'datatables.net-bs';
+
+import 'datatables.net-buttons/js/buttons.colVis.js';
+import 'datatables.net-buttons/js/buttons.html5.js';
+import 'datatables.net-buttons/js/buttons.print.js';
 
 export default {
   init() {
     // JavaScript to be fired on all pages
 
-    var moment = require('moment-timezone');
-    var tz = moment.tz.guess();
-    $( document ).ready(function() {
-      $(".convertdate").each(function( index ) {
-        var a = moment.tz($(this).text(), tz);
-        console.log($( this ).text() );
-        console.log(a.format());
-        $(this).text(a.format('MM/DD/YYYY'))
-      });
+    // $('#example').DataTable();
 
+
+    $('#example').DataTable({
+      "colReorder": true,
+      "dom": '<"dt-buttons"Bf><"clear">lirtp',
+      "paging": false,
+      "autoWidth": false,
+      "scrollY":        "60vh",
+      "scrollX": true,
+      "fixedHeader": true,
+      "buttons": [
+        // 'colvis',
+        'copyHtml5',
+        'csvHtml5',
+        'excelHtml5',
+        'pdfHtml5',
+        'print',
+        {
+            extend: 'pdfHtml5',
+            download: 'open'
+        }
+      ],
+      /*
+      "dom": '<"dt-buttons"Bf><"clear">lirtp',
+      "paging": false,
+      "colReorder": true,
+      "autoWidth": false,
+      "scrollY":        "60vh",
+      "scrollX": true,
+      "fixedHeader": true,
+      "columnDefs": [
+        { "orderable": false, "targets": 5 }
+      ],
+      "buttons": [
+        'colvis',
+        // 'copyHtml5',
+        'csvHtml5',
+        'excelHtml5',
+        'pdfHtml5',
+        'print',
+        {
+            extend: 'pdfHtml5',
+            download: 'open'
+        }
+      ]
+      */
+    });
+
+
+
+    /* DataTables Examples */
+    function datatable(datas) {
+      $("#example").dataTable().fnDestroy();
+
+      var columns = new Array();
+      var col_head;
+      $(".table-header").html("");
+
+      $.each( datas["order"], function( key, value ) {
+        // Create Order Object
+
+        columns.push({data: value});
+
+        // Create New Column Headers
+        col_head = "<th>"+ value +"</th>";
+        $(".table-header").append(col_head);
+
+        });
+        console.log(datas);
+
+
+
+     $('#example').DataTable( {
+       //"ajax": "wp-content/themes/mls/resources/sample.txt",
+       data: datas["data"],
+       columns: columns,
+       "colReorder": true,
+       "dom": '<"dt-buttons"Bf><"clear">lirtp',
+       "paging": false,
+       "autoWidth": false,
+       "scrollY":        "60vh",
+       "scrollX": true,
+       "fixedHeader": true,
+       "buttons": [
+         // 'colvis',
+         'copyHtml5',
+         'csvHtml5',
+         // 'excelHtml5',
+         'pdfHtml5',
+         'print',
+         {
+             extend: 'pdfHtml5',
+             download: 'open'
+         }
+       ],
+       /*"columns": [
+         { "data": "Loan Number" },
+         {  "data":    "Borr Last Name"},
+          { "data":     "Broker Company Name"},
+          { "data":     "DTI"},
+          {  "data":    "Estimated Close Date"},
+          {  "data":    "Le Issued Date"},
+          {  "data":    "Loan Program Name"},
+          {  "data":    "Loan Purpose"},
+          { "data":     "Loan Status"},
+          { "data":     "Loan Status Date"},
+          { "data":     "Loan Type"},
+          {  "data":    "Lock Expiration Date"},
+          { "data":     "LTV"},
+          {  "data":    "Note Rate"},
+          {  "data":    "Rate Lock Status"},
+          {  "data":    "Rate Locked Date"},
+          {  "data":    "Total Loan Amount"},
+          {  "data":    "Assigned Account Executive Name"},
+          {  "data":    "Processor Name"},
+          {  "data":    "Junior Processor Name"},
+          {  "data":    "Assigned Loan Officer Name"},
+          {  "data":    "Underwriter Name"},
+          {  "data":    "Subj Prop Occ"},
+          {  "data":    "Assigned Username"},
+          { "data":     "LE Signed Date"}
+       ]*/
+     });
+   }
+    //datatable();
+
+    function call_endpoint(_role, _userName, _recordRequest){
+      var formData = {role:_role,userName:_userName,recordRequest: _recordRequest}; //Array
+      formData = JSON.stringify(formData);
+
+      $('#loader').fadeIn();
+
+      //console.log(formData);
+      //console.log(theUser.role);
+      $.ajax({
+            url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+            {
+
+              $('#loader').fadeOut();
+
+                //datatable();
+              process_data(data);
+                //data - response from server
+                //console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              console.log(jqXHR);
+
+            }
+        });
+    }
+
+    function reorder_object(obj, order){
+      const data = new Object();
+        $.each(order, function( key, value ) {
+          data[value] = obj[value];
+        });
+      return data;
+
+    }
+
+    function process_data(datas){
+
+
+      var data = new Array();
+      var order = new Array();
+      var new_table, new_value;
+
+      //console.log(datas["tables"][0]);
+
+      data = datas["tables"][0]["data"];
+      order = datas["tables"][0]["order"];
+      new_table = "<tr role='row'>";
+      //console.log(order);
+
+      // Display custom column order
+    /*  $.each( order, function( key, value ) {
+        new_table += '<th scope="col" class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" data-column-index="0" aria-sort="ascending" aria-label="' + value + ': activate to sort column descending">'+value+'</th>';
+      });
+      new_table += "</tr>";
+      $(".header").html(new_table);*/
+
+      datatable(datas["tables"][0]);
+
+      // Display Data into Table
+      /*$.each( data, function( key, value ) {
+        new_value = reorder_object(value, order);
+        new_table = "<tr>";
+        $.each(new_value, function(k, v){
+          if(k == "Loan Number"){
+              new_table += "<td class='" + k + "'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/"+ v + "/loan-action?section=0' target='_blank' class='btn btn-default'>" + v + "</a></td>";
+          } else if(k != "Assigned Username") {
+            new_table += "<td class='"+ k + "'>" + v + "</td>";
+          }
+        })
+        new_table += "</tr>";
+        $(".table-body").append(new_table);
+      })*/
+
+      /* DataTables Examples */
+      // $("#example").dataTable().fnDestroy();
+      //datatable();
+
+
+
+    }
+
+
+    // Show all Record Requests
+    function record_requests(_role, _userName){
+      var formData = {role:_role,userName:_userName}; //Array
+      formData = JSON.stringify(formData);
+      var output, role, view, first_view;
+      $.ajax({
+            url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records",
+            type: "GET",
+            contentType: "application/json",
+            dataType: "json",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+            {
+              //process_data(data);
+                //data - response from server
+                //console.log(data);
+                if(_role == "ADMIN"){
+                  $.each(data, function(key, value){
+                    role = '<option value="' + key + '"';
+                    role += '>' + key + '</option>';
+                    $(".admin_view").append(role);
+                  })
+                }
+                // console.log('here');
+
+                // console.log(data[_role][0]["key"]);
+                first_view = data[_role][0]["key"];
+
+                $.each(data[_role], function(k, v){
+
+                view = '<option value="' + v["key"] + '"';
+                view += '>' + v["value"] + '</option>'
+                /*output = '<li class="dropdown-item"><div class="radio-btn"><input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="' + v["key"] + '"';
+                if(v["key"] == _recordRequest){ output += "checked"; }
+                output += '><label class="btn w-100" for="ae_1"><i class="fal fa-check"></i>' + v["value"] + '</label></div></li>';
+                $(".dropdown-menu").append(output);*/
+                $(".rr_view").append(view);
+              });
+              // console.log(first_view);
+              $('#current_view').html(first_view);
+              call_endpoint(theUser.role,theUser.username, first_view);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              console.log(jqXHR);
+
+            }
+        });
+
+
+    }
+    record_requests(theUser.role,theUser.username);
+
+    $(".rr_view").on("change", function(){
+      $(".table-body").html("");
+      call_endpoint(theUser.role,theUser.username, $(this).val());
+      console.log($(this).val());
+      $('#current_view').html($(this).val());
+    });
+    $(".admin_view").on("change", function(){
+      $(".rr_view").empty();
+      record_requests($(this).val(), theUser.username);
+      console.log($(this).val());
+
+    });
+
+
+
+
+
+    $(".loan-type-filter").on("change", function(){
+      $(".table-body").html("");
+      call_endpoint(theUser.role,theUser.username, $(this).val());
+      console.log($(this).val());
     });
 
 
@@ -48,9 +338,7 @@ export default {
       $(w.document.body).html(cssLink+html);
     });
 
-    $(".loan-type-filter").on("change", function(){
-      $(this).closest("form").submit();
-    });
+
 
     $(".loan_filter").on("change", function(){
       if($(this).val() == "Loan-Type"){

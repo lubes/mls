@@ -229,6 +229,7 @@ if (!session_id()) {
 }
 
 function init_query() {
+  global $current_user;
   $current_user = wp_get_current_user();
   $user_email = $current_user->user_email;
   $user_id = "user_" . get_current_user_id();
@@ -249,7 +250,7 @@ function init_query() {
 
   }*/
   // Setup Views Drop Down
-
+/*
 $_SESSION["rr_view"] = record_views($_SESSION["role"]);
 
 $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller';
@@ -298,10 +299,11 @@ if((isset($_POST["admin_role"])) && ($_SESSION["role"] == "ADMIN")){
       $_SESSION["data"][] = $value;
     }
   }
-// php
+*/
 }
+// PHP endpoint call
 init_query();
-
+/*
 function record_views($role){
   $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records?role=' . $role;
   $result = CallAPI("GET", $url_path, $data);
@@ -342,10 +344,23 @@ function CallAPI($method, $url, $data = false){
       curl_close($curl);
 
       return $result;
-}
+} */
 
 function destroy_sessions() {
    $sessions->destroy_all();//destroys all sessions
    wp_clear_auth_cookie();//clears cookies regarding WP Auth
 }
 add_action('wp_logout', 'destroy_sessions');
+
+function ajax_scripts() {
+   global $current_user;
+   $current_user = wp_get_current_user();
+
+   wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '', true );
+   wp_localize_script( 'ajax-script', 'theUser', array (
+      'username' => 'Alvin Nguyen',
+      'role' => $_SESSION["role"],
+      'email' => $current_user->user_email,
+   ) );
+}
+add_action( 'wp_enqueue_scripts', 'ajax_scripts' );
