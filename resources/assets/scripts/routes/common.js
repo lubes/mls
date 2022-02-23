@@ -275,6 +275,8 @@ export default {
               // console.log(first_view);
               $('#current_view').html(first_view);
               call_endpoint(theUser.role,theUser.username, first_view);
+
+              console.log(theUser.username);
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
