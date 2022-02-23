@@ -265,18 +265,24 @@ h2 {
   }
 }
 
+.dataTables_filter {
+  padding: 15px;
+}
+
 .dt-buttons {
   padding: 15px;
+  float: right;
 
   .dt-buttons {
     padding: 0;
-    float: right;
+    // float: right;
   }
 
   .btn-group {
     float: right;
     // margin: 20px auto 0;
 
+    /*
     .btn {
       background: #fff;
       border-color: $primary;
@@ -286,11 +292,12 @@ h2 {
         color: #fff;
       }
     }
+    */
   }
 
   .dt-button {
-    @extend .btn;
-    @extend .btn-outline-primary;
+    // @extend .btn;
+    // @extend .btn-outline-primary;
   }
 }
 
@@ -314,10 +321,18 @@ h2 {
 }
 
 .dt-button-collection {
-  height: 50vh;
-  overflow: scroll;
+  &.dropdown-menu {
+    height: 50vh;
+    overflow: scroll;
+  }
 
   .dt-button {
+    background: none;
+    padding: 0;
+    border: none;
+    display: block;
+    width: 100%;
+
     a {
       opacity: 0.5;
       display: block;
@@ -325,7 +340,7 @@ h2 {
       text-decoration: none;
 
       &:hover {
-        background: $light;
+        background: #eee;
       }
     }
 

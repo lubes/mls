@@ -6,8 +6,10 @@ import 'datatables.net-buttons';
 import 'datatables.net-colreorder';
 import '../plugins/pdfmake.js';
 import '../plugins/vfs_fonts';
-import 'datatables.net-bs';
+// import 'datatables.net-bs';
 
+import 'datatables.net-bs5';
+// import '../plugins/dataTables.bootstrap.min.js';
 import 'datatables.net-buttons/js/buttons.colVis.js';
 import 'datatables.net-buttons/js/buttons.html5.js';
 import 'datatables.net-buttons/js/buttons.print.js';
@@ -19,16 +21,17 @@ export default {
     // $('#example').DataTable();
 
 
+
     $('#example').DataTable({
       "colReorder": true,
-      "dom": '<"dt-buttons"Bf><"clear">lirtp',
+      dom: 'Bfrtip',
       "paging": false,
       "autoWidth": false,
       "scrollY":        "60vh",
       "scrollX": true,
       "fixedHeader": true,
       "buttons": [
-        // 'colvis',
+        'colvis',
         'copyHtml5',
         'csvHtml5',
         'excelHtml5',
@@ -94,14 +97,14 @@ export default {
        data: datas["data"],
        columns: columns,
        "colReorder": true,
-       "dom": '<"dt-buttons"Bf><"clear">lirtp',
+       dom: 'Bfrtip',
        "paging": false,
        "autoWidth": false,
        "scrollY":        "60vh",
        "scrollX": true,
        "fixedHeader": true,
        "buttons": [
-         // 'colvis',
+         'colvis',
          'copyHtml5',
          'csvHtml5',
          // 'excelHtml5',

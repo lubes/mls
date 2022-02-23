@@ -92,9 +92,13 @@
        -->
 
          <p class="ms-3 mb-3 mb-md-0">Currently Viewing: <span id="current_view"></span></p>
-         <select class="rr_view form-select btn btn-danger" name="rr_view">
-           <option>Select Record Request</option>
-         </select>
+
+         <p class="ms-3 mb-3 mb-md-0">Update View:
+           <select class="rr_view form-select" name="rr_view">
+             <option>Select Record Request</option>
+           </select>
+         </p>
+
          <input type="hidden" name="refresh" value="true">
        </form>
 
