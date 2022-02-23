@@ -1,13 +1,76 @@
 /* eslint-disable */
 // import jsPDF from '../plugins/jspdf.js';
-import '../plugins/dataTables.js';
+// import '../plugins/dataTables.js';
+import 'datatables.net';
+import 'datatables.net-buttons';
+import 'datatables.net-colreorder';
+import '../plugins/pdfmake.js';
+import '../plugins/vfs_fonts';
+import 'datatables.net-bs';
+
+import 'datatables.net-buttons/js/buttons.colVis.js';
+import 'datatables.net-buttons/js/buttons.html5.js';
+import 'datatables.net-buttons/js/buttons.print.js';
 
 export default {
   init() {
     // JavaScript to be fired on all pages
 
+    // $('#example').DataTable();
+
+
+    $('#example').DataTable({
+      "colReorder": true,
+      "dom": '<"dt-buttons"Bf><"clear">lirtp',
+      "paging": false,
+      "autoWidth": false,
+      "scrollY":        "60vh",
+      "scrollX": true,
+      "fixedHeader": true,
+      "buttons": [
+        // 'colvis',
+        'copyHtml5',
+        'csvHtml5',
+        'excelHtml5',
+        'pdfHtml5',
+        'print',
+        {
+            extend: 'pdfHtml5',
+            download: 'open'
+        }
+      ],
+      /*
+      "dom": '<"dt-buttons"Bf><"clear">lirtp',
+      "paging": false,
+      "colReorder": true,
+      "autoWidth": false,
+      "scrollY":        "60vh",
+      "scrollX": true,
+      "fixedHeader": true,
+      "columnDefs": [
+        { "orderable": false, "targets": 5 }
+      ],
+      "buttons": [
+        'colvis',
+        // 'copyHtml5',
+        'csvHtml5',
+        'excelHtml5',
+        'pdfHtml5',
+        'print',
+        {
+            extend: 'pdfHtml5',
+            download: 'open'
+        }
+      ]
+      */
+    });
+
+
+
     /* DataTables Examples */
     function datatable(datas) {
+      $("#example").dataTable().fnDestroy();
+
       var columns = new Array();
       var col_head;
       $(".table-header").html("");
@@ -24,10 +87,31 @@ export default {
         });
         console.log(datas);
 
+
+
      $('#example').DataTable( {
        //"ajax": "wp-content/themes/mls/resources/sample.txt",
        data: datas["data"],
-       columns: columns
+       columns: columns,
+       "colReorder": true,
+       "dom": '<"dt-buttons"Bf><"clear">lirtp',
+       "paging": false,
+       "autoWidth": false,
+       "scrollY":        "60vh",
+       "scrollX": true,
+       "fixedHeader": true,
+       "buttons": [
+         // 'colvis',
+         'copyHtml5',
+         'csvHtml5',
+         // 'excelHtml5',
+         'pdfHtml5',
+         'print',
+         {
+             extend: 'pdfHtml5',
+             download: 'open'
+         }
+       ],
        /*"columns": [
          { "data": "Loan Number" },
          {  "data":    "Borr Last Name"},
@@ -63,6 +147,8 @@ export default {
       var formData = {role:_role,userName:_userName,recordRequest: _recordRequest}; //Array
       formData = JSON.stringify(formData);
 
+      $('#loader').fadeIn();
+
       //console.log(formData);
       //console.log(theUser.role);
       $.ajax({
@@ -73,6 +159,9 @@ export default {
             data : formData,
             success: function(data, textStatus, jqXHR)
             {
+
+              $('#loader').fadeOut();
+
                 //datatable();
               process_data(data);
                 //data - response from server
@@ -96,6 +185,8 @@ export default {
     }
 
     function process_data(datas){
+
+
       var data = new Array();
       var order = new Array();
       var new_table, new_value;
@@ -113,7 +204,9 @@ export default {
       });
       new_table += "</tr>";
       $(".header").html(new_table);*/
-datatable(datas["tables"][0]);
+
+      datatable(datas["tables"][0]);
+
       // Display Data into Table
       /*$.each( data, function( key, value ) {
         new_value = reorder_object(value, order);
@@ -130,7 +223,7 @@ datatable(datas["tables"][0]);
       })*/
 
       /* DataTables Examples */
-      $("#example").dataTable().fnDestroy();
+      // $("#example").dataTable().fnDestroy();
       //datatable();
 
 
@@ -161,8 +254,11 @@ datatable(datas["tables"][0]);
                     $(".admin_view").append(role);
                   })
                 }
-                console.log(data[_role][0]["key"]);
+                // console.log('here');
+
+                // console.log(data[_role][0]["key"]);
                 first_view = data[_role][0]["key"];
+
                 $.each(data[_role], function(k, v){
 
                 view = '<option value="' + v["key"] + '"';
@@ -173,7 +269,8 @@ datatable(datas["tables"][0]);
                 $(".dropdown-menu").append(output);*/
                 $(".rr_view").append(view);
               });
-              console.log(first_view);
+              // console.log(first_view);
+              $('#current_view').html(first_view);
               call_endpoint(theUser.role,theUser.username, first_view);
             },
             error: function (jqXHR, textStatus, errorThrown)
@@ -191,13 +288,23 @@ datatable(datas["tables"][0]);
       $(".table-body").html("");
       call_endpoint(theUser.role,theUser.username, $(this).val());
       console.log($(this).val());
-
+      $('#current_view').html($(this).val());
     });
     $(".admin_view").on("change", function(){
       $(".rr_view").empty();
       record_requests($(this).val(), theUser.username);
       console.log($(this).val());
 
+    });
+
+
+
+
+
+    $(".loan-type-filter").on("change", function(){
+      $(".table-body").html("");
+      call_endpoint(theUser.role,theUser.username, $(this).val());
+      console.log($(this).val());
     });
 
 
@@ -231,9 +338,7 @@ datatable(datas["tables"][0]);
       $(w.document.body).html(cssLink+html);
     });
 
-    $(".loan-type-filter").on("change", function(){
-      $(this).closest("form").submit();
-    });
+
 
     $(".loan_filter").on("change", function(){
       if($(this).val() == "Loan-Type"){

@@ -18,7 +18,7 @@
         <main class="main d-block d-md-flex">
 
           <div class="d-flex bg-dark main-sidebar">
-            <a class="btn btn-circle btn-danger sidebar-toggle open-sidebar" href="#"><i class="far fa-chevron-right"></i></a>
+            <a class="btn btn-circle btn-danger sidebar-toggle close-sidebar" href="#"><i class="far fa-chevron-right"></i></a>
             <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
               <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
                 <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
@@ -84,7 +84,7 @@
                   <i class="fal fa-users"></i> Change Role
                 </button>
                 <div class="collapse show" id="viewDropdown">
-                  <div class="card card-body">
+                  <div class="card card-body mt-1">
                     <form method="post" class="view-param d-flex">
                       <ul class="side-nav">
                         <li class="nav-item">
@@ -252,11 +252,14 @@
     <script>
     jQuery(function($) {
 
+      /*
       $('.close-sidebar').click(function () {
+        Cookies.remove('sidenav', { path: '' })
         Cookies.set('sidenav', 'closed', { expires: 30 });
         console.log(Cookies.get('sidenav'));
       });
       $('.open-sidebar').click(function () {
+        Cookies.remove('sidenav', { path: '' })
         Cookies.set('sidenav', 'open', { expires: 30 });
         console.log(Cookies.get('sidenav'));
       });
@@ -265,6 +268,7 @@
         $('body').addClass('side-open');
         $('.main-sidebar').addClass('active');
       }
+      */
 
       /*
       var options = {
