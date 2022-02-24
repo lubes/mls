@@ -18,8 +18,19 @@ export default {
   init() {
     // JavaScript to be fired on all pages
 
-    // $('#example').DataTable();
+    // Convert Dates
 
+
+    var moment = require('moment-timezone');
+    var tz = moment.tz.guess();
+        function convert_dates(){
+          $(".convertdate").each(function( index ) {
+            var a = moment.tz($(this).text(), tz);
+            console.log($( this ).text() );
+            console.log(a.format());
+            $(this).text(a.format('MM/DD/YYYY'))
+          });
+    }
 
 
     $('#example').DataTable({
@@ -81,14 +92,21 @@ export default {
       $.each( datas["order"], function( key, value ) {
         // Create Order Object
 
-        columns.push({data: value});
-
+        if (value.includes("Date")){
+          var obj = {
+              data: value,
+              className: "convertdate"
+          };
+          columns.push(obj);
+        } else {
+          columns.push({data: value});
+        }
         // Create New Column Headers
         col_head = "<th>"+ value +"</th>";
         $(".table-header").append(col_head);
 
         });
-        console.log(datas);
+        console.log(columns);
 
 
 
@@ -143,6 +161,7 @@ export default {
           { "data":     "LE Signed Date"}
        ]*/
      });
+     convert_dates();
    }
     //datatable();
 
