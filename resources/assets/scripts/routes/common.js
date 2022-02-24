@@ -26,9 +26,12 @@ export default {
         function convert_dates(){
           $(".convertdate").each(function( index ) {
             var a = moment.tz($(this).text(), tz);
-            if(a instanceof Date && !isNaN(a.valueOf())){
-              $(this).text(a.format('MM/DD/YYYY'))
+            if (a.isValid()) {
+              $(this).text(a.format('MM/DD/YYYY'));
+            } else {
+                // It doesn't
             }
+
           });
     }
 
@@ -77,6 +80,18 @@ export default {
               className: "convertdate"
           };
           columns.push(obj);
+        } else if (value.includes("Loan Number")){
+          var obj = {
+              data: value,
+              className: "convertLoan",
+              render: function ( data, type, row, meta ) {
+                return '<a href="https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/' + data + '/loan-action?section=0" target="_blank class="loan-link">'+data+'</a>';
+              }
+
+          };
+
+          columns.push(obj);
+
         } else {
           columns.push({data: value});
         }
@@ -159,6 +174,7 @@ export default {
           { "data":     "LE Signed Date"}
        ]*/
      });
+     console.log("go convert");
      convert_dates();
    }
     //datatable();
