@@ -26,9 +26,9 @@ export default {
         function convert_dates(){
           $(".convertdate").each(function( index ) {
             var a = moment.tz($(this).text(), tz);
-            console.log($( this ).text() );
-            console.log(a.format());
-            $(this).text(a.format('MM/DD/YYYY'))
+            if(a instanceof Date && !isNaN(a.valueOf())){
+              $(this).text(a.format('MM/DD/YYYY'))
+            }
           });
     }
 
@@ -83,11 +83,15 @@ export default {
 
     /* DataTables Examples */
     function datatable(datas) {
-      $("#example").dataTable().fnDestroy();
+      // Clear Existing Data
+      var table = $('#example').DataTable();
+
+      table.destroy();
+      table.clear().draw();
+      $(".table-header").html("");
 
       var columns = new Array();
       var col_head;
-      $(".table-header").html("");
 
       $.each( datas["order"], function( key, value ) {
         // Create Order Object
