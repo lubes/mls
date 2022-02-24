@@ -374,3 +374,34 @@ h2 {
     width: 235px;
   }
 }
+
+.dash-info {
+  &.dash-summary {
+    // display: none;
+  }
+
+  &-text {
+    text-transform: capitalize;
+    margin: 0 auto 5px;
+    display: block;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #777;
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  &-card {
+    background: $light;
+    border-radius: $radius;
+    padding: 10px 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+
+  &-value {
+    font-size: 1.5rem;
+    color: $danger;
+    font-weight: bolder;
+  }
+}

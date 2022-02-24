@@ -53,32 +53,7 @@ export default {
             download: 'open'
         }
       ],
-      /*
-      "dom": '<"dt-buttons"Bf><"clear">lirtp',
-      "paging": false,
-      "colReorder": true,
-      "autoWidth": false,
-      "scrollY":        "60vh",
-      "scrollX": true,
-      "fixedHeader": true,
-      "columnDefs": [
-        { "orderable": false, "targets": 5 }
-      ],
-      "buttons": [
-        'colvis',
-        // 'copyHtml5',
-        'csvHtml5',
-        'excelHtml5',
-        'pdfHtml5',
-        'print',
-        {
-            extend: 'pdfHtml5',
-            download: 'open'
-        }
-      ]
-      */
     });
-
 
 
     /* DataTables Examples */
@@ -89,13 +64,13 @@ export default {
       table.destroy();
       table.clear().draw();
       $(".table-header").html("");
+      $('.dash-header').html('');
 
       var columns = new Array();
       var col_head;
 
       $.each( datas["order"], function( key, value ) {
         // Create Order Object
-
         if (value.includes("Date")){
           var obj = {
               data: value,
@@ -109,8 +84,27 @@ export default {
         col_head = "<th>"+ value +"</th>";
         $(".table-header").append(col_head);
 
-        });
-        console.log(columns);
+      });
+        // console.log(columns);
+
+        console.log(datas);
+
+
+
+
+
+      $.each( datas["summary"], function( key, value ) {
+        // var dash_header = '<div class="col-md-4"><div class="dash-info dash-summary" id="loan_sum"><span class="dash-info-text">'+key+'</span><div class="dash-info-card"><span class="dash-info-value">'+value+'</span></div></div></div>';
+        var dash_header = '<div class="col-md-4"><div class="dash-info dash-summary" id="loan_sum"><span class="dash-info-text">'+key+'</span><div class="dash-info-card"><span class="dash-info-value">'+value+'</span></div></div></div>';
+
+        $(".dash-header").append(dash_header);
+      });
+
+
+
+
+
+
 
 
 
