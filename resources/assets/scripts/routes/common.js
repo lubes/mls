@@ -60,15 +60,25 @@ export default {
 
 
     /* DataTables Examples */
-    function datatable(datas) {
+    function datatable(datas, key) {
       // Clear Existing Data
-      var table = $('#example').DataTable();
+      var div_id, table_id, table_header, new_table;
 
+      console.log(datas)
+      console.log(key)
+      div_id = "dt_"+key;
+      table_id = "dt-table-" + key;
+      table_header = "table-header-" + key;
+      new_table='<div class="row ' + div_id +'""></div><table id="' + table_id +'" class="report-table table table-striped"><thead><tr class="table-header '+table_header+'"><th></th></tr></thead><tbody class="table-body '+table_id+' list"><tr><td></td></tr></tbody></table>'
+
+
+      $("#data-table-id").append(new_table);
+
+      var table = $('#'+table_id).DataTable();
       table.destroy();
       table.clear().draw();
-      $(".table-header").html("");
-      $('.dash-header').html('');
 
+      $("."+ table_header).html("");
       var columns = new Array();
       var col_head;
 
@@ -97,7 +107,7 @@ export default {
         }
         // Create New Column Headers
         col_head = "<th>"+ value +"</th>";
-        $(".table-header").append(col_head);
+        $("."+ table_header).append(col_head);
 
       });
         // console.log(columns);
@@ -105,25 +115,23 @@ export default {
         console.log(datas);
 
 
-
-
+        var formatter = new Intl.NumberFormat('en-US', {
+          style: 'currency',
+          currency: 'USD',
+        });
 
       $.each( datas["summary"], function( key, value ) {
         // var dash_header = '<div class="col-md-4"><div class="dash-info dash-summary" id="loan_sum"><span class="dash-info-text">'+key+'</span><div class="dash-info-card"><span class="dash-info-value">'+value+'</span></div></div></div>';
+        if(key == "Total Loan Amount (SUM)"){
+          value = formatter.format(value);
+        }
         var dash_header = '<div class="col-md-4"><div class="dash-info dash-summary" id="loan_sum"><span class="dash-info-text">'+key+'</span><div class="dash-info-card"><span class="dash-info-value">'+value+'</span></div></div></div>';
-
-        $(".dash-header").append(dash_header);
+        $("."+div_id).append(dash_header);
+        //$(".dash-header").append(dash_header);
       });
 
 
-
-
-
-
-
-
-
-     $('#example').DataTable( {
+     $('#'+table_id).DataTable( {
        //"ajax": "wp-content/themes/mls/resources/sample.txt",
        data: datas["data"],
        columns: columns,
@@ -199,6 +207,7 @@ export default {
               $('#loader').fadeOut();
 
                 //datatable();
+                //console.log(data);
               process_data(data);
                 //data - response from server
                 //console.log(data);
@@ -241,7 +250,12 @@ export default {
       new_table += "</tr>";
       $(".header").html(new_table);*/
 
-      datatable(datas["tables"][0]);
+      $("#data-table-id").html("");
+
+
+      $.each(datas["tables"], function( key, value ) {
+        datatable(datas["tables"][key], key);
+      });
 
       // Display Data into Table
       /*$.each( data, function( key, value ) {
