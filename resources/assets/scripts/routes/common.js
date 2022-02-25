@@ -304,10 +304,11 @@ export default {
                     $(".admin_view").append(role);
                   })
                 }
+                  first_view = data[_role][0]["key"];
+
                 // console.log('here');
 
                 // console.log(data[_role][0]["key"]);
-                first_view = data[_role][0]["key"];
 
                 $.each(data[_role], function(k, v){
 
