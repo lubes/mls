@@ -353,23 +353,6 @@ h2 {
 }
 
 .view-form {
-  p {
-    text-transform: capitalize;
-    margin: 0 20px 0 0;
-    font-size: 1rem;
-    line-height: 1.4;
-    color: #777;
-    font-size: 0.9rem;
-    white-space: nowrap;
-
-    span {
-      color: $danger;
-      font-weight: bold;
-      display: block;
-      font-size: 1.5rem;
-    }
-  }
-
   .btn {
     width: 235px;
   }
@@ -388,19 +371,26 @@ h2 {
     line-height: 1.4;
     color: #777;
     font-size: 0.9rem;
+    font-weight: bolder;
     white-space: nowrap;
   }
 
+  &-desc {
+    color: $danger;
+    font-weight: bold;
+    display: block;
+    font-size: 1.5rem;
+  }
+
   &-card {
-    background: $light;
-    border-radius: $radius;
-    padding: 10px 20px;
+    background: $lightest;
+    border-radius: $border-radius;
+    padding: 15px;
     text-align: center;
-    border: 1px solid #ddd;
   }
 
   &-value {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
     color: $danger;
     font-weight: bolder;
   }

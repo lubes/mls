@@ -18,8 +18,9 @@ export default {
   init() {
     // JavaScript to be fired on all pages
 
+    // var sidebar_status = document.getElementById("sidebar_status").value;
+    // alert(sidebar_status);
     // Convert Dates
-
 
     var moment = require('moment-timezone');
     var tz = moment.tz.guess();
@@ -85,7 +86,7 @@ export default {
               data: value,
               className: "convertLoan",
               render: function ( data, type, row, meta ) {
-                return '<a href="https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/' + data + '/loan-action?section=0" target="_blank class="loan-link">'+data+'</a>';
+                return '<a href="https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/' + data + '/loan-action?section=0" target="_blank" class="loan-link btn btn-default btn-sm">'+data+'</a>';
               }
 
           };
@@ -271,6 +272,7 @@ export default {
     function record_requests(_role, _userName){
       var formData = {role:_role,userName:_userName}; //Array
       formData = JSON.stringify(formData);
+      var roles;
       var output, role, view, first_view;
       $.ajax({
             url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records",
@@ -288,6 +290,7 @@ export default {
                     role = '<option value="' + key + '"';
                     role += '>' + key + '</option>';
                     $(".admin_view").append(role);
+                    // $('.role-list').append(role);
                   })
                 }
                 // console.log('here');
@@ -332,7 +335,6 @@ export default {
       $(".rr_view").empty();
       record_requests($(this).val(), theUser.username);
       console.log($(this).val());
-
     });
 
 
@@ -340,6 +342,7 @@ export default {
 
 
     $(".loan-type-filter").on("change", function(){
+      console.log('do something');
       $(".table-body").html("");
       call_endpoint(theUser.role,theUser.username, $(this).val());
       console.log($(this).val());
