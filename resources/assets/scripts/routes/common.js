@@ -227,7 +227,6 @@ export default {
           data[value] = obj[value];
         });
       return data;
-
     }
 
     function process_data(datas){
@@ -314,19 +313,41 @@ export default {
 
                 $.each(data[_role], function(k, v){
 
-                view = '<option value="' + v["key"] + '"';
-                view += '>' + v["value"] + '</option>'
-                /*output = '<li class="dropdown-item"><div class="radio-btn"><input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="' + v["key"] + '"';
+
+                // view = '<option value="' + v["key"] + '"';
+                // view += '>' + v["value"] + '</option>';
+
+                view = '<li class="nav-item"><div class="radio-btn"><input type="radio" class="btn-check rr_view" id="' + v["key"] + '" autocomplete="off" name="rr" value="' + v["key"] + '"><label class="btn w-100" for="' + v["key"] + '"><i class="fal fa-file-spreadsheet"></i>' + v["value"] + '</label></div></li>';
+
+                /*
+                view_2 = '<li class="dropdown-item"><div class="radio-btn"><input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="' + v["key"] + '"';
                 if(v["key"] == _recordRequest){ output += "checked"; }
-                output += '><label class="btn w-100" for="ae_1"><i class="fal fa-check"></i>' + v["value"] + '</label></div></li>';
-                $(".dropdown-menu").append(output);*/
-                $(".rr_view").append(view);
+                view_2 += '><label class="btn w-100" for="ae_1"><i class="fal fa-check"></i>' + v["value"] + '</label></div></li>';
+                */
+
+                // $(".rr_view").append(view);
+
+                $(".rr_view_2").append(view);
+                // alert('hello');
               });
+
+
+
               // console.log(first_view);
               $('#current_view').html(first_view);
               call_endpoint(theUser.role,theUser.username, first_view);
 
               console.log(theUser.username);
+            },
+            complete: function(data, textStatus, jqXHR) {
+
+              $(".rr_view").on("change", function(){
+                $(".table-body").html("");
+                call_endpoint(theUser.role,theUser.username, $(this).val());
+                console.log($(this).val());
+                $('#current_view').html($(this).val());
+              });
+
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -339,12 +360,15 @@ export default {
     }
     record_requests(theUser.role,theUser.username);
 
+
+
     $(".rr_view").on("change", function(){
       $(".table-body").html("");
       call_endpoint(theUser.role,theUser.username, $(this).val());
       console.log($(this).val());
       $('#current_view').html($(this).val());
     });
+
     $(".admin_view").on("change", function(){
       $(".rr_view").empty();
       record_requests($(this).val(), theUser.username);
@@ -355,12 +379,7 @@ export default {
 
 
 
-    $(".loan-type-filter").on("change", function(){
-      console.log('do something');
-      $(".table-body").html("");
-      call_endpoint(theUser.role,theUser.username, $(this).val());
-      console.log($(this).val());
-    });
+
 
 
     $(".sidebar-toggle").on("click",function(){

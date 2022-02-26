@@ -3,9 +3,10 @@
     <i class="fal fa-table"></i> Views
   </button>
   <div class="collapse show" id="userDropdown">
-    <div class="card card-body">
+    <div class="card card-body bg-dark">
       <form method="post" class="">
-        <ul class="side-nav">
+        <ul class="side-nav rr_view_2">
+          <!--
           <li class="nav-item">
             <div class="radio-btn">
               <input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="approved/suspended" <?php if($_SESSION["rr"] == "approved/suspended"){ echo "checked"; } ?>>
@@ -60,6 +61,7 @@
               <label class="btn w-100 <?php if($_SESSION["rr"] == "submitted"){ echo ""; } ?>" for="ae_9"><i class="fal fa-tasks"></i> Submitted</label>
             </div>
           </li>
+        -->
         </ul>
         <input type="hidden" name="refresh" value="true">
     </form>

@@ -13,18 +13,20 @@
     </div>
     </div>
     <div class="tab-pane fade show active" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+
+    <!--
      <div class="row align-items-top mb-3">
        <div class="col-md-5">
          <form method="post" class="view-form d-flex align-items-center">
 
            <div class="col-md-6">
-             <div class="dash-info dash-summary" id="loan_sum">
+             <div class="dash-info dash-summary">
                <span class="dash-info-text">Currently Viewing:</span>
                <span id="current_view" class="dash-info-desc">Select a Report</span>
              </div>
            </div>
            <div class="col-md-6">
-             <div class="dash-info dash-summary" id="loan_sum">
+             <div class="dash-info dash-summary">
                <span class="dash-info-text">Update View:</span>
                <select class="rr_view form-select" name="rr_view">
                  <option>Select Record Request</option>
@@ -38,9 +40,9 @@
        <div class="col-md-7">
          <div class="row dash-header"></div>
        </div>
-       <!--<a class="btn btn-default ms-auto me-0" id="newWindow">New Window <i class="fal fa-window"></i></a>-->
+       <a class="btn btn-default ms-auto me-0" id="newWindow">New Window <i class="fal fa-window"></i></a>
      </div>
-
+      -->
      <div id="report_1">
        <div id="loader">
          <div class="loader">

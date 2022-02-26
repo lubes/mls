@@ -1,7 +1,7 @@
 <!doctype html>
 <html {!! get_language_attributes() !!}>
   @include('partials.head')
-  <body @php body_class() @endphp>
+  <body @php body_class('side-open') @endphp>
     @php do_action('get_header') @endphp
 
     <?php $current_user = wp_get_current_user(); ?>
@@ -14,9 +14,12 @@
             @include('partials.sidebar')
             <div class="db-content m-0 ms-md-4 mt-md-4">
               <div class="page-header pt-5 pt-md-0 ps-5 mb-4">
-                <?php if(is_front_page()):?>
-                  <h1>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h1>
-                <?php endif;?>
+
+                <div class="dash-info dash-summary">
+                  <span class="dash-info-text">Currently Viewing:</span>
+                  <span id="current_view" class="dash-info-desc">Select a Report</span>
+                </div>
+
               </div>
               @yield('content')
             </div>
@@ -36,7 +39,7 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-
+<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 
 <!--
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>

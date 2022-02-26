@@ -1,22 +1,19 @@
-<div class="d-flex bg-dark main-sidebar">
+<div class="d-flex bg-dark main-sidebar active">
   <a class="btn btn-circle btn-danger sidebar-toggle close-sidebar" href="#"><i class="far fa-chevron-right"></i></a>
   <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
     <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
       <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
     </a>
-
-  <form method="post" class="view-form d-flex align-items-center d-none">
-   <?php if($_SESSION["role"] == "ADMIN"){ ?>
-    <select class="admin_view form-select" name="admin_view">
-      <option>Select Admin Role</option>
-    </select>
-    <?php } ?>
+    <?php if(is_front_page()):?>
+      <h3>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h3>
+    <?php endif;?>
+  <form method="post" class="view-form d-flex align-items-center">
+    @include('partials.views-dropdown')
     <input type="hidden" name="refresh" value="true">
   </form>
 
   <?php
    if($_SESSION["role"] == "ADMIN") { ?>
-
     <div class="dropdown-group">
       <button class="dropdown-toggler dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
         <i class="fal fa-users"></i> Change Role
@@ -72,22 +69,14 @@
 
              <input type="hidden" name="refresh" value="true">
            </form>
+
         </div>
       </div>
     </div>
 
-    <?php if(!empty($_SESSION['rr_view'])){ ?>
-
-      @include('partials.views-dropdown')
-
-     <?php } ?>
-
-
    <?php } else if(!empty($_SESSION['rr_view'])){ ?>
-     @include('partials.views-dropdown')
+
    <?php } ?>
-
-
 
 
 

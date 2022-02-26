@@ -7,6 +7,11 @@
 
   // @include easing();
 
+  h3 {
+    font-size: 1.25rem;
+    margin: 10px auto;
+  }
+
   @include media-breakpoint-down(md) {
     position: relative;
     top: auto;
