@@ -13,12 +13,19 @@
         <main class="main d-block d-md-flex">
             @include('partials.sidebar')
             <div class="db-content m-0 ms-md-4 mt-md-4">
-              <div class="page-header pt-5 pt-md-0 ps-5 mb-4">
+              <div class="page-header d-flex align-items-end justify-content-between pt-5 pt-md-0 ps-5 mb-4">
 
                 <div class="dash-info dash-summary">
                   <span class="dash-info-text">Currently Viewing:</span>
                   <span id="current_view" class="dash-info-desc">Select a Report</span>
                 </div>
+
+                <form method="post" class="">
+                  <input type="input" id="refresh_value" autocomplete="off" name="refresh" value="">
+                  <button class="btn btn-warning me-5" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
+                  <input type="hidden" name="refresh" value="true">
+                </form>
+
 
               </div>
               @yield('content')

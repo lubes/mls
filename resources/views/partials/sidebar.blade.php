@@ -7,10 +7,10 @@
     <?php if(is_front_page()):?>
       <h3>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h3>
     <?php endif;?>
-  <form method="post" class="view-form d-flex align-items-center">
-    @include('partials.views-dropdown')
-    <input type="hidden" name="refresh" value="true">
-  </form>
+    <form method="post" class="view-form d-flex align-items-center">
+      @include('partials.views-dropdown')
+      <input type="hidden" name="refresh" value="true">
+    </form>
 
   <?php
    if($_SESSION["role"] == "ADMIN") { ?>
@@ -22,7 +22,6 @@
         <div class="card card-body mt-1">
           <form method="post" class="view-param d-flex">
             <ul class="side-nav">
-
               <li class="nav-item">
                 <div class="radio-btn">
                   <input type="radio" class="btn-check admin_view" id="role_ae" autocomplete="off" name="admin_role" value="AE" <?php if($_SESSION["role"] == "AE"){ echo "checked"; } ?>>

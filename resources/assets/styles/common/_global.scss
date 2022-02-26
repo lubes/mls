@@ -218,6 +218,10 @@ h2 {
   z-index: 1;
 }
 
+.dataTables_wrapper {
+  padding-top: 10px;
+}
+
 .report-table {
   font-size: 0.9rem;
   line-height: 1.2;
@@ -229,6 +233,13 @@ h2 {
     position: relative;
     padding-right: 25px;
     overflow: hidden;
+    border-bottom: 4px solid transparent;
+
+    &.sorting_desc,
+    &.sorting_asc {
+      background: $light;
+      color: $danger;
+    }
   }
 }
 

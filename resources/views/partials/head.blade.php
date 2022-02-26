@@ -14,7 +14,7 @@
     position: absolute;
     content: "\f883";
     font-family: 'Font Awesome 5 Pro';
-    right: 0;
+    right: 5px;
     opacity: 0.3;
   }
   </style>

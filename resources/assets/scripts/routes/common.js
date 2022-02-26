@@ -47,15 +47,23 @@ export default {
       "fixedHeader": true,
       "buttons": [
         'colvis',
+        'print',
+        {
+          extend: 'pdfHtml5',
+          orientation: 'landscape',
+          pageSize: 'LEGAL',
+          customize: function(doc) {
+            doc.styles.tableHeader.fontSize = 7;
+            doc.styles.tableHeader.alignment = 'left';
+            doc.defaultStyle.fontSize = 7;
+            doc.styles.tableHeader.color = '#ffffff';
+            doc.styles.tableHeader.fillColor = '#121f47';
+          }
+        },
         'copyHtml5',
         'csvHtml5',
         'excelHtml5',
-        'pdfHtml5',
-        'print',
-        {
-            extend: 'pdfHtml5',
-            download: 'open'
-        }
+        //'pdfHtml5',
       ],
     });
 
@@ -145,43 +153,41 @@ export default {
        "fixedHeader": true,
        "buttons": [
          'colvis',
+         'print',
+         {
+           extend: 'pdfHtml5',
+           orientation: 'landscape',
+           pageSize: 'LEGAL',
+           customize: function(doc) {
+             doc.styles.tableHeader.fontSize = 7;
+             doc.styles.tableHeader.alignment = 'left';
+             doc.defaultStyle.fontSize = 7;
+             doc.styles.tableHeader.color = '#ffffff';
+             doc.styles.tableHeader.fillColor = '#121f47';
+           }
+         },
          'copyHtml5',
          'csvHtml5',
          'excelHtml5',
-         'pdfHtml5',
-         'print',
-         {
-             extend: 'pdfHtml5',
-             download: 'open'
-         }
+         //'pdfHtml5',
        ],
-       /*"columns": [
-         { "data": "Loan Number" },
-         {  "data":    "Borr Last Name"},
-          { "data":     "Broker Company Name"},
-          { "data":     "DTI"},
-          {  "data":    "Estimated Close Date"},
-          {  "data":    "Le Issued Date"},
-          {  "data":    "Loan Program Name"},
-          {  "data":    "Loan Purpose"},
-          { "data":     "Loan Status"},
-          { "data":     "Loan Status Date"},
-          { "data":     "Loan Type"},
-          {  "data":    "Lock Expiration Date"},
-          { "data":     "LTV"},
-          {  "data":    "Note Rate"},
-          {  "data":    "Rate Lock Status"},
-          {  "data":    "Rate Locked Date"},
-          {  "data":    "Total Loan Amount"},
-          {  "data":    "Assigned Account Executive Name"},
-          {  "data":    "Processor Name"},
-          {  "data":    "Junior Processor Name"},
-          {  "data":    "Assigned Loan Officer Name"},
-          {  "data":    "Underwriter Name"},
-          {  "data":    "Subj Prop Occ"},
-          {  "data":    "Assigned Username"},
-          { "data":     "LE Signed Date"}
-       ]*/
+
+
+
+       /*
+       buttons: [
+           {
+               extend: 'pdfHtml5',
+               orientation: 'landscape',
+               pageSize: 'LEGAL',
+               customize: function(doc) {
+                 doc.styles.tableHeader.fontSize = 7;
+                 doc.styles.tableBodyOdd.alignment = 'left';
+                 doc.defaultStyle.fontSize = 7;
+               }
+           }
+       ],
+       */
      });
      console.log("go convert");
      convert_dates();
@@ -335,6 +341,7 @@ export default {
 
               // console.log(first_view);
               $('#current_view').html(first_view);
+              $('#refresh_value').val(first_view);
               call_endpoint(theUser.role,theUser.username, first_view);
 
               console.log(theUser.username);
@@ -346,6 +353,8 @@ export default {
                 call_endpoint(theUser.role,theUser.username, $(this).val());
                 console.log($(this).val());
                 $('#current_view').html($(this).val());
+                $('#refresh_value').val($(this).val());
+
               });
 
             },
@@ -367,6 +376,7 @@ export default {
       call_endpoint(theUser.role,theUser.username, $(this).val());
       console.log($(this).val());
       $('#current_view').html($(this).val());
+      $('#refresh_value').val($(this).val());
     });
 
     $(".admin_view").on("change", function(){
@@ -375,6 +385,17 @@ export default {
       console.log($(this).val());
     });
 
+    $("#refreshData").on("click", function(){
+      $(".table-body").html("");
+      var refreshVal = $('#refresh_value').val();
+      call_endpoint(theUser.role,theUser.username, refreshVal);
+      console.log(refreshVal);
+      $(this).prop("disabled",true);
+      setTimeout(() => {
+        $(this).prop("disabled",false);
+      }, 60000);
+      // $('#current_view').html($(this).val());
+    });
 
 
 
