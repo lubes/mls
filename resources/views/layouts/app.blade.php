@@ -21,7 +21,7 @@
                 </div>
 
                 <form method="post" class="">
-                  <input type="input" id="refresh_value" autocomplete="off" name="refresh" value="">
+                  <input type="hidden" id="refresh_value" autocomplete="off" name="refresh" value="">
                   <button class="btn btn-warning me-5" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
                   <input type="hidden" name="refresh" value="true">
                 </form>
