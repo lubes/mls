@@ -7,7 +7,7 @@
     <?php if(is_front_page()):?>
       <h3>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h3>
     <?php endif;?>
-    <form method="post" class="view-form d-flex align-items-center">
+    <form method="post" class="view-form">
       @include('partials.views-dropdown')
       <input type="hidden" name="refresh" value="true">
     </form>

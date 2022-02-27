@@ -155,6 +155,7 @@ $bg: darken($color, 5);
 .table-wrapper {
   // border: 1px solid #ddd;
   // border-radius: 5px;
+  margin: 0 auto 20px;
 
   @include scrollbars(0.5em, $red);
 }

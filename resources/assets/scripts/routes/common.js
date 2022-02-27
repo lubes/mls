@@ -22,6 +22,13 @@ export default {
     // alert(sidebar_status);
     // Convert Dates
 
+    // CHeck if this is a new Window
+    var url_string = window.location.href;
+    var url = new URL(url_string);
+    var c = url.searchParams.get("report");
+
+
+
     var moment = require('moment-timezone');
     var tz = moment.tz.guess();
         function convert_dates(){
@@ -317,8 +324,8 @@ export default {
                 // console.log(data[_role][0]["key"]);
                 first_view = data[_role][0]["key"];
 
-                $.each(data[_role], function(k, v){
 
+                $.each(data[_role], function(k, v){
 
                 // view = '<option value="' + v["key"] + '"';
                 // view += '>' + v["value"] + '</option>';
@@ -342,7 +349,16 @@ export default {
               // console.log(first_view);
               $('#current_view').html(first_view);
               $('#refresh_value').val(first_view);
-              call_endpoint(theUser.role,theUser.username, first_view);
+
+
+              if(c) {
+                call_endpoint(theUser.role,theUser.username, c);
+                $('#current_view').html(c);
+                $('#refresh_value').val(c);
+              } else {
+                call_endpoint(theUser.role,theUser.username, first_view);
+              }
+
 
               console.log(theUser.username);
             },
@@ -424,13 +440,13 @@ export default {
       }
     });
 
-    $('#newWindow').click(function() {
-      // window.open(window.location.href, '_blank');
-      var w = window.open('', "", "width=900, height=500, scrollbars=yes");
-      var html = $(".dataTables_scroll").html();
-      var cssLink = '<link rel="stylesheet" id="sage/main.css-css"  href="http://52.34.81.19/wp-content/themes/mls/dist/styles/main.css" type="text/css" media="all" /><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">';
-      var jsLink = '<script type="text/javascript" src="https://views.exceleratecapital.com/wp-content/themes/mls/dist/scripts/main.js"></script>';
-      $(w.document.body).html(cssLink+html);
+    $('#newWindow').click(function(e) {
+      e.preventDefault();
+      var currentReport = document.getElementById("refresh_value").value;
+      var newWindow = window.location.href+'/?report='+currentReport;
+      window.open(newWindow, currentReport, 'window settings');
+      console.log(currentReport);
+      return false;
     });
 
 

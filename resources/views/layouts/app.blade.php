@@ -5,7 +5,7 @@
     @php do_action('get_header') @endphp
 
     <?php $current_user = wp_get_current_user(); ?>
-
+    <?php // $_GET['report'];?>
     <!--<input type="text" id="sidebar_status" value="<?php echo the_field('sidebar', $current_user);?>" />-->
 
     <div class="wrap" role="document">
@@ -17,15 +17,17 @@
 
                 <div class="dash-info dash-summary">
                   <span class="dash-info-text">Currently Viewing:</span>
-                  <span id="current_view" class="dash-info-desc">Select a Report</span>
+                  <span id="current_view" class="dash-info-desc"><?php if($_GET['report']) { echo $_GET['report']; } else { echo 'Select a Report'; } ?></span>
                 </div>
 
-                <form method="post" class="">
-                  <input type="hidden" id="refresh_value" autocomplete="off" name="refresh" value="">
-                  <button class="btn btn-warning me-5" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
-                  <input type="hidden" name="refresh" value="true">
-                </form>
-
+                <div class="d-flex">
+                  <form method="post" class="">
+                    <input type="hidden" id="refresh_value" autocomplete="off" name="refresh" value="<?php if($_GET['report']) { echo $_GET['report']; } ?>">
+                    <button class="btn btn-warning me-3" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
+                    <input type="hidden" name="refresh" value="true">
+                  </form>
+                  <button class="btn btn-default me-5" id="newWindow">New Window <i class="fas fa-external-link"></i></button>
+                </div>
 
               </div>
               @yield('content')
