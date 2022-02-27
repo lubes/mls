@@ -355,6 +355,8 @@ export default {
                 call_endpoint(theUser.role,theUser.username, c);
                 $('#current_view').html(c);
                 $('#refresh_value').val(c);
+                $('body').removeClass('side-open');
+                $('.main-sidebar').removeClass('active');
               } else {
                 call_endpoint(theUser.role,theUser.username, first_view);
               }
