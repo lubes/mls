@@ -1,241 +1,41 @@
 <!doctype html>
 <html {!! get_language_attributes() !!}>
   @include('partials.head')
-  <body @php body_class() @endphp>
+  <body @php body_class('side-open') @endphp>
     @php do_action('get_header') @endphp
 
-  <?php
-    $current_user = wp_get_current_user();
-    //echo 'Username: ' . $current_user->user_login . '<br />';
-    //echo 'User email: ' . $current_user->user_email . '<br />';
-    //echo 'User first name: ' . $current_user->user_firstname . '<br />';
-    //echo 'User last name: ' . $current_user->user_lastname . '<br />';
-    //echo 'User display name: ' . $current_user->display_name . '<br />';
-  ?>
+    <?php $current_user = wp_get_current_user(); ?>
+
+    <!--<input type="text" id="sidebar_status" value="<?php echo the_field('sidebar', $current_user);?>" />-->
 
     <div class="wrap" role="document">
       <div class="content">
         <main class="main d-block d-md-flex">
-
-          <div class="d-flex bg-dark main-sidebar">
-            <a class="btn btn-circle btn-danger sidebar-toggle close-sidebar" href="#"><i class="far fa-chevron-right"></i></a>
-            <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
-              <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
-                <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
-              </a>
-
-
-
-
-
-
-
-              <?php /*
-              if($_SESSION["role"] == "ADMIN") { ?>
-
-
-
-                  <?php if(!empty($_SESSION['rr_view'])){ ?>
-
-
-
-                   <?php } ?>
-
-            <?php } else if(!empty($_SESSION['rr_view'])){ ?>
-
-            <?php } */
-            ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            <?php
-             if($_SESSION["role"] == "AE") { ?>
-
-              <div class="dropdown-group">
-                <button class="dropdown-toggler dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
-                  <i class="fal fa-users"></i> Change Role
-                </button>
-                <div class="collapse show" id="viewDropdown">
-                  <div class="card card-body mt-1">
-                    <form method="post" class="view-param d-flex">
-                      <ul class="side-nav">
-                        <li class="nav-item">
-                          <div class="radio-btn">
-                            <input type="radio" class="btn-check loan-type-filter" id="role_ae" autocomplete="off" name="admin_role" value="AE" <?php if($_SESSION["role"] == "AE"){ echo "checked"; } ?>>
-                            <label class="btn w-100 <?php if($_SESSION["role"] == "AE"){ echo "active"; } ?>" for="role_ae"><i class="fal fa-user"></i> Account Executive</label>
-                          </div>
-                        </li>
-                        <li class="nav-item">
-                          <div class="radio-btn">
-                            <input type="radio" class="btn-check loan-type-filter" id="am" autocomplete="off" name="admin_role" value="AM" <?php if($_SESSION["role"] == "ctcDocsOutBack"){ echo "checked"; } ?>>
-                            <label class="btn w-100 <?php if($_SESSION["role"] == "AM"){ echo "active"; } ?>" for="ae_2"><i class="fal fa-user"></i> Account Manager</label>
-                          </div>
-                        </li>
-                        <li class="nav-item">
-                          <div class="radio-btn">
-                            <input type="radio" class="btn-check loan-type-filter" id="fund" autocomplete="off" name="admin_role" value="FUND" <?php if($_SESSION["role"] == "fundedLastMonth"){ echo "checked"; } ?>>
-                            <label class="btn w-100 <?php if($_SESSION["role"] == "FUND"){ echo "active"; } ?>" for="ae_3"><i class="fal fa-user"></i> Funder</label>
-                          </div>
-                        </li>
-                        <li class="nav-item">
-                          <div class="radio-btn">
-                            <input type="radio" class="btn-check loan-type-filter" id="setup" autocomplete="off" name="admin_role" value="SETUP" <?php if($_SESSION["role"] == "fundedMonthly"){ echo "checked"; } ?>>
-                            <label class="btn w-100 <?php if($_SESSION["role"] == "SETUP"){ echo "active"; } ?>" for="ae_4"><i class="fal fa-user"></i> Setup Coordinator</label>
-                          </div>
-                        </li>
-                        <li class="nav-item">
-                          <div class="radio-btn">
-                            <input type="radio" class="btn-check loan-type-filter" id="und" autocomplete="off" name="admin_role" value="UND" <?php if($_SESSION["role"] == "locked"){ echo "checked"; } ?>>
-                            <label class="btn w-100 <?php if($_SESSION["role"] == "UND"){ echo "active"; } ?>" for="ae_5"><i class="fal fa-user"></i> Underwriter</label>
-                          </div>
-                        </li>
-                      </ul>
-
-                       <input type="hidden" name="refresh" value="true">
-                     </form>
-                  </div>
-                </div>
-              </div>
-
-              <?php if(!empty($_SESSION['rr_view'])){ ?>
-
-                @include('partials.views-dropdown')
-
-               <?php } ?>
-
-
-             <?php } else if(!empty($_SESSION['rr_view'])){ ?>
-               @include('partials.views-dropdown')
-             <?php } ?>
-
-
-
-
-
-
-
-
-
-
-
-
-              <!--
-              <ul class="list-unstyled ps-0">
-                    <li class="mb-1">
-                      <button class="btn btn-toggle align-items-center link-light" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="false">
-                        <i class="fas fa-cog"></i> Settings
-                      </button>
-                      <div class="collapse show" id="home-collapse" style="">
-                        <ul class="btn-toggle-nav sub-menu list-unstyled fw-normal pb-1 small">
-                          <li><a href="#" class="link-light">Overview</a></li>
-                          <li><a href="#" class="link-light">Updates</a></li>
-                          <li><a href="#" class="link-light">Reports</a></li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li class="mb-1">
-                      <button class="btn btn-toggle collapsed text-white" data-bs-toggle="collapse" data-bs-target="#reporting-collapse" aria-expanded="false">
-                        <i class="fas fa-pencil"></i> Reporting
-                      </button>
-                      <div class="collapse" id="reporting-collapse">
-                        <ul class="btn-toggle-nav sub-menu list-unstyled fw-normal pb-1 small">
-                          <li><a href="#" class="link-light">Custom Reports</a></li>
-                          <li><a href="#" class="link-light">Scheduled Reports</a></li>
-                          <li><a href="#" class="link-light">Published Reports</a></li>
-                          <li><a href="#" class="link-light">Batch Reports</a></li>
-                          <li><a href="#" class="link-light">Report Download</a></li>
-                        </ul>
-                      </div>
-                    </li>
-                    <li class="mb-1">
-                      <button class="btn btn-toggle collapsed text-white" data-bs-toggle="collapse" data-bs-target="#loans-collapse" aria-expanded="false">
-                        <i class="far fa-check-circle"></i> Test Loans
-                      </button>
-                      <div class="collapse" id="loans-collapse">
-                        <ul class="btn-toggle-nav sub-menu list-unstyled fw-normal pb-1 small">
-                          <li><a href="#" class="link-light">Create Purchase Test Loan</a></li>
-                          <li><a href="#" class="link-light">Create Refinance Test Loan</a></li>
-                          <li><a href="#" class="link-light">Find Test Loan</a></li>
-                        </ul>
-                      </div>
-                    </li>
-                  </ul>
-                  -->
-
-              <ul class="nav nav-pills flex-column mb-auto"></ul>
-              <div class="dropdown">
-                <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                  <img src="<?php $img=get_field('profile_image', $current_user); echo $img['url'];?>" alt="" width="32" height="32" class="rounded-circle me-2">
-                  <strong><?php echo $current_user->display_name;?></strong>
-                </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" style="">
-                  <?php if( current_user_can('editor') ||  current_user_can('management') || current_user_can('administrator') ) {  ?>
-                    <li><a class="dropdown-item" href="<?php echo site_url();?>/wp-admin">Admin Dashboard</a></li>
-                  <?php } ?>
-                  <li><a class="dropdown-item" href="<?php echo site_url();?>/profile">Profile</a></li>
-                  <li><a class="dropdown-item" href="<?php echo site_url();?>/wp-login.php?action=logout">Log Out</a></li>
-
-                </ul>
-              </div>
-            </div>
-
-            </div>
-
+            @include('partials.sidebar')
             <div class="db-content m-0 ms-md-4 mt-md-4">
+              <div class="page-header d-flex align-items-end justify-content-between pt-5 pt-md-0 ps-5 mb-4">
 
-              <div class="page-header pt-5 pt-md-0 ps-5 mb-4">
-                <?php if(is_front_page()):?>
-                  <h1>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h1>
-                <?php endif;?>
-                <!-- <h1>{!! App::title() !!}</h1>-->
+                <div class="dash-info dash-summary">
+                  <span class="dash-info-text">Currently Viewing:</span>
+                  <span id="current_view" class="dash-info-desc">Select a Report</span>
+                </div>
+
+                <form method="post" class="">
+                  <input type="hidden" id="refresh_value" autocomplete="off" name="refresh" value="">
+                  <button class="btn btn-warning me-5" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
+                  <input type="hidden" name="refresh" value="true">
+                </form>
+
+
               </div>
-
-
               @yield('content')
             </div>
-
         </main>
       </div>
     </div>
     @php do_action('get_footer') @endphp
     @include('partials.footer')
     @php wp_footer() @endphp
-
-    <!--
-    <script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.6/jspdf.plugin.autotable.min.js"></script>
-    -->
-
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
 
 
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -246,7 +46,7 @@
 <script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
 <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-
+<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 
 <!--
 <script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
@@ -266,23 +66,7 @@
     <script>
     jQuery(function($) {
 
-      /*
-      $('.close-sidebar').click(function () {
-        Cookies.remove('sidenav', { path: '' })
-        Cookies.set('sidenav', 'closed', { expires: 30 });
-        console.log(Cookies.get('sidenav'));
-      });
-      $('.open-sidebar').click(function () {
-        Cookies.remove('sidenav', { path: '' })
-        Cookies.set('sidenav', 'open', { expires: 30 });
-        console.log(Cookies.get('sidenav'));
-      });
 
-      if(Cookies.get('sidenav') === 'open') {
-        $('body').addClass('side-open');
-        $('.main-sidebar').addClass('active');
-      }
-      */
 
       /*
       var options = {

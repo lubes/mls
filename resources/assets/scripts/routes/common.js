@@ -18,8 +18,9 @@ export default {
   init() {
     // JavaScript to be fired on all pages
 
+    // var sidebar_status = document.getElementById("sidebar_status").value;
+    // alert(sidebar_status);
     // Convert Dates
-
 
     var moment = require('moment-timezone');
     var tz = moment.tz.guess();
@@ -46,15 +47,23 @@ export default {
       "fixedHeader": true,
       "buttons": [
         'colvis',
+        'print',
+        {
+          extend: 'pdfHtml5',
+          orientation: 'landscape',
+          pageSize: 'LEGAL',
+          customize: function(doc) {
+            doc.styles.tableHeader.fontSize = 7;
+            doc.styles.tableHeader.alignment = 'left';
+            doc.defaultStyle.fontSize = 7;
+            doc.styles.tableHeader.color = '#ffffff';
+            doc.styles.tableHeader.fillColor = '#121f47';
+          }
+        },
         'copyHtml5',
         'csvHtml5',
         'excelHtml5',
-        'pdfHtml5',
-        'print',
-        {
-            extend: 'pdfHtml5',
-            download: 'open'
-        }
+        //'pdfHtml5',
       ],
     });
 
@@ -95,7 +104,7 @@ export default {
               data: value,
               className: "convertLoan",
               render: function ( data, type, row, meta ) {
-                return '<a href="https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/' + data + '/loan-action?section=0" target="_blank class="loan-link">'+data+'</a>';
+                return '<a href="https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/' + data + '/loan-action?section=0" target="_blank" class="loan-link btn btn-default btn-sm">'+data+'</a>';
               }
 
           };
@@ -144,43 +153,41 @@ export default {
        "fixedHeader": true,
        "buttons": [
          'colvis',
+         'print',
+         {
+           extend: 'pdfHtml5',
+           orientation: 'landscape',
+           pageSize: 'LEGAL',
+           customize: function(doc) {
+             doc.styles.tableHeader.fontSize = 7;
+             doc.styles.tableHeader.alignment = 'left';
+             doc.defaultStyle.fontSize = 7;
+             doc.styles.tableHeader.color = '#ffffff';
+             doc.styles.tableHeader.fillColor = '#121f47';
+           }
+         },
          'copyHtml5',
          'csvHtml5',
          'excelHtml5',
-         'pdfHtml5',
-         'print',
-         {
-             extend: 'pdfHtml5',
-             download: 'open'
-         }
+         //'pdfHtml5',
        ],
-       /*"columns": [
-         { "data": "Loan Number" },
-         {  "data":    "Borr Last Name"},
-          { "data":     "Broker Company Name"},
-          { "data":     "DTI"},
-          {  "data":    "Estimated Close Date"},
-          {  "data":    "Le Issued Date"},
-          {  "data":    "Loan Program Name"},
-          {  "data":    "Loan Purpose"},
-          { "data":     "Loan Status"},
-          { "data":     "Loan Status Date"},
-          { "data":     "Loan Type"},
-          {  "data":    "Lock Expiration Date"},
-          { "data":     "LTV"},
-          {  "data":    "Note Rate"},
-          {  "data":    "Rate Lock Status"},
-          {  "data":    "Rate Locked Date"},
-          {  "data":    "Total Loan Amount"},
-          {  "data":    "Assigned Account Executive Name"},
-          {  "data":    "Processor Name"},
-          {  "data":    "Junior Processor Name"},
-          {  "data":    "Assigned Loan Officer Name"},
-          {  "data":    "Underwriter Name"},
-          {  "data":    "Subj Prop Occ"},
-          {  "data":    "Assigned Username"},
-          { "data":     "LE Signed Date"}
-       ]*/
+
+
+
+       /*
+       buttons: [
+           {
+               extend: 'pdfHtml5',
+               orientation: 'landscape',
+               pageSize: 'LEGAL',
+               customize: function(doc) {
+                 doc.styles.tableHeader.fontSize = 7;
+                 doc.styles.tableBodyOdd.alignment = 'left';
+                 doc.defaultStyle.fontSize = 7;
+               }
+           }
+       ],
+       */
      });
      console.log("go convert");
      convert_dates();
@@ -226,7 +233,6 @@ export default {
           data[value] = obj[value];
         });
       return data;
-
     }
 
     function process_data(datas){
@@ -285,6 +291,7 @@ export default {
     function record_requests(_role, _userName){
       var formData = {role:_role,userName:_userName}; //Array
       formData = JSON.stringify(formData);
+      var roles;
       var output, role, view, first_view;
       $.ajax({
             url : "https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records",
@@ -302,6 +309,7 @@ export default {
                     role = '<option value="' + key + '"';
                     role += '>' + key + '</option>';
                     $(".admin_view").append(role);
+                    // $('.role-list').append(role);
                   })
                 }
                   first_view = data[_role][0]["key"];
@@ -312,19 +320,44 @@ export default {
 
                 $.each(data[_role], function(k, v){
 
-                view = '<option value="' + v["key"] + '"';
-                view += '>' + v["value"] + '</option>'
-                /*output = '<li class="dropdown-item"><div class="radio-btn"><input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="' + v["key"] + '"';
+
+                // view = '<option value="' + v["key"] + '"';
+                // view += '>' + v["value"] + '</option>';
+
+                view = '<li class="nav-item"><div class="radio-btn"><input type="radio" class="btn-check rr_view" id="' + v["key"] + '" autocomplete="off" name="rr" value="' + v["key"] + '"><label class="btn w-100" for="' + v["key"] + '"><i class="fal fa-file-spreadsheet"></i>' + v["value"] + '</label></div></li>';
+
+                /*
+                view_2 = '<li class="dropdown-item"><div class="radio-btn"><input type="radio" class="btn-check loan-type-filter" id="ae_1" autocomplete="off" name="rr" value="' + v["key"] + '"';
                 if(v["key"] == _recordRequest){ output += "checked"; }
-                output += '><label class="btn w-100" for="ae_1"><i class="fal fa-check"></i>' + v["value"] + '</label></div></li>';
-                $(".dropdown-menu").append(output);*/
-                $(".rr_view").append(view);
+                view_2 += '><label class="btn w-100" for="ae_1"><i class="fal fa-check"></i>' + v["value"] + '</label></div></li>';
+                */
+
+                // $(".rr_view").append(view);
+
+                $(".rr_view_2").append(view);
+                // alert('hello');
               });
+
+
+
               // console.log(first_view);
               $('#current_view').html(first_view);
+              $('#refresh_value').val(first_view);
               call_endpoint(theUser.role,theUser.username, first_view);
 
               console.log(theUser.username);
+            },
+            complete: function(data, textStatus, jqXHR) {
+
+              $(".rr_view").on("change", function(){
+                $(".table-body").html("");
+                call_endpoint(theUser.role,theUser.username, $(this).val());
+                console.log($(this).val());
+                $('#current_view').html($(this).val());
+                $('#refresh_value').val($(this).val());
+
+              });
+
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -337,28 +370,38 @@ export default {
     }
     record_requests(theUser.role,theUser.username);
 
+
+
     $(".rr_view").on("change", function(){
       $(".table-body").html("");
       call_endpoint(theUser.role,theUser.username, $(this).val());
       console.log($(this).val());
       $('#current_view').html($(this).val());
+      $('#refresh_value').val($(this).val());
     });
+
     $(".admin_view").on("change", function(){
       $(".rr_view").empty();
       record_requests($(this).val(), theUser.username);
       console.log($(this).val());
-
     });
 
-
-
-
-
-    $(".loan-type-filter").on("change", function(){
+    $("#refreshData").on("click", function(){
       $(".table-body").html("");
-      call_endpoint(theUser.role,theUser.username, $(this).val());
-      console.log($(this).val());
+      var refreshVal = $('#refresh_value').val();
+      call_endpoint(theUser.role,theUser.username, refreshVal);
+      console.log(refreshVal);
+      $(this).prop("disabled",true);
+      setTimeout(() => {
+        $(this).prop("disabled",false);
+      }, 60000);
+      // $('#current_view').html($(this).val());
     });
+
+
+
+
+
 
 
     $(".sidebar-toggle").on("click",function(){
