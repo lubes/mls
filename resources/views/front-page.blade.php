@@ -14,9 +14,9 @@
     </div>
     <div class="tab-pane fade show active" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
 
-    <!--
+
      <div class="row align-items-top mb-3">
-       <div class="col-md-5">
+         <!--<div class="col-md-5">
          <form method="post" class="view-form d-flex align-items-center">
 
            <div class="col-md-6">
@@ -36,13 +36,15 @@
 
            <input type="hidden" name="refresh" value="true">
          </form>
-       </div>
+       </div>-->
        <div class="col-md-7">
-         <div class="row dash-header"></div>
+         <div class="row dash-header" style="display:none;">
+           <div class="col-md-6"><div class="dash-info dash-summary"><span class="dash-info-text">Total Loan Amount</span><div class="dash-info-card"><span class="dash-info-value" id="loan_sum">value</span></div></div></div>
+           <div class="col-md-4"><div class="dash-info dash-summary" ><span class="dash-info-text">Total Loan Count</span><div class="dash-info-card"><span class="dash-info-value" id="loan_count">value</span></div></div></div>
+         </div>
        </div>
-       <a class="btn btn-default ms-auto me-0" id="newWindow">New Window <i class="fal fa-window"></i></a>
      </div>
-      -->
+
      <div id="report_1">
        <div id="loader">
          <div class="loader">
