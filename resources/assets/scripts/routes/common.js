@@ -265,25 +265,36 @@ export default {
 
       $("#data-table-id").html("");
 
+      var total_sum = 0;
+      var total_count = 0;
 
       $.each(datas["tables"], function( key, value ) {
         datatable(datas["tables"][key], key);
+        console.log(key);
+        console.log(value["summary"]);
+        if(("summary" in value)){
+                total_sum += parseInt(value["summary"]["Total Loan Amount (SUM)"]);
+                total_count += parseInt(value["summary"]["Total Loans"]);
+        }
       });
 
-      // Display Data into Table
-      /*$.each( data, function( key, value ) {
-        new_value = reorder_object(value, order);
-        new_table = "<tr>";
-        $.each(new_value, function(k, v){
-          if(k == "Loan Number"){
-              new_table += "<td class='" + k + "'><a href='https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/"+ v + "/loan-action?section=0' target='_blank' class='btn btn-default'>" + v + "</a></td>";
-          } else if(k != "Assigned Username") {
-            new_table += "<td class='"+ k + "'>" + v + "</td>";
-          }
-        })
-        new_table += "</tr>";
-        $(".table-body").append(new_table);
-      })*/
+      var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+      console.log(total_count);
+      if(total_count > 0){
+        $(".dash-header").show();
+
+      $("#loan_sum").text(formatter.format(total_sum));
+      $("#loan_count").text(total_count);
+    } else {
+      $(".dash-header").hide();
+
+    }
+      // Totals
+
+
 
       /* DataTables Examples */
       // $("#example").dataTable().fnDestroy();
@@ -319,10 +330,11 @@ export default {
                     // $('.role-list').append(role);
                   })
                 }
+                  first_view = data[_role][0]["key"];
+
                 // console.log('here');
 
                 // console.log(data[_role][0]["key"]);
-                first_view = data[_role][0]["key"];
 
 
                 $.each(data[_role], function(k, v){
