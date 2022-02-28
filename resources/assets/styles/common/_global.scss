@@ -374,6 +374,20 @@ h2 {
 .dash-info {
   &.dash-summary {
     // display: none;
+
+    &.alt {
+      .dash-info-desc {
+        color: #fff;
+      }
+
+      .dash-info-card {
+        background: $danger;
+      }
+
+      .dash-info-value {
+        color: #fff;
+      }
+    }
   }
 
   &-text {

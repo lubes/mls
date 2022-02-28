@@ -39,8 +39,8 @@
        </div>-->
        <div class="col-md-7">
          <div class="row dash-header" style="display:none;">
-           <div class="col-md-6"><div class="dash-info dash-summary"><span class="dash-info-text">Total Loan Amount</span><div class="dash-info-card"><span class="dash-info-value" id="loan_sum">value</span></div></div></div>
-           <div class="col-md-4"><div class="dash-info dash-summary" ><span class="dash-info-text">Total Loan Count</span><div class="dash-info-card"><span class="dash-info-value" id="loan_count">value</span></div></div></div>
+           <div class="col-md-5"><div class="dash-info dash-summary alt"><span class="dash-info-text">Total Loan Amount</span><div class="dash-info-card"><span class="dash-info-value" id="loan_sum">value</span></div></div></div>
+           <div class="col-md-3"><div class="dash-info dash-summary alt" ><span class="dash-info-text">Total Loan Count</span><div class="dash-info-card"><span class="dash-info-value" id="loan_count">value</span></div></div></div>
          </div>
        </div>
      </div>

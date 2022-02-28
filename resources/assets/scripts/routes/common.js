@@ -417,12 +417,16 @@ export default {
 
     $("#refreshData").on("click", function(){
       $(".table-body").html("");
+      $(this).html('Easy tiger...wait 1 minute');
       var refreshVal = $('#refresh_value').val();
+      $('#loader').show();
       call_endpoint(theUser.role,theUser.username, refreshVal);
       console.log(refreshVal);
       $(this).prop("disabled",true);
+      $('#loader').fadeOut();
       setTimeout(() => {
         $(this).prop("disabled",false);
+        $(this).html('Refresh Data <i class="fas fa-sync"></i>');
       }, 60000);
       // $('#current_view').html($(this).val());
     });
