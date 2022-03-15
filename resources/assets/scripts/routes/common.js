@@ -330,12 +330,11 @@ export default {
                     // $('.role-list').append(role);
                   })
                 }
-                  first_view = data[_role][0]["key"];
+
+                first_view = data[_role][0]["key"];
 
                 // console.log('here');
-
                 // console.log(data[_role][0]["key"]);
-
 
                 $.each(data[_role], function(k, v){
 
@@ -411,6 +410,7 @@ export default {
 
     $(".admin_view").on("change", function(){
       $(".rr_view").empty();
+      $(".rr_view_2").empty();
       record_requests($(this).val(), theUser.username);
       console.log($(this).val());
     });
