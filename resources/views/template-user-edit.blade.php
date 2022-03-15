@@ -8,6 +8,7 @@
 
 <?php $current_user = wp_get_current_user();?>
 
+  <!--
     <nav class="user-nav mb-3">
       <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Your Profile</button>
@@ -15,6 +16,7 @@
         <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Favorites</button>
       </div>
     </nav>
+  -->
     <div class="tab-content alt" id="nav-tabContent">
       <div class="tab-pane p-5 fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
         <!-- General Info -->
@@ -23,11 +25,11 @@
                 <div class="entry-content entry">
                   <div class="user-welcome mb-3">
                     <div class="row align-items-center">
-                      <div class="col-md-2">
-                        <img src="<?php $img=get_field('profile_image', $current_user); echo $img['url'];?>" class="img-fluid rounded-circle" alt="" />
+                      <div class="col-md-1">
+                        <img src="<?php $img=get_field('profile_image', $current_user); if($img) { echo $img['url']; } else { echo 'http://placehold.it/1200x1200'; }?>" class="img-fluid rounded-circle" alt="" />
                       </div>
-                      <div class="col-md-10">
-                        <h1 class="mb-1"><?php echo $current_user->display_name;?></h1>
+                      <div class="col-md-11">
+                        <h1 class="mb-1">Hello <?php echo $current_user->display_name;?></h1>
                         <p class="muted"><?php echo the_field('position', $current_user);?></p>
                       </div>
                     </div>
@@ -79,7 +81,7 @@
                               </p>
                             </div>
                             <div class="col-md-5 offset-md-1">
-                              <h2>Additional Information</h2>
+                              <!--<h2>Additional Information</h2>-->
                               <?php // echo do_shortcode('[my_acf_user_form field_group="10"]');?>
                               <?php
                                   do_action('edit_user_profile',$current_user);

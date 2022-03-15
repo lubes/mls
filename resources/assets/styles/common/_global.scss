@@ -1,7 +1,192 @@
+$closed_width: 40px;
+$open_width: 280px;
+
 body {
   background: $light;
   color: $primary;
-  padding-left: 280px;
+  padding-left: $closed_width;
+  font-family: "Roboto", sans-serif;
+
+  // @include easing();
+
+  @include media-breakpoint-down(lg) {
+    padding-left: 0;
+  }
+
+  &.side-open {
+    padding-left: $open_width;
+
+    @include media-breakpoint-down(lg) {
+      padding-left: 0;
+    }
+  }
+}
+
+#loader {
+  // display: none;
+}
+
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 99999;
+  background: #ffff;
+}
+
+$size: 5rem;
+$rsize: $size * 0.75;
+$angle: 68deg;
+$r: 50deg;
+$color: $red;
+$bg: darken($color, 5);
+
+@keyframes rotate {
+  from {
+    transform: rotateX($r) rotateZ(0deg) translateZ(-0.5rem);
+  }
+
+  50% {
+    transform: rotateX($r) rotateZ(180deg) translateZ(0.5rem);
+  }
+
+  to {
+    transform: rotateX($r) rotateZ(360deg) translateZ(-0.5rem);
+  }
+}
+
+.triangle_wrap {
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  margin-left: -$rsize / 2;
+  margin-top: -100px;
+  // margin-top: -$rsize / 2;
+  margin-bottom: 0;
+  transform-style: preserve-3d;
+  width: $rsize;
+  height: $rsize;
+  transform-origin: $rsize / 2 $rsize / 2;
+  transform: rotateX($r) rotateZ(45deg);
+  animation: rotate 4s linear infinite;
+
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+.pyramid {
+  position: absolute;
+  perspective: 500px;
+  transform-style: preserve-3d;
+}
+
+.square {
+  width: $rsize;
+  height: $rsize;
+  background: lighten($color, 20);
+  transform-style: preserve-3d;
+}
+
+.triangle {
+  position: absolute;
+  width: $size;
+  height: $size;
+
+  &:nth-child(1) {
+    width: $rsize;
+    top: -33%;
+    background: darken($color, 0);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    transform-origin: 50% 100%;
+    transform: rotateX(-$angle);
+  }
+
+  &:nth-child(2) {
+    width: $rsize;
+    background: darken($color, 10);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    transform-origin: 50% 0%;
+    transform: rotateX($angle);
+  }
+
+  &:nth-child(3) {
+    height: $rsize;
+    left: -33%;
+    background: darken($color, 15);
+    transform-origin: 100% 50%;
+    clip-path: polygon(100% 100%, 0 50%, 100% 0);
+    transform: rotateY($angle);
+  }
+
+  &:nth-child(4) {
+    height: $rsize;
+    background: darken($color, 15);
+    transform-origin: 0% 50%;
+    clip-path: polygon(0 100%, 100% 50%, 0 0);
+    transform: rotateY(-$angle);
+  }
+}
+
+/* stylelint-disable */
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+  ::-webkit-scrollbar {
+      width:  $size;
+      height: $size;
+  }
+
+  ::-webkit-scrollbar-thumb {
+      background: $foreground-color;
+  }
+
+  ::-webkit-scrollbar-track {
+      background: $background-color;
+  }
+
+  // For Internet Explorer
+  body {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+}
+
+.table-wrapper {
+  // border: 1px solid #ddd;
+  // border-radius: 5px;
+  margin: 0 auto 20px;
+
+  @include scrollbars(0.5em, $red);
+}
+
+.table-responsive {
+  // max-height: 58vh;
+  // overflow: hidden;
+
+  table {
+    max-height: 60vh;
+    height: 100%;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  th {
+    white-space: nowrap;
+  }
+
+  thead {
+    tr {
+      th {
+        border-bottom: 1px solid #ddd;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+* {
+  outline: none !important;
 }
 
 h1 {
@@ -20,6 +205,7 @@ h2 {
 .db-content {
   display: block;
   width: 100%;
+  overflow: hidden;
 
   &-inner {
     background: #fff;
@@ -28,6 +214,15 @@ h2 {
 }
 
 /* TABLES */
+#report_1 {
+  position: relative;
+  z-index: 1;
+}
+
+.dataTables_wrapper {
+  padding-top: 10px;
+}
+
 .report-table {
   font-size: 0.9rem;
   line-height: 1.2;
@@ -36,6 +231,16 @@ h2 {
     min-width: 100px;
     font-size: 0.9rem;
     line-height: 1.2;
+    position: relative;
+    padding-right: 25px;
+    overflow: hidden;
+    border-bottom: 4px solid transparent;
+
+    &.sorting_desc,
+    &.sorting_asc {
+      background: $light;
+      color: $danger;
+    }
   }
 }
 
@@ -58,4 +263,162 @@ h2 {
 
 .profile {
   background: #fff;
+}
+
+.view-param {
+  p {
+    font-weight: 600;
+    // margin: 0 auto;
+  }
+
+  select {
+    max-width: 300px;
+  }
+}
+
+.dataTables_filter {
+  // padding: 15px;
+  padding-bottom: 15px;
+}
+
+.dt-buttons {
+  // padding: 15px;
+  padding-bottom: 15px;
+  float: right;
+
+  .dt-buttons {
+    padding: 0;
+    // float: right;
+  }
+
+  .btn-group {
+    float: right;
+    // margin: 20px auto 0;
+
+    /*
+    .btn {
+      background: #fff;
+      border-color: $primary;
+
+      &:hover {
+        background: $primary;
+        color: #fff;
+      }
+    }
+    */
+  }
+
+  .dt-button {
+    // @extend .btn;
+    // @extend .btn-outline-primary;
+  }
+}
+
+.dataTables_filter {
+  max-width: 300px;
+
+  input[type="search"] {
+    @extend .form-control;
+
+    margin-left: 5px;
+  }
+
+  label {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.dataTables_info {
+  display: none;
+}
+
+.dt-button-collection {
+  &.dropdown-menu {
+    height: 50vh;
+    overflow: scroll;
+  }
+
+  .dt-button {
+    background: none;
+    padding: 0;
+    border: none;
+    display: block;
+    width: 100%;
+
+    a {
+      opacity: 0.5;
+      display: block;
+      padding: 10px;
+      text-decoration: none;
+
+      &:hover {
+        background: #eee;
+      }
+    }
+
+    &.active {
+      a {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.view-form {
+  .btn {
+    width: 235px;
+  }
+}
+
+.dash-info {
+  &.dash-summary {
+    // display: none;
+
+    &.alt {
+      .dash-info-desc {
+        color: #fff;
+      }
+
+      .dash-info-card {
+        background: $danger;
+      }
+
+      .dash-info-value {
+        color: #fff;
+      }
+    }
+  }
+
+  &-text {
+    text-transform: capitalize;
+    margin: 0 auto 5px;
+    display: block;
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #777;
+    font-size: 0.9rem;
+    font-weight: bolder;
+    white-space: nowrap;
+  }
+
+  &-desc {
+    color: $danger;
+    font-weight: bold;
+    display: block;
+    font-size: 1.75rem;
+  }
+
+  &-card {
+    background: $lightest;
+    border-radius: $border-radius;
+    padding: 15px;
+    text-align: center;
+  }
+
+  &-value {
+    font-size: 1.75rem;
+    color: $danger;
+    font-weight: bolder;
+  }
 }
