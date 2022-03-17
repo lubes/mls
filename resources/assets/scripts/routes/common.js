@@ -76,12 +76,10 @@ export default {
 
 
     /* DataTables Examples */
-    function datatable(datas, key) {
+    function datatable(datas, key, _view) {
       // Clear Existing Data
       var div_id, table_id, table_header, new_table;
 
-      console.log(datas)
-      console.log(key)
       div_id = "dt_"+key;
       table_id = "dt-table-" + key;
       table_header = "table-header-" + key;
@@ -93,10 +91,44 @@ export default {
       var table = $('#'+table_id).DataTable();
       table.destroy();
       table.clear().draw();
-
       $("."+ table_header).html("");
+      var col_head, _view;
       var columns = new Array();
-      var col_head;
+
+      //_view = "assigned";
+      // Add Assign action if SETUP: Open
+      if(_view == "open"){
+        $.each( datas["data"], function(key, value){
+          value["Assign"] = "<a href='#' class='assigner' data-bs-toggle='modal' data-bs-target='#assignModal' data-loan='" + value["Loan Number"] + "'>Assign</a>";
+          datas["data"][key]= value;
+        });
+        col_head = "<th>Assign</th>";
+        $("."+ table_header).append(col_head);
+        var new_columns = { data: "Assign"};
+        columns.push(new_columns);
+      }
+
+      // Add Assign action if SETUP: Assigned
+      if(_view == "assigned"){
+        $.each( datas["data"], function(key, value){
+          value["Dater"] = "<a href='#' class='dater'>08/02/2021</a>";
+          value["Notes"] = "Notes: Last notes will be here <a href='#' class='notes'>Update</a>";
+          datas["data"][key]= value;
+        });
+        col_head = "<th>Date Assigned</th>";
+        $("."+ table_header).append(col_head);
+
+        var new_columns = { data: "Dater"};
+        columns.push(new_columns);
+      }
+
+      console.log(datas["data"]);
+
+
+
+
+
+
 
       $.each( datas["order"], function( key, value ) {
         // Create Order Object
@@ -126,9 +158,13 @@ export default {
         $("."+ table_header).append(col_head);
 
       });
-        // console.log(columns);
 
-        console.log(datas);
+      if(_view == "assigned"){
+        var new_columns = { data: "Notes"};
+        columns.push(new_columns);
+        col_head = "<th>Notes</th>";
+        $("."+ table_header).append(col_head);
+      }
 
 
         var formatter = new Intl.NumberFormat('en-US', {
@@ -234,6 +270,49 @@ export default {
         });
     }
 
+    function call_setup_endpoint(_view){
+      var _token, datas;
+
+      _token = "&lt;USER_TICKET EncryptedTicket=\"agw8m/eZqFwBQxV59JdeeAz/M0D8SJ3OacfeU+Ero5ATs0GqoWGSmQC2/CK3/jn1sGDiRMjVmXK2zYRhrzoj6OJ1TD7FygZrGPTlkgZntQIeiUYcDmZ+Md68LOcs37W/k9wc0/U3lhoMutRk85sZJxkheA9Ozh7qznSFRs6JTOQayW+ixI1LNEV0SJpQqpuF1Iuns97OvPWxqeWodlBwKsSMW9jYghlrDio2hXv26VRKZ8yCv9LS86dFO8TV3Vmg\" Site=\"LQB\" /&gt;";
+
+      var formData = {token:_token}; //Array
+      formData = JSON.stringify(formData);
+      $('#loader').fadeIn();
+
+      //console.log(formData);
+      //console.log(theUser.role);
+      $.ajax({
+            url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/get-tables",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data : formData,
+            success: function(data, textStatus, jqXHR)
+            {
+              console.log(data);
+              $('#loader').fadeOut();
+                var assigned, open;
+
+                if(_view == "assigned"){
+                  datas = data["assigned"];
+                } else {
+                  datas = data["open"];
+                }
+                process_setup_data(datas, _view);
+                //datatable();
+                //console.log(data);
+                //process_data(data);
+                //data - response from server
+                //console.log(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+              console.log(jqXHR);
+
+            }
+        });
+    }
+
     function reorder_object(obj, order){
       const data = new Object();
         $.each(order, function( key, value ) {
@@ -292,6 +371,53 @@ export default {
       $(".dash-header").hide();
 
     }
+      // Totals
+
+
+
+      /* DataTables Examples */
+      // $("#example").dataTable().fnDestroy();
+      //datatable();
+
+
+
+    }
+
+    function process_setup_data(datas, _view){
+
+
+      var data = new Array();
+      var order = new Array();
+      var new_table, new_value;
+
+      //console.log(datas["tables"][0]);
+
+      data = datas["data"];
+      order = datas["order"];
+      new_table = "<tr role='row'>";
+      //console.log(order);
+
+      // Display custom column order
+    /*  $.each( order, function( key, value ) {
+        new_table += '<th scope="col" class="sorting_asc" tabindex="0" aria-controls="data-table" rowspan="1" colspan="1" data-column-index="0" aria-sort="ascending" aria-label="' + value + ': activate to sort column descending">'+value+'</th>';
+      });
+      new_table += "</tr>";
+      $(".header").html(new_table);*/
+
+      $("#data-table-id").html("");
+
+      var total_sum = 0;
+      var total_count = 0;
+      var key = 0;
+        datatable(datas, key, _view);
+
+      var formatter = new Intl.NumberFormat('en-US', {
+        style: 'currency',
+        currency: 'USD',
+      });
+
+      $(".dash-header").hide();
+
       // Totals
 
 
@@ -396,8 +522,23 @@ export default {
 
 
     }
-    record_requests(theUser.role,theUser.username);
 
+    if(theUser.role == "SETUP"){
+      call_setup_endpoint("open");
+      $(".assigner").on("click", function(){
+        console.log($(this).data("loan"));
+      })
+
+      $('#assignModal').on('show.bs.modal', function(e) {
+        $(".assign-loan").html("Loan Number: " + e.relatedTarget.dataset.loan);
+      });
+
+      $(".assign-confirm").on("click", function(){
+        $(".modal-body").html("<div>Congrats! You've been assigned! <a href='#'>Go to loan now</a></div>")
+      })
+    } else {
+      record_requests(theUser.role,theUser.username);
+    }
 
 
     $(".rr_view").on("change", function(){
@@ -407,6 +548,12 @@ export default {
       $('#current_view').html($(this).val());
       $('#refresh_value').val($(this).val());
     });
+
+      $(".setup_view").on("change", function(){
+        call_setup_endpoint($(this).val());
+      });
+
+
 
     $(".admin_view").on("change", function(){
       $(".rr_view").empty();

@@ -81,4 +81,21 @@
   </div>
   </div>
 
+  <!--Assign Modal -->
+  <div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h5 class="modal-title assign-loan"></h5>
+          <button type="button" class="btn-close assign-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body"><h3 class="modal-title">Are you sure you want to assign yourself to this loan?</h3>
+          <button type="button" class="btn btn-primary assign-confirm">Confirm</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
 @endsection
