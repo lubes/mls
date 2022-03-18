@@ -22,7 +22,7 @@ $green:   #198754;
 $teal:    #20c997;
 $cyan:    #0dcaf0;
 // colors
-$primary:       $blue;
+$primary:       $primary;
 $secondary:     #ddd;
 $success:       $green;
 $info:          $cyan;
@@ -39,7 +39,7 @@ $gray:      #999;
 $red_hover:   #d50712;
 // colors
 $theme-colors: (
-  primary: #525ddc,
+  primary: #121f47,
   secondary:  $secondary,
   success:    $success,
   info:       $info,
@@ -48,3 +48,17 @@ $theme-colors: (
   light:      $light,
   dark:       $dark
 );
+
+@mixin easing() {
+  -webkit-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  -o-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+@mixin fast_easing() {
+  -webkit-transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  -moz-transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+  -o-transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: all 0.2s cubic-bezier(0.23, 1, 0.32, 1);
+}

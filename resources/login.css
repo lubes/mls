@@ -1,0 +1,101 @@
+html {
+  font-size: 18px;
+}
+
+body {
+  width: 100%;
+  overflow: hidden;
+  background: #f6f6f6 url(assets/images/bgpattern.png) no-repeat center;
+  background-size: cover;
+}
+
+body.login div#login p#backtoblog {
+  display: none;
+}
+
+#login {
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+}
+
+#login::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  right: -150px;
+  width: 200px;
+  height: 200px;
+  background: url(https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/icon.svg) no-repeat center;
+  background-size: contain;
+  z-index: 1;
+  transform: rotate(35deg);
+}
+
+.login form {
+  border-radius: 15px;
+  border: none;
+  padding: 60px;
+  box-shadow: none;
+  position: relative;
+}
+
+.login-text {
+  max-width: 450px;
+  margin: 20px auto 0;
+  display: block;
+}
+
+.login form input[type="text"],
+.login form input[type="password"] {
+  border-radius: 50px;
+  padding: 15px 20px !important;
+  border: 1px solid #ced4da;
+  font-size: 1rem !important;
+}
+
+.login form input[type="submit"] {
+  background: #121f47;
+  color: #fff;
+  border: none;
+  padding: 0.75rem;
+  border-radius: 50px;
+  font-size: 1rem;
+  padding: 0.5rem 2rem !important;
+  padding: 10px 30px;
+  min-width: 200px;
+}
+
+.login form input:focus {
+  outline: none !important;
+  box-shadow: none;
+  border-color: #b21f28;
+}
+
+#login h1 a, .login h1 a {
+  background-image: url(https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo_blue.svg);
+  height: 50px;
+  width: 250px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin: 0 auto 10px 0;
+}
+
+#nav a {
+  background: #fff;
+  padding: 5px 15px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+}
+
+@media only screen and (max-width: 600px) {
+  #login {
+    max-width: 100% !important;
+    margin: 0 20px;
+    width: auto !important;
+  }
+
+  .login form {
+    padding: 40px 40px 120px  ;
+  }
+}

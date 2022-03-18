@@ -58,7 +58,7 @@ array_map(function ($file) use ($sage_error) {
     if (!locate_template($file, true, true)) {
         $sage_error(sprintf(__('Error locating <code>%s</code> for inclusion.', 'sage'), $file), 'File not found');
     }
-}, ['helpers', 'setup', 'filters', 'admin']);
+}, ['helpers', 'setup', 'filters', 'admin', 'login']);
 
 /**
  * Here's what's happening with these hooks:
@@ -229,6 +229,7 @@ if (!session_id()) {
 }
 
 function init_query() {
+  global $current_user;
   $current_user = wp_get_current_user();
   $user_email = $current_user->user_email;
   $user_id = "user_" . get_current_user_id();
@@ -248,11 +249,41 @@ function init_query() {
     $_SESSION["data"] = $decoded_json["data"];
 
   }*/
+  // Setup Views Drop Down
+/*
+$_SESSION["rr_view"] = record_views($_SESSION["role"]);
 
-  if(($_POST["refresh"] == "true") && ($_POST["rr"] != "")){
+$url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com/controller';
 
-    $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//controller';
+if((isset($_POST["admin_role"])) && ($_SESSION["role"] == "ADMIN")){
+  $_SESSION["data"] = array();
 
+  // Get Record Request Type by Role
+  $_SESSION["rr_view"] = record_views($_POST["admin_role"]);
+  if($_POST["rr"] != ""){
+    $_SESSION["rr"] = $_POST["rr"];
+} else {
+  $_SESSION["rr"] = $_SESSION['rr_view']['records'][0];
+
+}
+  $_SESSION["admin_role"] = $_POST["admin_role"];
+
+  $data = array("role" => $_SESSION["role"],   "email" => $user_email,  "recordRequest" => $_SESSION["rr"] );
+
+  $result = CallAPI("POST", $url_path, $data);
+  $decoded_json = json_decode($result, true);
+  // Set Session Variables
+  //$_SESSION["data"] = $decoded_json["data"];
+
+  $order = $decoded_json["order"];
+  $temp_data = $decoded_json["data"];
+  foreach($temp_data as $key => $value){
+    $value = array_merge(array_flip($order), $value);
+    $_SESSION["data"][] = $value;
+  }
+
+} else if(($_POST["refresh"] == "true") && ($_POST["rr"] != "")){
+  $_SESSION["data"] = array();
 
     $data = array("role" => $_SESSION["role"],   "email" => $user_email,  "recordRequest" => $_POST["rr"]);
     $result = CallAPI("POST", $url_path, $data);
@@ -260,12 +291,27 @@ function init_query() {
 
     // Set Session Variables
     $_SESSION["rr"] = $_POST["rr"];
-    $_SESSION["data"] = $decoded_json["data"];
 
+    $order = $decoded_json["order"];
+    $temp_data = $decoded_json["data"];
+    foreach($temp_data as $key => $value){
+      $value = array_merge(array_flip($order), $value);
+      $_SESSION["data"][] = $value;
+    }
   }
+*/
+}
+// PHP endpoint call
+init_query();
+/*
+function record_views($role){
+  $url_path = 'https://w2dufry7w8.execute-api.us-west-2.amazonaws.com//records?role=' . $role;
+  $result = CallAPI("GET", $url_path, $data);
+  $decoded_json = json_decode($result, true);
+  // Set Session Variables
+  return $decoded_json;
 
 }
-init_query();
 
 // Method: POST, PUT, GET etc
 // Data: array("param" => "value") ==> index.php?param=value
@@ -276,8 +322,21 @@ function CallAPI($method, $url, $data = false){
 
   $ch = curl_init($url);
 
-  curl_setopt($ch, CURLOPT_POST, 1);
-  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+  switch ($method)
+   {
+       case "POST":
+       curl_setopt($ch, CURLOPT_POST, 1);
+       curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+       break;
+       case "PUT":
+           curl_setopt($curl, CURLOPT_PUT, 1);
+           break;
+       default:
+           if ($data)
+               $url = sprintf("%s?%s", $url, http_build_query($data));
+   }
+
+
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
   curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
   $result = curl_exec($ch);
@@ -285,10 +344,81 @@ function CallAPI($method, $url, $data = false){
       curl_close($curl);
 
       return $result;
-}
+} */
 
 function destroy_sessions() {
    $sessions->destroy_all();//destroys all sessions
    wp_clear_auth_cookie();//clears cookies regarding WP Auth
 }
 add_action('wp_logout', 'destroy_sessions');
+
+function ajax_scripts() {
+   global $current_user;
+   $current_user = wp_get_current_user();
+   $username = get_field('ec_user_name', 'user_' . $current_user->ID);
+
+   wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '', true );
+   wp_localize_script( 'ajax-script', 'theUser', array (
+      'username' => $username,
+      'role' => $_SESSION["role"],
+      'email' => $current_user->user_email,
+   ) );
+
+
+}
+add_action( 'wp_enqueue_scripts', 'ajax_scripts' );
+
+class JPB_User_Caps {
+
+  // Add our filters
+  function JPB_User_Caps(){
+    add_filter( 'editable_roles', array(&$this, 'editable_roles'));
+    add_filter( 'map_meta_cap', array(&$this, 'map_meta_cap'),10,4);
+  }
+
+  // Remove 'Administrator' from the list of roles if the current user is not an admin
+  function editable_roles( $roles ){
+    if( isset( $roles['administrator'] ) && !current_user_can('administrator') ){
+      unset( $roles['administrator']);
+    }
+    return $roles;
+  }
+
+  // If someone is trying to edit or delete and admin and that user isn't an admin, don't allow it
+  function map_meta_cap( $caps, $cap, $user_id, $args ){
+
+    switch( $cap ){
+        case 'edit_user':
+        case 'remove_user':
+        case 'promote_user':
+            if( isset($args[0]) && $args[0] == $user_id )
+                break;
+            elseif( !isset($args[0]) )
+                $caps[] = 'do_not_allow';
+            $other = new WP_User( absint($args[0]) );
+            if( $other->has_cap( 'administrator' ) ){
+                if(!current_user_can('administrator')){
+                    $caps[] = 'do_not_allow';
+                }
+            }
+            break;
+        case 'delete_user':
+        case 'delete_users':
+            if( !isset($args[0]) )
+                break;
+            $other = new WP_User( absint($args[0]) );
+            if( $other->has_cap( 'administrator' ) ){
+                if(!current_user_can('administrator')){
+                    $caps[] = 'do_not_allow';
+                }
+            }
+            break;
+        default:
+            break;
+    }
+    return $caps;
+  }
+
+}
+
+$jpb_user_caps = new JPB_User_Caps();
