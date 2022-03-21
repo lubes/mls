@@ -112,9 +112,9 @@ export default {
       if(_view == "assigned"){
         $.each( datas["data"], function(key, value){
           value["Dater"] = "<a href='#' class='dater'>08/02/2021</a>";
-          if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
+          //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
             value["Notes"] = "Notes: Last notes will be here <a href='#' class='notes'>Update</a>";
-          }
+          //}
           datas["data"][key]= value;
         });
         col_head = "<th>Date Assigned</th>";
@@ -163,12 +163,12 @@ export default {
       });
 
       if(_view == "assigned"){
-        if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
+        //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
         var new_columns = { data: "Notes"};
         columns.push(new_columns);
         col_head = "<th>Notes</th>";
         $("."+ table_header).append(col_head);
-      }
+      //}
       }
 
 
