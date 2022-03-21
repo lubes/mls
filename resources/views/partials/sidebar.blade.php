@@ -6,13 +6,13 @@
     </a>
     <?php if(is_front_page()):?>
       <h3>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h3>
-    <?php endif; /*?>
+    <?php endif; /*?> /
     <form method="post" class="view-form">
       @include('partials.views-dropdown')
       <input type="hidden" name="refresh" value="true">
     </form>
     <?php */
-     if($_SESSION["role"] == "SETUP") { ?>
+    ?>
        <div class="dropdown-group">
          <button class="dropdown-toggler dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
            <i class="fal fa-users"></i> Setup View
@@ -21,12 +21,14 @@
            <div class="card card-body mt-1">
              <form method="post" class="view-param d-flex">
                <ul class="side-nav">
+               <?php if($_SESSION["role"] == "SETUP" || $_SESSION["role"] == "SETUP_TL") { ?>
                  <li class="nav-item">
                    <div class="radio-btn">
                      <input type="radio" class="btn-check setup_view" id="am" autocomplete="off" name="setup_view" value="open" <?php if($_SESSION["role"] == "ctcDocsOutBack"){ echo "open"; } ?>>
                      <label class="btn w-100" for="am"><i class="fal fa-user"></i> Open</label>
                    </div>
                  </li>
+               <?php } ?>
                  <li class="nav-item">
                    <div class="radio-btn">
                      <input type="radio" class="btn-check setup_view" id="role_ae" autocomplete="off" name="setup_view" value="assigned" <?php if($_SESSION["role"] == "assigned"){ echo "checked"; } ?>>
@@ -41,9 +43,8 @@
            </div>
          </div>
        </div>
-     <?php } ?>
   <?php
-   if($_SESSION["role"] == "ADMIN") { ?>
+   if($_SESSION["role"] == "ADMINs") { ?>
     <div class="dropdown-group">
       <button class="dropdown-toggler dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
         <i class="fal fa-users"></i> Change Role
