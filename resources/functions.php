@@ -356,12 +356,13 @@ function ajax_scripts() {
    global $current_user;
    $current_user = wp_get_current_user();
    $username = get_field('ec_user_name', 'user_' . $current_user->ID);
-
+   $token = get_field("token",  'option');
    wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '', true );
    wp_localize_script( 'ajax-script', 'theUser', array (
       'username' => $username,
       'role' => $_SESSION["role"],
       'email' => $current_user->user_email,
+      'token' => htmlentities($token)
    ) );
 
 
@@ -422,3 +423,42 @@ class JPB_User_Caps {
 }
 
 $jpb_user_caps = new JPB_User_Caps();
+
+// Create options page
+if( function_exists('acf_add_options_page') ) {
+
+	acf_add_options_page();
+
+}
+
+// New token
+add_action( 'new_token', 'get_token' );
+
+function get_token() {
+  $new_date = date("Y-m-d H:i:s");
+  //$old_date = get_field("date",  'option');
+  update_field( "date", $new_date, 'option' );
+
+  $curl = curl_init();
+
+  curl_setopt_array($curl, array(
+    CURLOPT_URL => "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/get-token",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => array(
+      "cache-control: no-cache"
+    ),
+  ));
+
+$response = curl_exec($curl);
+$err = curl_error($curl);
+
+curl_close($curl);
+$response = json_decode($response, true); //because of true, it's in an array
+
+
+  update_field( "token",$response["token"] , 'option' );
+
+}

@@ -79,7 +79,7 @@ export default {
     function datatable(datas, key, _view) {
       // Clear Existing Data
       var div_id, table_id, table_header, new_table;
-
+      var _role = theUser.role;
       div_id = "dt_"+key;
       table_id = "dt-table-" + key;
       table_header = "table-header-" + key;
@@ -112,7 +112,9 @@ export default {
       if(_view == "assigned"){
         $.each( datas["data"], function(key, value){
           value["Dater"] = "<a href='#' class='dater'>08/02/2021</a>";
-          value["Notes"] = "Notes: Last notes will be here <a href='#' class='notes'>Update</a>";
+          //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
+            value["Notes"] = "Notes: Last notes will be here <a href='#' class='notes'>Update</a>";
+          //}
           datas["data"][key]= value;
         });
         col_head = "<th>Date Assigned</th>";
@@ -120,6 +122,7 @@ export default {
 
         var new_columns = { data: "Dater"};
         columns.push(new_columns);
+
       }
 
       console.log(datas["data"]);
@@ -160,10 +163,12 @@ export default {
       });
 
       if(_view == "assigned"){
+        //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
         var new_columns = { data: "Notes"};
         columns.push(new_columns);
         col_head = "<th>Notes</th>";
         $("."+ table_header).append(col_head);
+      //}
       }
 
 
@@ -273,8 +278,10 @@ export default {
     function call_setup_endpoint(_view){
       var _token, datas;
 
-      _token = "&lt;USER_TICKET EncryptedTicket=\"agw8m/eZqFwBQxV59JdeeAz/M0D8SJ3OacfeU+Ero5ATs0GqoWGSmQC2/CK3/jn1sGDiRMjVmXK2zYRhrzoj6OJ1TD7FygZrGPTlkgZntQIeiUYcDmZ+Md68LOcs37W/k9wc0/U3lhoMutRk85sZJxkheA9Ozh7qznSFRs6JTOQayW+ixI1LNEV0SJpQqpuF1Iuns97OvPWxqeWodlBwKsSMW9jYghlrDio2hXv26VRKZ8yCv9LS86dFO8TV3Vmg\" Site=\"LQB\" /&gt;";
+      //_token = "&lt;USER_TICKET EncryptedTicket=\"agw8m/eZqFwBQxV59JdeeAz/M0D8SJ3OacfeU+Ero5ATs0GqoWGSmQC2/CK3/jn1sGDiRMjVmXK2zYRhrzoj6OJ1TD7FygZrGPTlkgZntQIeiUYcDmZ+Md68LOcs37W/k9wc0/U3lhoMutRk85sZJxkheA9Ozh7qznSFRs6JTOQayW+ixI1LNEV0SJpQqpuF1Iuns97OvPWxqeWodlBwKsSMW9jYghlrDio2hXv26VRKZ8yCv9LS86dFO8TV3Vmg\" Site=\"LQB\" /&gt;";
 
+      _token = theUser.token;
+      console.log(_token);
       var formData = {token:_token}; //Array
       formData = JSON.stringify(formData);
       $('#loader').fadeIn();
@@ -537,7 +544,8 @@ export default {
         $(".modal-body").html("<div>Congrats! You've been assigned! <a href='#'>Go to loan now</a></div>")
       })
     } else {
-      record_requests(theUser.role,theUser.username);
+      call_setup_endpoint("assigned");
+
     }
 
 
