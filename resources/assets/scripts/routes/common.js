@@ -2,7 +2,7 @@
 // import jsPDF from '../plugins/jspdf.js';
 // import '../plugins/dataTables.js';
 import 'datatables.net';
-import 'datatables.net-buttons';
+// import 'datatables.net-buttons';
 import 'datatables.net-colreorder';
 import '../plugins/pdfmake.js';
 import '../plugins/vfs_fonts';
@@ -57,6 +57,7 @@ export default {
         'print',
         {
           extend: 'pdfHtml5',
+          text:      '<i class="fa fa-files-o"></i>',
           orientation: 'landscape',
           pageSize: 'LEGAL',
           customize: function(doc) {
@@ -72,6 +73,13 @@ export default {
         'excelHtml5',
         //'pdfHtml5',
       ],
+      initComplete: function() {
+       $('.buttons-copy').html('<i class="fa fa-copy" />')
+       $('.buttons-csv').html('<i class="fa fa-file-text-o" />')
+       $('.buttons-excel').html('<i class="fa fa-file-excel-o" />')
+       $('.buttons-pdf').html('<i class="fa fa-file-pdf-o" />')
+       $('.buttons-print').html('<i class="fa fa-print" />')
+      }
     });
 
 
@@ -219,7 +227,14 @@ export default {
          'excelHtml5',
          //'pdfHtml5',
        ],
-
+       initComplete: function() {
+         $('.buttons-colvis').html('<i class="fas fa-eye"></i> Column Visibility')
+         $('.buttons-copy').html('<i class="fas fa-copy"></i> Copy')
+         $('.buttons-csv').html('<i class="fas fa-file-csv"></i> CSV')
+         $('.buttons-excel').html('<i class="fas fa-file-excel"></i> Excel')
+         $('.buttons-pdf').html('<i class="fas fa-file-pdf"></i> PDF')
+         $('.buttons-print').html('<i class="fas fa-print"></i> Print')
+      },
 
 
        /*
@@ -280,7 +295,7 @@ export default {
 
       //_token = "&lt;USER_TICKET EncryptedTicket=\"agw8m/eZqFwBQxV59JdeeAz/M0D8SJ3OacfeU+Ero5ATs0GqoWGSmQC2/CK3/jn1sGDiRMjVmXK2zYRhrzoj6OJ1TD7FygZrGPTlkgZntQIeiUYcDmZ+Md68LOcs37W/k9wc0/U3lhoMutRk85sZJxkheA9Ozh7qznSFRs6JTOQayW+ixI1LNEV0SJpQqpuF1Iuns97OvPWxqeWodlBwKsSMW9jYghlrDio2hXv26VRKZ8yCv9LS86dFO8TV3Vmg\" Site=\"LQB\" /&gt;";
 
-      _token = theUser.token;
+      _token = '&lt;USER_TICKET EncryptedTicket="5RhEqKLyppZaNEdAXUEIgMYifHPB8M0mz/XVcQ5cH5G+tmbC29L3YbmxC+GfNlmJMMbWxR6d6npyYIfBSfnqMF8hBofh2OO0trjXRGROVqTuqK+EO9zFDRBOm0+SfQFrK52Bf0EjyEv2KPHkjnbNN6gBQQgFND2krriV7pr54Pf3s//COw3rNozp999Iacr32ONrp1hlKWo9MGVFer0rslzxAxXgIeAIPJQgN/pVEuM6GR0uxoVjLtL1wxjILvMq" Site="LQB" /&gt;';
       console.log(_token);
       var formData = {token:_token}; //Array
       formData = JSON.stringify(formData);

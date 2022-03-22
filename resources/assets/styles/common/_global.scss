@@ -281,15 +281,17 @@ h2 {
   padding-bottom: 15px;
 }
 
+.dt-button {
+  padding: 0;
+  text-decoration: none;
+  padding: 0 10px;
+  // float: right;
+}
+
 .dt-buttons {
   // padding: 15px;
   padding-bottom: 15px;
   float: right;
-
-  .dt-buttons {
-    padding: 0;
-    // float: right;
-  }
 
   .btn-group {
     float: right;
