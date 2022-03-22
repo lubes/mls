@@ -23,10 +23,10 @@
                 <div class="d-flex">
                   <form method="post" class="">
                     <input type="hidden" id="refresh_value" autocomplete="off" name="refresh" value="<?php if($_GET['report']) { echo $_GET['report']; } ?>">
-                    <button class="btn btn-warning me-3" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
+                    <button class="btn btn-primary me-3" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
                     <input type="hidden" name="refresh" value="true">
                   </form>
-                  <button class="btn btn-default me-5" id="newWindow">New Window <i class="fas fa-external-link"></i></button>
+                  <button class="btn btn-outline-primary me-5" id="newWindow">New Window <i class="fas fa-external-link"></i></button>
                 </div>
 
               </div>

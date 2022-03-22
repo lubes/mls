@@ -27,8 +27,25 @@
     }
   }
 
+  &-primary {
+    border-color: $blue;
+    background: $blue;
+
+    &:hover,
+    &:focus {
+      background: darken($blue, 10);
+    }
+  }
+
   &-outline-primary {
+    border-color: $blue;
+    color: $blue;
     background: #fff;
+
+    &:hover,
+    &:focus {
+      background: darken($blue, 10);
+    }
   }
 
   &-lg {
