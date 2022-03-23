@@ -238,7 +238,7 @@ h2 {
 
     &.sorting_desc,
     &.sorting_asc {
-      background: $light;
+      // background: $light;
       color: $danger;
     }
   }
@@ -292,6 +292,14 @@ h2 {
   // padding: 15px;
   padding-bottom: 15px;
   float: right;
+
+  .btn-default {
+    border: none;
+    background: none;
+    outline: none;
+    font-size: 0.9rem;
+    padding: 0.25rem 1rem;
+  }
 
   .btn-group {
     float: right;

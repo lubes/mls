@@ -4,6 +4,20 @@ import 'jquery';
 // Import everything from autoload
 import 'bootstrap';
 
+// Import Datatables
+import 'datatables.net';
+// import 'datatables.net-buttons';
+import 'datatables.net-colreorder';
+import './plugins/pdfmake.js';
+import './plugins/vfs_fonts';
+// import 'datatables.net-bs';
+
+import 'datatables.net-bs5';
+// import '../plugins/dataTables.bootstrap.min.js';
+import 'datatables.net-buttons/js/buttons.colVis.js';
+import 'datatables.net-buttons/js/buttons.html5.js';
+import 'datatables.net-buttons/js/buttons.print.js';
+
 // import local dependencies
 import Router from './util/Router';
 import common from './routes/common';
