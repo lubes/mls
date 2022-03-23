@@ -89,7 +89,7 @@
           <button type="button" class="btn-close assign-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body"><h3 class="modal-title">Are you sure you want to assign yourself to this loan?</h3>
-          <button type="button" class="btn btn-primary assign-confirm">Confirm</button>
+          <button type="button" class="btn btn-primary assign-confirm" data-ln="">Confirm</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
         <div class="modal-footer">

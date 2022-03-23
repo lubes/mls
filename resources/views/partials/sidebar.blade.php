@@ -108,7 +108,16 @@
 
    <?php } ?>
 
+   <?php
+    if($_SESSION["role"] == "ADMIN") { ?>
 
+      <form id="searchform" action="/" method="get">
+          <input class="inlineSearch" type="text" name="s" value="" />
+          <input type="hidden" name="post_type" value="loans" />
+          <input class="inlineSubmit" id="searchsubmit" type="submit" alt="Search" value="Search Loan Number" />
+  </form>
+
+    <?php } ?>
 
 
 
