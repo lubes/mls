@@ -83,6 +83,36 @@ export default {
     });
 
 
+    function wpcpt_loan(value, callback){
+      $.ajax({
+       type: "POST",
+       url: "/wp-admin/admin-ajax.php",
+       //async: false,
+       data: {
+           action: 'search_by_slug',
+           loanNumber: value["Loan Number"]
+       },
+       success: function(data, textStatus, jqXHR){
+          var post = JSON.parse(data["data"]);
+          callback(post);
+       }
+       });
+    }
+    function get_loans(){
+      var post;
+      $.ajax({
+       type: "GET",
+       url: "/wp-json/wp/v2/loans",
+       async: false,
+       success: function(data, textStatus, jqXHR){
+         post = data;
+       }
+     }
+     );
+     return post;
+    }
+
+
     /* DataTables Examples */
     function datatable(datas, key, _view) {
       // Clear Existing Data
@@ -118,11 +148,37 @@ export default {
 
       // Add Assign action if SETUP: Assigned
       if(_view == "assigned"){
+          var date_assigned, last_note;
+          var posts = get_loans();
+          console.log(posts);
+
         $.each( datas["data"], function(key, value){
-          value["Dater"] = "<a href='#' class='dater'>08/02/2021</a>";
+          /* Get Wordpress Data */
+          $.each(posts, function(k, v){
+            date_assigned = "N/A";
+            last_note = "";
+            var slug = v.slug.toUpperCase()
+            if(value["Loan Number"] == slug){
+              date_assigned = v["acf"]["date_assigned"];
+              last_note = v["last_comment"];
+              return false;
+            }
+          })
+
+
+           /*if( post["date"] != undefined){
+             assigned_date =  post["date"];
+           } else {
+             assigned_date = "N/A";
+           }
+          value["Dater"] = "<span class='dater'>"+ post["date"] +"</span>";
           //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
-            value["Notes"] = "Notes: Last notes will be here <a href='#' class='notes'>Update</a>";
-          //}
+          value["Notes"] = post["message"] + " <a href='/loans/" + value["Loan Number"] + "' class='notes'>View All</a>";
+        }
+*/
+          value["Dater"] = "<span class='dater'>" + date_assigned + "</span>";
+          //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
+         value["Notes"] = last_note + " <a href='/loans/" + value["Loan Number"] + "' class='notes'>View All</a>";
           datas["data"][key]= value;
         });
         col_head = "<th>Date Assigned</th>";
@@ -132,14 +188,6 @@ export default {
         columns.push(new_columns);
 
       }
-
-      console.log(datas["data"]);
-
-
-
-
-
-
 
       $.each( datas["order"], function( key, value ) {
         // Create Order Object
@@ -252,7 +300,6 @@ export default {
        ],
        */
      });
-     console.log("go convert");
      convert_dates();
    }
     //datatable();
@@ -295,8 +342,7 @@ export default {
 
       //_token = "&lt;USER_TICKET EncryptedTicket=\"agw8m/eZqFwBQxV59JdeeAz/M0D8SJ3OacfeU+Ero5ATs0GqoWGSmQC2/CK3/jn1sGDiRMjVmXK2zYRhrzoj6OJ1TD7FygZrGPTlkgZntQIeiUYcDmZ+Md68LOcs37W/k9wc0/U3lhoMutRk85sZJxkheA9Ozh7qznSFRs6JTOQayW+ixI1LNEV0SJpQqpuF1Iuns97OvPWxqeWodlBwKsSMW9jYghlrDio2hXv26VRKZ8yCv9LS86dFO8TV3Vmg\" Site=\"LQB\" /&gt;";
 
-      _token = '&lt;USER_TICKET EncryptedTicket="5RhEqKLyppZaNEdAXUEIgMYifHPB8M0mz/XVcQ5cH5G+tmbC29L3YbmxC+GfNlmJMMbWxR6d6npyYIfBSfnqMF8hBofh2OO0trjXRGROVqTuqK+EO9zFDRBOm0+SfQFrK52Bf0EjyEv2KPHkjnbNN6gBQQgFND2krriV7pr54Pf3s//COw3rNozp999Iacr32ONrp1hlKWo9MGVFer0rslzxAxXgIeAIPJQgN/pVEuM6GR0uxoVjLtL1wxjILvMq" Site="LQB" /&gt;';
-      console.log(_token);
+      _token = theUser.token;
       var formData = {token:_token}; //Array
       formData = JSON.stringify(formData);
       $('#loader').fadeIn();
@@ -552,11 +598,59 @@ export default {
       })
 
       $('#assignModal').on('show.bs.modal', function(e) {
-        $(".assign-loan").html("Loan Number: " + e.relatedTarget.dataset.loan);
+        var _username = theUser.username;
+        var _loanNumber =  e.relatedTarget.dataset.loan;
+        $(".assign-loan").html("<h3>Loan Number: " + _loanNumber + "</h3><p>"+_username+"</p>");
+        $(".assign-confirm").attr('data-ln', _loanNumber);
+        $('#loader').fadeIn();
+
+        //console.log(formData);
+        //console.log(theUser.role);
+
+
+
       });
 
-      $(".assign-confirm").on("click", function(){
-        $(".modal-body").html("<div>Congrats! You've been assigned! <a href='#'>Go to loan now</a></div>")
+      $(".assign-confirm").on("click", function(e){
+        var _token = theUser.token;
+        var _username = theUser.username;
+        var _loanNumber =  $(".assign-confirm").attr('data-ln');
+        var formData = {token:_token, username:_username, loanNumber: _loanNumber}; //Array
+        formData = JSON.stringify(formData);
+        $.ajax({
+              url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/fake-assign-setup",
+              type: "POST",
+              contentType: "application/json",
+              dataType: "json",
+              data : formData,
+              success: function(data, textStatus, jqXHR)
+              {
+                console.log(data);
+                $.ajax({
+                 type: "POST",
+                 url: "/wp-admin/admin-ajax.php",
+                 data: {
+                     action: 'create_loan_post',
+                     loanNumber: _loanNumber,
+                     username: _username
+
+                 },
+                 success: function (output) {
+                    console.log(output);
+                 }
+                 });
+                $(".modal-body").html("<div>"+data["message"]+" <a href='"+data["url"]+"' target='_blank'>Go to loan now</a></div>");
+
+
+              },
+              error: function (jqXHR, textStatus, errorThrown)
+              {
+                console.log(jqXHR);
+                $(".assign-loan").html("<h3>Fail</h3><p>"+_username+"</p>");
+
+
+              }
+          });
       })
     } else {
       call_setup_endpoint("assigned");

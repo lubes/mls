@@ -431,6 +431,14 @@ if( function_exists('acf_add_options_page') ) {
 
 }
 
+function wpb_change_search_url() {
+    if ( is_search() && ! empty( $_GET['s'] ) ) {
+        wp_redirect( home_url( "/search/" ) . urlencode( get_query_var( 's' ) ) );
+        exit();
+    }
+}
+add_action( 'template_redirect', 'wpb_change_search_url' );
+
 // New token
 add_action( 'new_token', 'get_token' );
 
@@ -462,3 +470,111 @@ $response = json_decode($response, true); //because of true, it's in an array
   update_field( "token",$response["token"] , 'option' );
 
 }
+
+// register the ajax action for authenticated users
+add_action('wp_ajax_create_loan_post', 'create_loan_post');
+
+// register the ajax action for unauthenticated users
+add_action('wp_ajax_nopriv_create_loan_post', 'create_loan_post');
+
+// handle the ajax request
+function create_loan_post() {
+
+    $loanNumber = $_REQUEST['loanNumber'];
+    $username =  $_REQUEST['username'];
+
+    $post_id = wp_insert_post(array (
+       'post_type' => 'loans',
+       'post_title' => $loanNumber,
+       'post_status' => 'publish',
+       'comment_status' => 'open',   // if you prefer
+    ));
+
+    if ($post_id) {
+       // insert post meta
+       $new_date = date("Y-m-d H:i:s");
+       update_field( "date_assigned", $new_date, $post_id );
+       update_field( "assigned_to", $username , $post_id );
+       update_field( "loan_number", $loanNumber , $post_id );
+       $status->message = "Success";
+
+    }else {
+      $status->message = "Error";
+    }
+    // add your logic here...
+    $myStatus = json_encode($status);
+
+    // in the end, returns success json data
+    wp_send_json_success($myStatus);
+
+    // or, on error, return error json data
+    wp_send_json_error([/* some data here */]);
+}
+/*
+// register the ajax action for authenticated users
+add_action('wp_ajax_search_by_slug', 'search_by_slug');
+
+// register the ajax action for unauthenticated users
+add_action('wp_ajax_nopriv_search_by_slug', 'search_by_slug');
+
+function search_by_slug(){
+  $loanNumber = $_REQUEST['loanNumber'];
+$args = array(
+  'name'        => $loanNumber ,
+  'post_type'   => 'loans',
+  'post_status' => 'publish',
+  'numberposts' => 1
+);
+$my_posts = get_posts($args);
+if( $my_posts ) :
+  $comment = get_comments( $args );
+  $status->id = $my_posts[0]->ID;
+  $status->date = get_field("date_assigned", $my_posts[0]->ID);
+  $status->message = $comment[0]->comment_content;
+  //echo 'ID on the first post found ' . $my_posts[0]->ID;
+  else :
+  $status->id = "N/A";
+  $status->date = "N/A";
+  $status->message = "";
+
+endif;
+
+$myStatus = json_encode($status);
+
+
+wp_send_json_success($myStatus);
+
+}
+
+
+function get_loans( $data ) {
+
+  $args = array(
+    'post_type'         => 'loans',
+    'post_status'       => 'publish',
+    'posts_per_page'    => -1
+  );
+  $posts = get_posts($args);
+
+  if (empty( $posts ) ) {
+    return null;
+  }
+
+  $data = [];
+
+  foreach ($posts as $post) {
+    $date_assigned = get_field('date_assigned', $post->ID);
+    $comments = get_comments( $args );
+    $comment = $comments[0]->comment_content;
+
+    $api_content = [
+        'name'  => $post->post_title,
+        'date_assigned'  => $date_assigned,
+        'comment'  => $comment// ACF
+
+    ];
+    $data[] = $api_content;
+  }
+
+  return $data;
+}*/
