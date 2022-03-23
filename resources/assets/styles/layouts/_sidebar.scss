@@ -142,9 +142,13 @@
 }
 
 .user-link {
+  height: 40px;
+  width: 40px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  margin: 0 auto;
+
   img {
-    border: 2px solid #ffff;
-    border-radius: 50%;
     width: 100%;
   }
 
