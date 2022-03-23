@@ -153,7 +153,7 @@ $bg: darken($color, 5);
 }
 
 .table-wrapper {
-  // border: 1px solid #ddd;
+  border: 1px solid #ddd;
   // border-radius: 5px;
   margin: 0 auto 20px;
 
@@ -278,7 +278,8 @@ h2 {
 
 .dataTables_filter {
   // padding: 15px;
-  padding-bottom: 15px;
+  // padding-bottom: 15px;
+  padding: 0 15px 15px;
 }
 
 .dt-button {
@@ -299,6 +300,10 @@ h2 {
     outline: none;
     font-size: 0.9rem;
     padding: 0.25rem 1rem;
+
+    &:hover {
+      color: $blue;
+    }
   }
 
   .btn-group {

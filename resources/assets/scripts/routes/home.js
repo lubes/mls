@@ -21,6 +21,11 @@ export default {
           });
     }
 
+    $(".setup_view").on("change", function(){
+      call_setup_endpoint($(this).val());
+    });
+
+
     $('#example').DataTable({
       "colReorder": true,
       dom: 'Bfrtip',

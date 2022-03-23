@@ -21,10 +21,6 @@ export default {
       $('#refresh_value').val($(this).val());
     });
 
-    $(".setup_view").on("change", function(){
-      call_setup_endpoint($(this).val());
-    });
-
     $(".admin_view").on("change", function(){
       $(".rr_view").empty();
       $(".rr_view_2").empty();
