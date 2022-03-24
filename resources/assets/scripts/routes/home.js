@@ -118,14 +118,17 @@ export default {
       //_view = "assigned";
       // Add Assign action if SETUP: Open
       if(_view == "open"){
-        $.each( datas["data"], function(key, value){
-          value["Assign"] = "<a href='#' class='assigner' data-bs-toggle='modal' data-bs-target='#assignModal' data-loan='" + value["Loan Number"] + "'>Assign</a>";
-          datas["data"][key]= value;
-        });
-        col_head = "<th>Assign</th>";
-        $("."+ table_header).append(col_head);
-        var new_columns = { data: "Assign"};
-        columns.push(new_columns);
+        if(_role == "SETUP" || _role == "SETUP_TL"){
+
+          $.each( datas["data"], function(key, value){
+            value["Assign"] = "<a href='#' class='assigner' data-bs-toggle='modal' data-bs-target='#assignModal' data-loan='" + value["Loan Number"] + "'>Assign</a>";
+            datas["data"][key]= value;
+          });
+          col_head = "<th>Assign</th>";
+          $("."+ table_header).append(col_head);
+          var new_columns = { data: "Assign"};
+          columns.push(new_columns);
+        }
       }
 
       // Add Assign action if SETUP: Assigned
@@ -148,19 +151,8 @@ export default {
           })
 
 
-           /*if( post["date"] != undefined){
-             assigned_date =  post["date"];
-           } else {
-             assigned_date = "N/A";
-           }
-          value["Dater"] = "<span class='dater'>"+ post["date"] +"</span>";
-          //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
-          value["Notes"] = post["message"] + " <a href='/loans/" + value["Loan Number"] + "' class='notes'>View All</a>";
-        }
-*/
           value["Dater"] = "<span class='dater'>" + date_assigned + "</span>";
-          //if(_role == "SETUP" || _role == "SETUP_TL" || _role == "MANAGER" || _role == "ADMIN"){
-         value["Notes"] = last_note + " <a href='/loans/" + value["Loan Number"] + "' class='notes'>View All</a>";
+          value["Notes"] = last_note + " <a href='/loans/" + value["Loan Number"] + "' class='notes' target='_blank'>View All</a>";
           datas["data"][key]= value;
         });
         col_head = "<th>Date Assigned</th>";
@@ -182,9 +174,9 @@ export default {
         } else if (value.includes("Loan Number")){
           var obj = {
               data: value,
-              className: "convertLoan",
+              className: "",
               render: function ( data, type, row, meta ) {
-                return '<a href="https://excelerate-dev.bluesageusa.com/lp/index.html#/loan/' + data + '/loan-action?section=0" target="_blank" class="loan-link">'+data+'</a>';
+                return '<a href="#" class="loanlink" data-ln="'+data+'">'+data+'</a>';
               }
           };
 
@@ -285,6 +277,37 @@ export default {
      // $('#'+table_id).fnMultiFilter( { "engine": "Gecko", "browser": "Cam" } );
 
      convert_dates();
+
+     $(".loanlink").on("click", function(e){
+       var _token = theUser.token;
+       var _loanNumber =  $(this).attr("data-ln");
+       var formData = {token:_token, loanNumber: _loanNumber}; //Array
+       formData = JSON.stringify(formData);
+       $.ajax({
+             url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/get-loan-url  ",
+             type: "POST",
+             contentType: "application/json",
+             dataType: "json",
+             data : formData,
+             success: function(data, textStatus, jqXHR)
+             {
+               console.log(data);
+               window.open(data["url"], "mWindow", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no, width=1000, height=800, left=100, top=100");
+
+
+
+
+             },
+             error: function (jqXHR, textStatus, errorThrown)
+             {
+               console.log(jqXHR);
+
+
+             }
+         });
+
+
+     })
    }
     //datatable();
 
@@ -575,25 +598,26 @@ export default {
 
     }
 
-    if(theUser.role == "SETUP"){
+    if(theUser.role == "SETUP" || theUser.role == "SETUP_TL"){
       call_setup_endpoint("open");
-      $(".assigner").on("click", function(){
+      /*$(".assigner").on("click", function(){
         console.log($(this).data("loan"));
-      })
+      })*/
+
+
 
       $('#assignModal').on('show.bs.modal', function(e) {
         var _username = theUser.username;
         var _loanNumber =  e.relatedTarget.dataset.loan;
         $(".assign-loan").html("<h3>Loan Number: " + _loanNumber + "</h3><p>"+_username+"</p>");
         $(".assign-confirm").attr('data-ln', _loanNumber);
-        $('#loader').fadeIn();
+        //$('#loader').fadeIn();
 
         //console.log(formData);
         //console.log(theUser.role);
-
-
-
       });
+
+
 
       $(".assign-confirm").on("click", function(e){
         var _token = theUser.token;
@@ -623,6 +647,10 @@ export default {
                     console.log(output);
                  }
                  });
+                 $('.assigner[data-loan="'+_loanNumber+'"]').html("Assigned").contents().unwrap();
+
+                 console.log(_loanNumber);
+
                 $(".modal-body").html("<div>"+data["message"]+" <a href='"+data["url"]+"' target='_blank'>Go to loan now</a></div>");
 
 
@@ -638,12 +666,14 @@ export default {
       })
     } else {
       call_setup_endpoint("assigned");
-
     }
+
 
 
   },
   finalize() {
+
+
     // JavaScript to be fired on the home page, after the init JS
   },
 };

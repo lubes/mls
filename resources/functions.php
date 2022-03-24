@@ -510,6 +510,31 @@ function create_loan_post() {
     // or, on error, return error json data
     wp_send_json_error([/* some data here */]);
 }
+
+add_action('rest_api_init', 'ec_add_loans_fields');
+
+function ec_add_loans_fields(){
+  register_rest_field(
+    'loans',
+    'last_comment',
+    array(
+        'get_callback' => 'get_rest_comments',
+        'update_callback' => null,
+        'schema' => null,
+    )
+  );
+}
+
+function get_rest_comments($object){
+  $comment = get_comments(array(
+        'post_id' => $object["id"],
+        'number' => '1' ));
+  return $comment[0]->comment_content;
+
+
+}
+
+
 /*
 // register the ajax action for authenticated users
 add_action('wp_ajax_search_by_slug', 'search_by_slug');

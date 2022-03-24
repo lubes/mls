@@ -11,7 +11,7 @@
           <?php endif;?>
         </a>
         <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser1" style="">
-          <?php if( current_user_can('editor') ||  current_user_can('management') || current_user_can('administrator') ) {  ?>
+          <?php if( current_user_can('editor') ||  current_user_can('management') || current_user_can('administrator') ||  current_user_can('admin')) {  ?>
             <li><a class="dropdown-item" href="<?php echo site_url();?>/wp-admin">Admin Dashboard</a></li>
           <?php } ?>
           <li><a class="dropdown-item" href="<?php echo site_url();?>/profile">Profile</a></li>
@@ -43,7 +43,7 @@
            <div class="card card-body mt-1">
              <form method="post" class="view-param d-flex">
                <ul class="side-nav">
-               <?php if($_SESSION["role"] == "SETUP" || $_SESSION["role"] == "SETUP_TL") { ?>
+               <?php if($_SESSION["role"] != "VIEWER") { ?>
                  <li class="nav-item">
                    <div class="radio-btn">
                      <input type="radio" class="btn-check setup_view" id="am" autocomplete="off" name="setup_view" value="open" <?php if($_SESSION["role"] == "ctcDocsOutBack"){ echo "open"; } ?>>
@@ -131,12 +131,12 @@
    <?php } ?>
 
    <?php
-    if($_SESSION["role"] == "ADMIN") { ?>
+    if(($_SESSION["role"] != "VIEWER") && ($_SESSION["role"] != "SETUP")) { ?>
 
       <form id="searchform" action="/" method="get">
-          <input class="inlineSearch" type="text" name="s" value="" />
+          <input class="inlineSearch form-control input-sm" type="text" name="s" value="" placeholder="Search Archive"/>
           <input type="hidden" name="post_type" value="loans" />
-          <input class="inlineSubmit" id="searchsubmit" type="submit" alt="Search" value="Search Loan Number" />
+          <input class="inlineSubmit btn btn-outline-primary m-2" id="searchsubmit" type="button" alt="Search" value="Search" />
   </form>
 
     <?php } ?>
