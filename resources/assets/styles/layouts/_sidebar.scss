@@ -38,11 +38,11 @@
   }
 
   &-inner {
+    overflow: hidden;
     opacity: 0;
     // width: 100%;
     position: relative;
     width: 0;
-    overflow: scroll;
 
     // @include fast_easing();
   }

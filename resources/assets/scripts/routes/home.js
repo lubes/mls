@@ -345,11 +345,10 @@ export default {
         //'pdfHtml5',
       ],
       "createdRow": function( row, data, dataIndex ){
-        console.log(data);
         if(data.hasOwnProperty('Color')){
            $(row).attr('style', 'background-color: '+ data["Color"] +' !important');
          }
-
+         console.log(theUser.username);
          if(data["Account Executive"]!== theUser.username){
            $(row).attr('style', 'display: none !important');
          }
@@ -726,7 +725,7 @@ export default {
         formData = JSON.stringify(formData);
         console.log(formData);
         $.ajax({
-              url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/assign-stetup-user  ",
+              url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/assign-setup-user",
               type: "POST",
               contentType: "application/json",
               dataType: "json",
