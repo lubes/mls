@@ -356,10 +356,12 @@ function ajax_scripts() {
    global $current_user;
    $current_user = wp_get_current_user();
    $username = get_field('ec_user_name', 'user_' . $current_user->ID);
+   $user_id = $current_user->user_login;
    $token = get_field("token",  'option');
    wp_enqueue_script( 'ajax-script', get_template_directory_uri() . '/js/functions.js', array( 'jquery' ), '', true );
    wp_localize_script( 'ajax-script', 'theUser', array (
       'username' => $username,
+      'user_id' => $user_id,
       'role' => $_SESSION["role"],
       'email' => $current_user->user_email,
       'token' => htmlentities($token)

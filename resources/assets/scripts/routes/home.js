@@ -271,7 +271,6 @@ export default {
          //'pdfHtml5',
        ],
        "createdRow": function( row, data, dataIndex ){
-         console.log(data);
          if(data.hasOwnProperty('Color')){
             $(row).attr('style', 'background-color: '+ data["Color"] +' !important');
           }
@@ -350,7 +349,8 @@ export default {
         if(data.hasOwnProperty('Color')){
            $(row).attr('style', 'background-color: '+ data["Color"] +' !important');
          }
-         if(data["Account Executive"]!=="Ken To"){
+
+         if(data["Account Executive"]!== theUser.username){
            $(row).attr('style', 'display: none !important');
          }
       },
@@ -391,7 +391,6 @@ export default {
              data : formData,
              success: function(data, textStatus, jqXHR)
              {
-               console.log(data);
                window.open(data["url"], "mWindow", "directories=no,titlebar=no,toolbar=no,location=no,status=no,menubar=no,scrollbars=no, width=1000, height=800, left=100, top=100");
 
 
@@ -721,12 +720,13 @@ export default {
 
       $(".assign-confirm").on("click", function(e){
         var _token = theUser.token;
-        var _username = theUser.username;
+        var _username = theUser.user_id;
         var _loanNumber =  $(".assign-confirm").attr('data-ln');
         var formData = {token:_token, username:_username, loanNumber: _loanNumber}; //Array
         formData = JSON.stringify(formData);
+        console.log(formData);
         $.ajax({
-              url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/fake-assign-setup",
+              url : "https://7ri4vh86qb.execute-api.us-west-2.amazonaws.com/assign-stetup-user  ",
               type: "POST",
               contentType: "application/json",
               dataType: "json",
