@@ -9,13 +9,4 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;1,100&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-rqn26AG5Pj86AF4SO72RK5fyefcQ/x32DNQfChxWvbXIyXFePlEktwD18fEz+kQU" crossorigin="anonymous">
-  <style>
-  .report-table th::before {
-    position: absolute;
-    content: "\f883";
-    font-family: 'Font Awesome 5 Pro';
-    right: 5px;
-    opacity: 0.3;
-  }
-  </style>
 </head>

@@ -11,6 +11,11 @@ export default {
     // alert(sidebar_status);
     // Convert Dates
 
+    $('#goback').on('click', function(e){
+        e.preventDefault();
+        window.history.back();
+    });
+
 
 
     $(".rr_view").on("change", function(){

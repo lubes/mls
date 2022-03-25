@@ -21,11 +21,7 @@
       </div>
   </div>
   <div class="d-flex main-sidebar-inner  flex-column flex-shrink-0 p-3 text-white">
-    <!--
-    <a href="<?php echo site_url();?>/home" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none sb-logo">
-      <img src="https://exceleratecapital.com/wp-content/themes/ec_theme/resources/assets/images/logo.svg" class="img-fluid" alt="" />
-    </a>
-    -->
+
     <?php if(is_front_page()):?>
       <h3>Hello <?php echo $current_user->user_firstname;?> - <small>(<?php $user_id = "user_" . get_current_user_id();  the_field('role', $user_id); ?>)</small></h3>
     <?php endif; /*?> /
@@ -35,6 +31,18 @@
     </form>
     <?php */
     ?>
+
+    <?php
+     if(($_SESSION["role"] != "VIEWER") && ($_SESSION["role"] != "SETUP")) { ?>
+
+         <form id="searchform" class="mt-2 mb-2" action="/" method="get">
+           <input class="sidebar-search" type="text" name="s" value="" placeholder="Search Archive"/>
+           <input type="hidden" name="post_type" value="loans" />
+          <!-- <input class="inlineSubmit btn btn-outline-primary m-2" id="searchsubmit" type="button" alt="Search" value="Search" />-->
+         </form>
+
+     <?php } ?>
+
        <div class="dropdown-group">
          <button class="dropdown-toggler dropdown-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#viewDropdown" aria-expanded="true" aria-controls="viewDropdown">
            <i class="fal fa-users"></i> Setup View
@@ -43,6 +51,7 @@
            <div class="card card-body mt-1">
              <form method="post" class="view-param d-flex">
                <ul class="side-nav">
+
                <?php if($_SESSION["role"] != "VIEWER") { ?>
                  <li class="nav-item">
                    <div class="radio-btn">
@@ -130,16 +139,7 @@
 
    <?php } ?>
 
-   <?php
-    if(($_SESSION["role"] != "VIEWER") && ($_SESSION["role"] != "SETUP")) { ?>
 
-      <form id="searchform" action="/" method="get">
-          <input class="inlineSearch form-control input-sm" type="text" name="s" value="" placeholder="Search Archive"/>
-          <input type="hidden" name="post_type" value="loans" />
-          <input class="inlineSubmit btn btn-outline-primary m-2" id="searchsubmit" type="button" alt="Search" value="Search" />
-  </form>
-
-    <?php } ?>
 
 
 

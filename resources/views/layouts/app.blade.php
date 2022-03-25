@@ -12,22 +12,30 @@
       <div class="content">
         <main class="main d-block d-md-flex">
             @include('partials.sidebar')
-            <div class="db-content m-0 ms-md-4 mt-md-4">
+            <div class="db-content m-0 ms-md-4 mt-md-4 me-md-4">
               <div class="page-header d-flex align-items-end justify-content-between pt-5 pt-md-0 ps-5 mb-4">
 
                 <div class="dash-info dash-summary">
                   <span class="dash-info-text">Currently Viewing:</span>
-                  <span id="current_view" class="dash-info-desc"><?php if($_GET['report']) { echo $_GET['report']; } else { echo 'Select a Report'; } ?></span>
+                  <span id="current_view" class="dash-info-desc"><?php echo the_title();?></span>
                 </div>
 
+                <!--
                 <div class="d-flex">
                   <form method="post" class="">
                     <input type="hidden" id="refresh_value" autocomplete="off" name="refresh" value="<?php if($_GET['report']) { echo $_GET['report']; } ?>">
                     <button class="btn btn-primary me-3" id="refreshData">Refresh Data <i class="fas fa-sync"></i></button>
                     <input type="hidden" name="refresh" value="true">
                   </form>
-                  <button class="btn btn-outline-primary me-5" id="newWindow">New Window <i class="fas fa-external-link"></i></button>
+                  <button class="btn btn-outline-primary me-5" id="newWindow">New Window</button>
                 </div>
+                -->
+
+                <?php if(is_single()):?>
+                <div class="d-flex">
+                  <a href="<?php echo site_url();?>" class="btn btn-outline-primary me-5" id="">Go Back</a>
+                </div>
+                <?php endif;?>
 
               </div>
               @yield('content')
@@ -51,24 +59,9 @@
 <script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.5/api/fnMultiFilter.js"></script>
 
-<!--
-<script src="https://cdn.datatables.net/1.10.12/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/colreorder/1.5.5/js/dataTables.colReorder.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/1.10.12/js/dataTables.bootstrap.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
-<script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
--->
 
     <script>
     jQuery(function($) {
-
 
 
       /*

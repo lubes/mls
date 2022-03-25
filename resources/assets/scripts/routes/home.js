@@ -3,6 +3,23 @@
 export default {
   init() {
     // JavaScript to be fired on the home page
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // CHeck if this is a new Window
     var url_string = window.location.href;
     var url = new URL(url_string);
@@ -103,12 +120,13 @@ export default {
       div_id = "dt_"+key;
       table_id = "dt-table-" + key;
       table_header = "table-header-" + key;
-      new_table='<div class="row ' + div_id +'""></div><table id="' + table_id +'" class="report-table table table-striped"><thead><tr class="table-header '+table_header+'"><th></th></tr></thead><tbody class="table-body '+table_id+' list"><tr><td></td></tr></tbody></table>'
+      new_table='<div class="row ' + div_id +'""></div><table id="' + table_id +'" class="report-table table"><thead><tr class="table-header '+table_header+'"><th></th></tr></thead><tbody class="table-body '+table_id+' list"><tr><td></td></tr></tbody></table>'
 
 
       $("#data-table-id").append(new_table);
 
       var table = $('#'+table_id).DataTable();
+
       table.destroy();
       table.clear().draw();
       $("."+ table_header).html("");
@@ -120,10 +138,12 @@ export default {
       if(_view == "open"){
         if(_role == "SETUP" || _role == "SETUP_TL"){
 
+
           $.each( datas["data"], function(key, value){
             value["Assign"] = "<a href='#' class='assigner' data-bs-toggle='modal' data-bs-target='#assignModal' data-loan='" + value["Loan Number"] + "'>Assign</a>";
             datas["data"][key]= value;
           });
+
           col_head = "<th>Assign</th>";
           $("."+ table_header).append(col_head);
           var new_columns = { data: "Assign"};
@@ -217,8 +237,7 @@ export default {
       });
 
 
-     $('#'+table_id).DataTable( {
-       //"ajax": "wp-content/themes/mls/resources/sample.txt",
+      $('#'+table_id).DataTable({
        data: datas["data"],
        columns: columns,
        "colReorder": true,
@@ -248,31 +267,108 @@ export default {
          'excelHtml5',
          //'pdfHtml5',
        ],
+       "createdRow": function( row, data, dataIndex ){
+         console.log(data);
+         if(data.hasOwnProperty('Color')){
+            $(row).attr('style', 'background-color: '+ data["Color"] +' !important');
+          }
+
+        /*
+         $(".testShit").on("click", function(e){
+           if(data["Account Executive"]!=="Ken To"){
+             $(row).attr('style', 'display: none !important');
+           }
+         });
+       */
+
+       },
+       language: {
+           search: "_INPUT_",
+           searchPlaceholder: "Search Borrower or Account Executive"
+       },
+       "columnDefs": [
+           { "targets": [2,3,5,6,7], "searchable": false }
+       ],
        initComplete: function() {
          $('.buttons-colvis').html('<i class="fas fa-eye"></i> Column Visibility')
          $('.buttons-copy').html('<i class="fas fa-copy"></i> Copy')
          $('.buttons-csv').html('<i class="fas fa-file-csv"></i> CSV')
          $('.buttons-excel').html('<i class="fas fa-file-excel"></i> Excel')
          $('.buttons-pdf').html('<i class="fas fa-file-pdf"></i> PDF')
-         $('.buttons-print').html('<i class="fas fa-print"></i> Print')
+         $('.buttons-print').html('<i class="fas fa-print"></i> Print');
       },
-
-
-       /*
-       buttons: [
-           {
-               extend: 'pdfHtml5',
-               orientation: 'landscape',
-               pageSize: 'LEGAL',
-               customize: function(doc) {
-                 doc.styles.tableHeader.fontSize = 7;
-                 doc.styles.tableBodyOdd.alignment = 'left';
-                 doc.defaultStyle.fontSize = 7;
-               }
-           }
-       ],
-       */
      });
+
+
+
+
+
+
+
+
+
+
+
+
+
+     $('#userTable').DataTable({
+      data: datas["data"],
+      columns: columns,
+      "colReorder": true,
+      dom: 'Bfrtip',
+      "paging": false,
+      "autoWidth": false,
+      "scrollY":        "60vh",
+      "scrollX": true,
+      "fixedHeader": true,
+      "buttons": [
+        'colvis',
+        'print',
+        {
+          extend: 'pdfHtml5',
+          orientation: 'landscape',
+          pageSize: 'LEGAL',
+          customize: function(doc) {
+            doc.styles.tableHeader.fontSize = 7;
+            doc.styles.tableHeader.alignment = 'left';
+            doc.defaultStyle.fontSize = 7;
+            doc.styles.tableHeader.color = '#ffffff';
+            doc.styles.tableHeader.fillColor = '#121f47';
+          }
+        },
+        'copyHtml5',
+        'csvHtml5',
+        'excelHtml5',
+        //'pdfHtml5',
+      ],
+      "createdRow": function( row, data, dataIndex ){
+        console.log(data);
+        if(data.hasOwnProperty('Color')){
+           $(row).attr('style', 'background-color: '+ data["Color"] +' !important');
+         }
+         if(data["Account Executive"]!=="Ken To"){
+           $(row).attr('style', 'display: none !important');
+         }
+      },
+      language: {
+          search: "_INPUT_",
+          searchPlaceholder: "Search Borrower or Account Executive"
+      },
+      "columnDefs": [
+          { "targets": [2,3,5,6,7], "searchable": false }
+      ],
+      initComplete: function() {
+        $('.buttons-colvis').html('<i class="fas fa-eye"></i> Column Visibility')
+        $('.buttons-copy').html('<i class="fas fa-copy"></i> Copy')
+        $('.buttons-csv').html('<i class="fas fa-file-csv"></i> CSV')
+        $('.buttons-excel').html('<i class="fas fa-file-excel"></i> Excel')
+        $('.buttons-pdf').html('<i class="fas fa-file-pdf"></i> PDF')
+        $('.buttons-print').html('<i class="fas fa-print"></i> Print');
+     },
+    });
+
+
+
 
      // $('#'+table_id).fnMultiFilter( { "engine": "Gecko", "browser": "Cam" } );
 
@@ -667,6 +763,9 @@ export default {
     } else {
       call_setup_endpoint("assigned");
     }
+
+
+
 
 
 
