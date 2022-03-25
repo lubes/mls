@@ -130,6 +130,9 @@ export default {
       table.destroy();
       table.clear().draw();
       $("."+ table_header).html("");
+
+
+
       var col_head, _view;
       var columns = new Array();
 
@@ -321,6 +324,7 @@ export default {
       "scrollY":        "60vh",
       "scrollX": true,
       "fixedHeader": true,
+      retrieve: true,
       "buttons": [
         'colvis',
         'print',
